@@ -1,0 +1,466 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(0 0% 3.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(0 0% 3.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 3.9%);
+  --primary: hsl(142 76% 36%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(217 91% 60%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(0 0% 96.1%);
+  --muted-foreground: hsl(0 0% 45.1%);
+  --accent: hsl(25 95% 53%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(0 0% 89.8%);
+  --input: hsl(0 0% 89.8%);
+  --ring: hsl(142 76% 36%);
+  --chart-1: hsl(142 76% 36%);
+  --chart-2: hsl(217 91% 60%);
+  --chart-3: hsl(25 95% 53%);
+  --chart-4: hsl(43 74% 66%);
+  --chart-5: hsl(280 65% 60%);
+  --radius: 0.625rem; /* Updated from 0.75rem */
+  --sidebar-background: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(142 76% 36%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(142 76% 36%);
+  --sidebar: var(--sidebar-background); /* New from diff */
+
+  /* Font Variables */
+  --font-inter: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+.dark {
+  --background: hsl(222 47% 11%);
+  --foreground: hsl(0 0% 98%);
+  --card: hsl(222 47% 11%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(222 47% 11%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(142 76% 45%);
+  --primary-foreground: hsl(222 47% 11%);
+  --secondary: hsl(217 91% 65%);
+  --secondary-foreground: hsl(222 47% 11%);
+  --muted: hsl(217 19% 27%);
+  --muted-foreground: hsl(215 20% 65%);
+  --accent: hsl(25 95% 58%);
+  --accent-foreground: hsl(222 47% 11%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(217 19% 27%);
+  --input: hsl(217 19% 27%);
+  --ring: hsl(142 76% 45%);
+  --chart-1: hsl(142 76% 45%);
+  --chart-2: hsl(217 91% 65%);
+  --chart-3: hsl(25 95% 58%);
+  --chart-4: hsl(43 74% 66%);
+  --chart-5: hsl(280 65% 60%);
+  --sidebar-background: hsl(222 47% 11%);
+  --sidebar-foreground: hsl(215 20% 65%);
+  --sidebar-primary: hsl(142 76% 45%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(217 19% 27%);
+  --sidebar-accent-foreground: hsl(215 20% 65%);
+  --sidebar-border: hsl(217 19% 27%);
+  --sidebar-ring: hsl(142 76% 45%);
+  --sidebar: var(--sidebar-background); /* New from diff */
+}
+
+@theme inline { /* Changed from @theme to @theme inline */
+  /* Color Tokens - Use semantic design tokens throughout the app */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Chart Colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar Colors */
+  --color-sidebar: var(--sidebar); /* Updated to use --sidebar */
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Brand Colors (preserved from existing code) */
+  --color-midnight-950: hsl(220 26% 4%);
+  --color-midnight-900: hsl(220 26% 8%);
+  --color-midnight-800: hsl(220 26% 12%);
+  --color-midnight-700: hsl(220 26% 16%);
+
+  --color-neon-100: hsl(270 100% 90%);
+  --color-neon-200: hsl(270 100% 80%);
+  --color-neon-300: hsl(270 100% 75%);
+  --color-neon-400: hsl(270 100% 70%);
+  --color-neon-500: hsl(270 100% 60%);
+  --color-neon-600: hsl(270 100% 50%);
+  --color-neon-700: hsl(270 100% 40%);
+  --color-neon-800: hsl(270 100% 30%);
+  --color-neon-900: hsl(270 100% 20%);
+  --color-neon-950: hsl(270 100% 10%);
+
+  --color-electric-300: hsl(195 100% 75%);
+  --color-electric-400: hsl(195 100% 65%);
+  --color-electric-500: hsl(195 100% 55%);
+  --color-electric-600: hsl(195 100% 45%);
+  --color-electric-900: hsl(195 100% 20%);
+
+  /* Border Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Font Families */
+  --font-family-sans: var(--font-inter);
+  --font-family-inter: var(--font-inter);
+
+  /* Custom Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) scale(1);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) scale(1.05);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-15px) scale(0.95);
+  }
+  75% {
+    transform: translateY(-30px) translateX(5px) scale(1.02);
+  }
+}
+
+@keyframes breathing-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.8));
+  }
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+* {
+  font-family: var(--font-inter) !important;
+}
+
+html {
+  font-family: var(--font-inter);
+}
+
+/* Ambient Background Orbs */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-orb-1 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(45deg, hsl(270 100% 60%), hsl(195 100% 55%));
+  top: 10%;
+  left: 10%;
+  animation: float 20s ease-in-out infinite;
+}
+
+.ambient-orb-2 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, hsl(195 100% 45%), hsl(270 100% 50%));
+  top: 60%;
+  right: 15%;
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.ambient-orb-3 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(225deg, hsl(270 100% 40%), hsl(195 100% 65%));
+  bottom: 20%;
+  left: 20%;
+  animation: float 30s ease-in-out infinite;
+}
+
+.ambient-orb-4 {
+  width: 180px;
+  height: 180px;
+  background: linear-gradient(315deg, hsl(195 100% 55%), hsl(270 100% 70%));
+  top: 30%;
+  right: 30%;
+  animation: float 22s ease-in-out infinite reverse;
+}
+
+/* Grid Overlay */
+.grid-overlay {
+  background-image: linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Animation Classes */
+.animate-breathing-glow {
+  animation: breathing-glow 3s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Page Transitions */
+.page-transition-enter {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.page-transition-exit {
+  animation: fadeOut 0.2s ease-in forwards;
+}
+
+/* Scrollbar Styles */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch Optimization */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Text Utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Font utility classes */
+.font-inter {
+  font-family: var(--font-inter) !important;
+}
+
+.font-sans {
+  font-family: var(--font-inter) !important;
+}
+
+/* Smooth navigation transitions */
+a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+  button,
+  a,
+  input,
+  textarea {
+    min-height: 44px;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Safe Area Insets for iPhone notch/Dynamic Island */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Mobile-optimized scrolling */
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+
+/* Prevent iOS bounce effect on chat container */
+@supports (-webkit-touch-callout: none) {
+  .no-bounce {
+    position: fixed;
+    overflow: hidden;
+  }
+}
+
+/* Mobile keyboard-aware viewport */
+@supports (height: 100dvh) {
+  .h-dvh {
+    height: 100dvh;
+  }
+}
+
+/* Improved focus styles for accessibility on mobile */
+@media (pointer: coarse) {
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  
+  /* Larger touch targets on mobile */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
