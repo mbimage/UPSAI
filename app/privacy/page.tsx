@@ -1,0 +1,75 @@
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+
+export default function PrivacyPage() {
+  return (
+    <div className="min-h-screen bg-midnight-950 text-white">
+      <div className="container mx-auto px-4 py-12">
+        <Button variant="ghost" asChild className="mb-8 text-gray-400 hover:text-white">
+          <Link href="/" className="flex items-center">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-neon-400 to-electric-400">
+            Privacy Policy
+          </h1>
+
+          <Card className="bg-midnight-900 border-neon-500/20">
+            <CardContent className="p-8 prose prose-invert max-w-none">
+              <p className="text-gray-300 text-lg mb-8">Last updated: {new Date().toLocaleDateString()}</p>
+
+              <div className="space-y-8 text-gray-300">
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Information We Collect</h2>
+                  <p>
+                    We collect information you provide directly to us, such as when you create an account, use our AI
+                    chat features, complete assessments, or contact us for support.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">How We Use Your Information</h2>
+                  <p>
+                    We use the information we collect to provide, maintain, and improve our services, personalize your
+                    experience, and communicate with you about your account and our services.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Student Privacy</h2>
+                  <p>
+                    We take student privacy seriously and comply with applicable privacy laws including FERPA and COPPA.
+                    For users under 18, parental consent is required before creating an account.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Data Security</h2>
+                  <p>
+                    We implement appropriate technical and organizational measures to protect your personal information
+                    against unauthorized access, alteration, disclosure, or destruction.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Contact Us</h2>
+                  <p>
+                    If you have any questions about this Privacy Policy, please contact us at{" "}
+                    <Link href="/contact" className="text-neon-400 hover:text-neon-300">
+                      privacy@upsideai.com
+                    </Link>
+                  </p>
+                </section>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}

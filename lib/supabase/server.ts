@@ -1,0 +1,63 @@
+import { createServerClient } from "@supabase/ssr"
+import { cookies } from "next/headers"
+
+export async function createServerSupabaseClient() {
+  const cookieStore = await cookies()
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing user sessions.
+          }
+        },
+      },
+    },
+  )
+}
+
+export async function getUser() {
+  const supabase = await createServerSupabaseClient()
+  try {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser()
+    if (error) {
+      if (error.name === "AuthSessionMissingError" || error.message?.includes("session")) {
+        return null
+      }
+      throw error
+    }
+    return user
+  } catch (error: any) {
+    if (error?.name !== "AuthSessionMissingError" && !error?.message?.includes("session")) {
+      console.error("Error getting user:", error)
+    }
+    return null
+  }
+}
+
+export async function getSession() {
+  const supabase = await createServerSupabaseClient()
+  try {
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession()
+    if (error) throw error
+    return session
+  } catch (error) {
+    console.error("Error getting session:", error)
+    return null
+  }
+}
