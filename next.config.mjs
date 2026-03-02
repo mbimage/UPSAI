@@ -9,14 +9,19 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  webpack: (config, { dev }) => {
+  webpack: (config, { dev, isServer }) => {
     if (dev) {
-      // Suppress the "Serializing big strings" warning in development
-      // This warning occurs when large data structures exist in the codebase
-      // It doesn't affect production builds or runtime performance
+      // Suppress webpack cache warnings about big strings in development
+      // This warning is informational and doesn't affect production builds
       config.infrastructureLogging = {
-        ...config.infrastructureLogging,
         level: 'error',
+      }
+      // Increase the size threshold for the big string warning
+      if (config.cache && typeof config.cache === 'object') {
+        config.cache = {
+          ...config.cache,
+          maxMemoryGenerations: 1,
+        }
       }
     }
     return config
