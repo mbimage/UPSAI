@@ -9,6 +9,18 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  webpack: (config, { dev }) => {
+    if (dev) {
+      // Suppress the "Serializing big strings" warning in development
+      // This warning occurs when large data structures exist in the codebase
+      // It doesn't affect production builds or runtime performance
+      config.infrastructureLogging = {
+        ...config.infrastructureLogging,
+        level: 'error',
+      }
+    }
+    return config
+  },
   async redirects() {
     return [
       {
