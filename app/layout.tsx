@@ -14,9 +14,52 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "UpSide AI",
-  description: "Your 24/7 AI Teammate for Scholar-Athletes",
-  generator: "v0.dev",
+  title: {
+    default: "UpSide AI - Your 24/7 AI Teammate for Scholar-Athletes",
+    template: "%s | UpSide AI",
+  },
+  description:
+    "UpSide AI is the ultimate AI-powered platform for scholar-athletes. Get personalized guidance, mental performance coaching, and academic support 24/7.",
+  keywords: [
+    "scholar-athlete",
+    "AI coaching",
+    "student athlete",
+    "mental performance",
+    "academic support",
+    "sports psychology",
+    "athlete wellness",
+    "college athlete",
+    "high school athlete",
+  ],
+  authors: [{ name: "UpSide AI" }],
+  creator: "UpSide AI",
+  publisher: "UpSide AI",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "UpSide AI",
+    title: "UpSide AI - Your 24/7 AI Teammate for Scholar-Athletes",
+    description:
+      "UpSide AI is the ultimate AI-powered platform for scholar-athletes. Get personalized guidance, mental performance coaching, and academic support 24/7.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UpSide AI - Your 24/7 AI Teammate for Scholar-Athletes",
+    description:
+      "UpSide AI is the ultimate AI-powered platform for scholar-athletes. Get personalized guidance, mental performance coaching, and academic support 24/7.",
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://upsideai.com"),
 }
 
 export default function RootLayout({
