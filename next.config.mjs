@@ -9,6 +9,22 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  webpack: (config, { isServer }) => {
+    // Suppress webpack cache warnings about large strings
+    if (config.cache && typeof config.cache === 'object') {
+      config.cache = {
+        ...config.cache,
+        buildDependencies: {
+          ...config.cache.buildDependencies,
+        },
+      }
+      // Increase the warning threshold for large strings in cache
+      if (config.cache.type === 'filesystem') {
+        config.cache.compression = false
+      }
+    }
+    return config
+  },
   async redirects() {
     return [
       {
