@@ -155,11 +155,11 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="relative group bg-gradient-to-r from-neon-500 via-electric-500 to-cyan-500 hover:from-neon-400 hover:via-electric-400 hover:to-cyan-400 px-8 md:px-12 py-6 md:py-7 text-lg md:text-xl font-black shadow-[0_0_40px_rgba(34,197,94,0.6)] hover:shadow-[0_0_60px_rgba(34,197,94,0.8)] transition-all duration-500 transform hover:scale-105 border-2 border-white/30 rounded-2xl overflow-hidden w-full sm:w-auto"
+              className="relative group bg-neon-500 hover:bg-neon-600 px-8 md:px-12 py-6 md:py-7 text-lg md:text-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 rounded-xl w-full sm:w-auto"
             >
-              <Link href="/chat" className="flex items-center justify-center gap-3 relative z-10">
+              <Link href="/chat" className="flex items-center justify-center gap-2">
                 <svg
-                  className="w-5 h-5 md:w-6 md:h-6 animate-pulse"
+                  className="w-5 h-5 md:w-6 md:h-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -167,22 +167,19 @@ export default function Home() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2.5}
+                    strokeWidth={2}
                     d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                   />
                 </svg>
-                <span>Start Chatting Now</span>
-                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                <span>Start Chat</span>
               </Link>
             </Button>
 
             <Button
               asChild
-              variant="ghost"
+              variant="outline"
               size="lg"
-              className="border border-gray-500/20 text-gray-400 hover:text-gray-300 hover:border-gray-400/30 hover:bg-gray-800/20 px-6 py-6 md:py-4 text-base font-medium backdrop-blur-sm transition-all duration-300 w-full sm:w-auto"
+              className="border-2 border-neon-500/40 text-neon-300 hover:text-white hover:border-neon-500/60 hover:bg-neon-500/10 px-8 md:px-12 py-6 md:py-7 text-lg md:text-xl font-bold transition-all duration-300 w-full sm:w-auto"
             >
               <Link href="/how-to-use-ai" className="flex items-center justify-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,7 +190,7 @@ export default function Home() {
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Learn How It Works
+                Learn More
               </Link>
             </Button>
           </div>
