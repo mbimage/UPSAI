@@ -155,19 +155,13 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="relative group bg-gradient-to-r from-neon-500 to-neon-400 hover:from-neon-400 hover:to-neon-300 px-8 md:px-14 py-7 md:py-8 text-lg md:text-2xl font-black text-midnight-950 shadow-[0_0_30px_rgba(34,197,94,0.7)] hover:shadow-[0_0_50px_rgba(34,197,94,1)] transition-all duration-300 transform hover:scale-110 rounded-2xl w-full sm:w-auto border-2 border-neon-300/50 hover:border-neon-200"
+              className="relative group bg-neon-600/20 hover:bg-neon-600/30 border border-neon-500/50 hover:border-neon-400 text-neon-300 hover:text-white px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:shadow-[0_0_25px_rgba(139,92,246,0.45)] w-full sm:w-auto backdrop-blur-sm"
             >
-              <Link href="/chat" className="flex items-center justify-center gap-3 relative z-10">
-                <svg
-                  className="w-6 h-6 md:w-7 md:h-7 animate-pulse"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                <span>Start Chat Now</span>
-                <svg className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              <Link href="/chat" className="flex items-center justify-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
+                <span>Start Chat</span>
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </Link>
             </Button>
