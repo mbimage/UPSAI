@@ -9,15 +9,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  webpack: (config, { isServer }) => {
-    // Suppress webpack cache warnings about large strings by increasing threshold
-    if (config.infrastructureLogging) {
-      config.infrastructureLogging.level = 'error'
-    } else {
-      config.infrastructureLogging = { level: 'error' }
-    }
-    return config
-  },
   async redirects() {
     return [
       {
