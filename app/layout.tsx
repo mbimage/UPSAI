@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -17,6 +17,15 @@ export const metadata: Metadata = {
   title: "UpSide AI",
   description: "Your 24/7 AI Teammate for Scholar-Athletes",
   generator: "v0.dev",
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#0a0a0f",
+  viewportFit: "cover",
 }
 
 export default function RootLayout({
