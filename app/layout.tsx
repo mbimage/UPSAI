@@ -14,9 +14,39 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "UpSide AI",
+  metadataBase: new URL("https://upsideai.app"),
+  title: {
+    default: "UpSide AI",
+    template: "%s | UpSide AI",
+  },
   description: "Your 24/7 Teammate for Scholar-Athletes",
+  applicationName: "UpSide AI",
   generator: "v0.dev",
+  manifest: "/manifest.webmanifest",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://upsideai.app",
+    siteName: "UpSide AI",
+    title: "UpSide AI",
+    description: "Your 24/7 Teammate for Scholar-Athletes",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "UpSide AI — Your 24/7 Teammate for Scholar-Athletes",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UpSide AI",
+    description: "Your 24/7 Teammate for Scholar-Athletes",
+    images: ["/og-image.png"],
+  },
 }
 
 export const viewport: Viewport = {
