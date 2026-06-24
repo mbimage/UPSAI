@@ -94,7 +94,7 @@ export default function Home() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-neon-500/10 transition-colors"
+              className="md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg hover:bg-neon-500/10 active:bg-neon-500/20 transition-colors touch-manipulation"
               aria-label="Toggle mobile menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6 text-neon-400" /> : <Menu className="w-6 h-6 text-neon-400" />}
@@ -511,7 +511,7 @@ export default function Home() {
               <h4 className="text-white font-semibold mb-4">Platform</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/chat" className="text-gray-400 hover:text-neon-400 transition-colors duration-300">
+                  <Link href="/chat" className="flex items-center min-h-[44px] py-2 text-gray-400 hover:text-neon-400 transition-colors duration-300 touch-manipulation">
                     AI Chat
                   </Link>
                 </li>
@@ -522,17 +522,17 @@ export default function Home() {
               <h4 className="text-white font-semibold mb-4">Legal</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/privacy" className="text-gray-400 hover:text-neon-400 transition-colors duration-300">
+                  <Link href="/privacy" className="flex items-center min-h-[44px] py-2 text-gray-400 hover:text-neon-400 transition-colors duration-300 touch-manipulation">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="text-gray-400 hover:text-neon-400 transition-colors duration-300">
+                  <Link href="/terms" className="flex items-center min-h-[44px] py-2 text-gray-400 hover:text-neon-400 transition-colors duration-300 touch-manipulation">
                     Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="text-gray-400 hover:text-neon-400 transition-colors duration-300">
+                  <Link href="/contact" className="flex items-center min-h-[44px] py-2 text-gray-400 hover:text-neon-400 transition-colors duration-300 touch-manipulation">
                     Contact Us
                   </Link>
                 </li>
@@ -542,14 +542,14 @@ export default function Home() {
               <h4 className="text-white font-semibold mb-4">About</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/about" className="text-gray-400 hover:text-neon-400 transition-colors duration-300">
+                  <Link href="/about" className="flex items-center min-h-[44px] py-2 text-gray-400 hover:text-neon-400 transition-colors duration-300 touch-manipulation">
                     About Us
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/how-to-use-ai"
-                    className="text-gray-400 hover:text-neon-400 transition-colors duration-300"
+                    className="flex items-center min-h-[44px] py-2 text-gray-400 hover:text-neon-400 transition-colors duration-300 touch-manipulation"
                   >
                     How to Use AI
                   </Link>

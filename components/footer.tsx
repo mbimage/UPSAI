@@ -15,14 +15,14 @@ export function Footer() {
               Empowering rural scholar-athletes in Texas with AI-powered life strategy tools. Building self-efficacy,
               emotional intelligence, and future-focused thinking for the next generation of leaders.
             </p>
-            <div className="flex space-x-4">
-              <a href="mailto:support@upsideai.com" className="text-gray-400 hover:text-white transition-colors">
+            <div className="flex gap-2">
+              <a href="mailto:support@upsideai.com" aria-label="Email us" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
                 <Mail className="h-5 w-5" />
               </a>
-              <a href="tel:+1-555-0123" className="text-gray-400 hover:text-white transition-colors">
+              <a href="tel:+1-555-0123" aria-label="Call us" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
                 <Phone className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" aria-label="Our location" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
                 <MapPin className="h-5 w-5" />
               </a>
             </div>
@@ -31,19 +31,19 @@ export function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               <li>
-                <Link href="/chat" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/chat" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   Start Chat
                 </Link>
               </li>
               <li>
-                <Link href="/assessments" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/assessments" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   Assessments
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/about" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   About Us
                 </Link>
               </li>
@@ -53,24 +53,24 @@ export function Footer() {
           {/* Support */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Support</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               <li>
-                <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/contact" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/faq" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/privacy" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/terms" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
                   Terms of Service
                 </Link>
               </li>
