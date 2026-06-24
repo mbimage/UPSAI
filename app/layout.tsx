@@ -15,7 +15,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "UpSide AI",
-  description: "Your 24/7 AI Teammate for Scholar-Athletes",
+  description: "Your 24/7 Teammate for Scholar-Athletes",
   generator: "v0.dev",
 }
 

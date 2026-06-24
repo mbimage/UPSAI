@@ -118,7 +118,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     if (messages.length === 0) {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hi there! I'm your AI teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
+        "Hi there! I'm your teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 
@@ -295,7 +295,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setTimeout(() => {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hi there! I'm your AI teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
+        "Hi there! I'm your teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 
