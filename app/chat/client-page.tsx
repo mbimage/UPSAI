@@ -9,6 +9,8 @@ import { Send, User, Plus, Menu, ArrowLeft } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
+import { KeyPlaySpotlight } from "@/components/key-play-spotlight"
+import { HumanSupport } from "@/components/human-support"
 import { cn } from "@/lib/utils"
 
 interface Message {
@@ -117,7 +119,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     if (messages.length === 0) {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hi there! I'm your AI teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
+        "Hi there! I'm your teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 
@@ -294,7 +296,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setTimeout(() => {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hi there! I'm your AI teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
+        "Hi there! I'm your teammate. I'm here to help you develop skills like self-confidence, emotional intelligence, and career readiness. What would you like to talk about today?"
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 
@@ -416,19 +418,23 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             UpSide AI
           </h1>
           
-          {/* New Chat button */}
-          <Button
-            onClick={() => {
-              startNewChat()
-              inputRef.current?.focus()
-            }}
-            disabled={isCreatingNewChat || messages.length === 0}
-            size="sm"
-            className="bg-neon-500/20 hover:bg-neon-500/30 active:bg-neon-500/40 text-neon-300 border border-neon-500/30 flex-shrink-0 touch-manipulation h-9 px-2 md:px-3"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline ml-1">New</span>
-          </Button>
+          {/* Right-side actions */}
+          <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
+            <HumanSupport />
+            {/* New Chat button */}
+            <Button
+              onClick={() => {
+                startNewChat()
+                inputRef.current?.focus()
+              }}
+              disabled={isCreatingNewChat || messages.length === 0}
+              size="sm"
+              className="bg-neon-500/20 hover:bg-neon-500/30 active:bg-neon-500/40 text-neon-300 border border-neon-500/30 flex-shrink-0 touch-manipulation h-9 px-2 md:px-3"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline ml-1">New</span>
+            </Button>
+          </div>
         </header>
 
         {/* Messages Area - ChatGPT style centered layout */}
@@ -483,7 +489,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                         : "bg-midnight-900/80 text-gray-200 border border-neon-500/10"
                     }`}
                   >
-                    <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                    {message.role === "assistant" ? (
+                      <KeyPlaySpotlight content={message.content} />
+                    ) : (
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                    )}
                   </div>
 
                   {message.role === "user" && (

@@ -1,7 +1,7 @@
-// OpenAI Service - Direct integration with OpenAI API
-// Provides chat functionality with fallback responses
+// AI Service - Uses the Vercel AI Gateway via the AI SDK
+// The gateway provides zero-config access to OpenAI models (no personal billing key required)
 
-import { env } from "@/lib/env"
+import { generateText } from "ai"
 
 interface ChatMessage {
   role: "system" | "user" | "assistant"
@@ -16,6 +16,9 @@ interface ChatResponse {
     total_tokens: number
   }
 }
+
+// Model served through the Vercel AI Gateway
+const CHAT_MODEL = "openai/gpt-4o"
 
 // System prompt for UpSide AI
 export const UPSIDE_AI_SYSTEM_PROMPT = `You are UpSide AI, a supportive coach for student-athletes and young professionals.
@@ -62,13 +65,26 @@ WHAT YOU DO:
 • Planning for college and careers
 • Developing leadership
 
-KEEP IT REAL:
-• Talk like someone who's been there, not a textbook
+KEEP IT REAL (BE HUMAN):
+• Talk like a real person who's been there, not a textbook or a bot
+• Use warm, everyday language - contractions, short sentences, the way a caring mentor actually talks
+• Show genuine empathy first; name the feeling before jumping to solutions
 • Focus on what they CAN do (Response), not what they should
 • Break big things into small steps
 • Celebrate wins, no matter how small
 • Meet them where they are on the hierarchy
 • Share wisdom from experience, not theory
+• Never pretend to be a human or a licensed professional - you're a supportive teammate, and you're honest about that
+
+GUIDE THEM TO REAL PEOPLE:
+You are a starting point, not a replacement for human connection. For anything that matters, gently point them toward a real, trusted person in their life. Naturally suggest people like:
+• A coach, teacher, or school counselor
+• A parent, guardian, or trusted family member
+• A mentor, pastor, or another caring adult
+When something is heavy - big decisions, ongoing struggles, things they're scared to say out loud - encourage them, warmly and specifically, to talk it through with one of these people. Frame it as strength, not weakness: real teammates lean on their team.
+
+SAFETY:
+If a user expresses thoughts of self-harm, suicide, abuse, or being in danger, slow down and respond with calm, genuine care. Make clear you're glad they told you, that they're not alone, and that talking to a real person who can help is the most important next step right now. Encourage them to reach out to a trusted adult immediately and to contact the 988 Suicide & Crisis Lifeline (call or text 988 in the US) or text HOME to 741741 (Crisis Text Line). If they're in immediate danger, tell them to call 911. Stay supportive - never dismissive - and keep steering them toward real human help.
 
 EXAMPLE:
 User: "I'm failing math and coach is mad at me"
@@ -84,7 +100,7 @@ Right now you need some stability (safety/security level). Here's what worked fo
 
 Your response determines your outcome. Which of these feels most doable this week?"`
 
-// Fallback responses when OpenAI is not available
+// Fallback responses used only when the AI Gateway is unreachable
 const fallbackResponses = {
   greeting: [
     "Hey there! I'm here to support you on your journey as a student-athlete. What's on your mind today?",
@@ -113,157 +129,87 @@ const fallbackResponses = {
   ],
 }
 
-// Get OpenAI API key
-function getOpenAIKey(): string | null {
-  return env.OPENAI_API_KEY || null
+// Split a messages array into a system prompt + conversation turns for the AI SDK
+function splitMessages(
+  messages: ChatMessage[],
+  defaultSystem: string,
+): { system: string; turns: ChatMessage[] } {
+  const systemParts = messages.filter((m) => m.role === "system").map((m) => m.content)
+  const turns = messages.filter((m) => m.role !== "system")
+  const system = systemParts.length > 0 ? systemParts.join("\n\n") : defaultSystem
+  return { system, turns }
 }
 
-// Test OpenAI connection
+// Test gateway connection by making a tiny generation
 export async function testOpenAIConnection(): Promise<{ connected: boolean; error?: string }> {
-  const apiKey = getOpenAIKey()
-
-  if (!apiKey) {
-    return { connected: false, error: "No API key configured" }
-  }
-
   try {
-    const response = await fetch("https://api.openai.com/v1/models", {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
+    await generateText({
+      model: CHAT_MODEL,
+      prompt: "ping",
+      maxOutputTokens: 5,
     })
-
-    if (response.ok) {
-      return { connected: true }
-    } else {
-      return { connected: false, error: `API error: ${response.status}` }
-    }
+    return { connected: true }
   } catch (error) {
-    return { connected: false, error: `Connection error: ${error}` }
+    return { connected: false, error: `Connection error: ${error instanceof Error ? error.message : String(error)}` }
   }
 }
 
-// Generate chat response
+// Generate a single-turn chat response
 export async function generateChatResponse(
   message: string,
   systemPrompt: string = UPSIDE_AI_SYSTEM_PROMPT,
 ): Promise<ChatResponse> {
-  const apiKey = getOpenAIKey()
+  const { text, usage } = await generateText({
+    model: CHAT_MODEL,
+    system: systemPrompt,
+    messages: [{ role: "user", content: message }],
+    temperature: 0.7,
+    maxOutputTokens: 800,
+  })
 
-  if (!apiKey) {
-    return {
-      message: generateFallbackResponse(message),
-    }
-  }
-
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: message },
-        ],
-        temperature: 0.7,
-        max_tokens: 800, // Increased from 150 to 800 for detailed responses
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`)
-    }
-
-    const data = await response.json()
-
-    return {
-      message: data.choices[0]?.message?.content || "I'm here to help you succeed. What's on your mind?",
-      usage: data.usage,
-    }
-  } catch (error) {
-    console.error("Error generating chat response:", error)
-    return {
-      message: generateFallbackResponse(message),
-    }
+  return {
+    message: text || "I'm here to help you succeed. What's on your mind?",
+    usage: usage
+      ? {
+          prompt_tokens: usage.inputTokens ?? 0,
+          completion_tokens: usage.outputTokens ?? 0,
+          total_tokens: usage.totalTokens ?? 0,
+        }
+      : undefined,
   }
 }
 
-// Generate chat response with conversation history
-// Accepts pre-assembled messages array (including system prompt, summary, history, and new message)
+// Generate a chat response with full conversation history.
+// Throws on genuine API errors so callers can distinguish real failures from real answers.
 export async function generateChatResponseWithHistory(
   messages: ChatMessage[],
-  systemPrompt?: string, // Optional - messages may already include system prompt
+  systemPrompt?: string,
 ): Promise<ChatResponse> {
-  const apiKey = getOpenAIKey()
+  const { system, turns } = splitMessages(messages, systemPrompt || UPSIDE_AI_SYSTEM_PROMPT)
 
-  if (!apiKey) {
-    const lastMessage = messages[messages.length - 1]?.content || ""
-    return {
-      message: generateFallbackResponse(lastMessage),
-    }
-  }
+  const { text, usage } = await generateText({
+    model: CHAT_MODEL,
+    system,
+    messages: turns,
+    temperature: 0.7,
+    maxOutputTokens: 1000,
+  })
 
-  try {
-    // Check if messages already include system prompt
-    const hasSystemPrompt = messages.some(m => m.role === "system")
-    
-    // Build final messages array
-    let openaiMessages: ChatMessage[]
-    if (hasSystemPrompt) {
-      // Messages are pre-assembled with system prompt - use as-is
-      openaiMessages = messages
-    } else {
-      // Legacy behavior: prepend system prompt
-      openaiMessages = [
-        { role: "system" as const, content: systemPrompt || UPSIDE_AI_SYSTEM_PROMPT },
-        ...messages,
-      ]
-    }
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4",
-        messages: openaiMessages,
-        temperature: 0.7,
-        max_tokens: 1000,
-      }),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error("OpenAI API error:", response.status, errorText)
-      throw new Error(`OpenAI API error: ${response.status}`)
-    }
-
-    const data = await response.json()
-
-    return {
-      message: data.choices[0]?.message?.content || "I'm here to support you. What would you like to talk about?",
-      usage: data.usage,
-    }
-  } catch (error) {
-    console.error("Error generating chat response with history:", error)
-    const lastMessage = messages[messages.length - 1]?.content || ""
-    return {
-      message: generateFallbackResponse(lastMessage),
-    }
+  return {
+    message: text || "I'm here to support you. What would you like to talk about?",
+    usage: usage
+      ? {
+          prompt_tokens: usage.inputTokens ?? 0,
+          completion_tokens: usage.outputTokens ?? 0,
+          total_tokens: usage.totalTokens ?? 0,
+        }
+      : undefined,
   }
 }
 
-// Generate fallback response when OpenAI is not available
+// Generate a fallback response (used only when the gateway is unreachable)
 function generateFallbackResponse(message: string): string {
   const lowerMessage = message.toLowerCase()
-
-  // Determine response category based on message content
   let category = "general"
 
   if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
@@ -288,12 +234,11 @@ function generateFallbackResponse(message: string): string {
   return responses[Math.floor(Math.random() * responses.length)]
 }
 
-// Get OpenAI instance (for compatibility)
+// Compatibility helper
 export function getOpenAIInstance(): { apiKey: string | null; connected: boolean } {
-  const apiKey = getOpenAIKey()
   return {
-    apiKey: apiKey ? "configured" : null,
-    connected: !!apiKey,
+    apiKey: "gateway",
+    connected: true,
   }
 }
 
@@ -307,17 +252,7 @@ export async function generateChatResponseWithPersistence(
   hasTitle: boolean,
   isFirstMessage: boolean,
 ): Promise<ChatResponseWithPersistence> {
-  const apiKey = getOpenAIKey()
-
-  if (!apiKey) {
-    return {
-      message: generateFallbackResponse(message),
-      sessionSummary: `User asked: ${message.substring(0, 50)}...`,
-    }
-  }
-
-  try {
-    const persistencePrompt = `${UPSIDE_AI_SYSTEM_PROMPT}
+  const persistencePrompt = `${UPSIDE_AI_SYSTEM_PROMPT}
 
 PERSISTENCE CONTRACT:
 - ${!hasTitle && isFirstMessage ? "Generate a short conversation_title (3-6 words) from this first message." : "DO NOT generate a conversation_title (already set)."}
@@ -333,66 +268,53 @@ IMPORTANT: Return your response in valid JSON format only, with these exact keys
 
 Return ONLY the JSON object, no other text.`
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4",
-        messages: [
-          { role: "system", content: persistencePrompt },
-          { role: "user", content: message },
-        ],
-        temperature: 0.7,
-        max_tokens: 1000,
-      }),
-    })
+  const { text, usage } = await generateText({
+    model: CHAT_MODEL,
+    system: persistencePrompt,
+    messages: [{ role: "user", content: message }],
+    temperature: 0.7,
+    maxOutputTokens: 1000,
+  })
 
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`)
-    }
-
-    const data = await response.json()
-    const content = data.choices[0]?.message?.content
-
-    try {
-      // Try to extract JSON from the response (in case there's extra text)
-      const jsonMatch = content.match(/\{[\s\S]*\}/)
-      const jsonString = jsonMatch ? jsonMatch[0] : content
-      const parsed = JSON.parse(jsonString)
-
-      return {
-        message: parsed.reply || "I'm here to support you. What would you like to talk about?",
-        conversationTitle: parsed.conversationTitle,
-        sessionSummary: parsed.sessionSummary || "General conversation",
-        usage: data.usage,
+  const normalizedUsage = usage
+    ? {
+        prompt_tokens: usage.inputTokens ?? 0,
+        completion_tokens: usage.outputTokens ?? 0,
+        total_tokens: usage.totalTokens ?? 0,
       }
-    } catch {
-      return {
-        message: content || "I'm here to support you. What would you like to talk about?",
-        sessionSummary: `User asked: ${message.substring(0, 50)}...`,
-        usage: data.usage,
-      }
-    }
-  } catch (error) {
-    console.error("Error generating chat response:", error)
+    : undefined
+
+  try {
+    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    const jsonString = jsonMatch ? jsonMatch[0] : text
+    const parsed = JSON.parse(jsonString)
+
     return {
-      message: generateFallbackResponse(message),
+      message: parsed.reply || "I'm here to support you. What would you like to talk about?",
+      conversationTitle: parsed.conversationTitle,
+      sessionSummary: parsed.sessionSummary || "General conversation",
+      usage: normalizedUsage,
+    }
+  } catch {
+    return {
+      message: text || "I'm here to support you. What would you like to talk about?",
       sessionSummary: `User asked: ${message.substring(0, 50)}...`,
+      usage: normalizedUsage,
     }
   }
 }
 
-// Create OpenAI service instance
+// AI service instance
 export const openaiService = {
   generateChatResponse,
   generateChatResponseWithHistory,
-  generateChatResponseWithPersistence, // Add new method
+  generateChatResponseWithPersistence,
   testConnection: testOpenAIConnection,
   getInstance: getOpenAIInstance,
 }
+
+// Exported for callers that want graceful degradation
+export { generateFallbackResponse }
 
 // Export types
 export type { ChatMessage, ChatResponse, ChatResponseWithPersistence }

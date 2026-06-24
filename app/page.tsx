@@ -141,11 +141,11 @@ export default function Home() {
 
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent animate-pulse-slow leading-tight">
-            Your 24/7 AI Teammate
+            Your 24/7 Teammate
           </h1>
 
           <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2">
-            UpSide AI is your personal AI teammate designed specifically for rural Texas student-athletes. Get instant
+            UpSide AI is your personal teammate designed specifically for rural Texas student-athletes. Get instant
             support for self-efficacy, emotional intelligence, and career readiness anytime, anywhere. Build the
             confidence and skills you need to succeed on the field and beyond.
           </p>
@@ -349,7 +349,7 @@ export default function Home() {
 
           {/* Subheading */}
           <p className="text-xl md:text-2xl mb-12 text-gray-200 font-medium">
-            Your AI teammate is waiting to help you grow
+            Your teammate is waiting to help you grow
           </p>
 
           {/* CTA Buttons */}
@@ -362,7 +362,7 @@ export default function Home() {
               <Link
                 href="/chat"
                 className="flex items-center gap-3 relative z-10"
-                aria-label="Start chatting with your AI teammate now"
+                aria-label="Start chatting with your teammate now"
               >
                 {/* Animated shimmer effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
