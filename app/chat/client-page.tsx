@@ -9,6 +9,7 @@ import { Send, User, Plus, Menu, ArrowLeft } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
+import { KeyPlaySpotlight } from "@/components/key-play-spotlight"
 import { cn } from "@/lib/utils"
 
 interface Message {
@@ -483,7 +484,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                         : "bg-midnight-900/80 text-gray-200 border border-neon-500/10"
                     }`}
                   >
-                    <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                    {message.role === "assistant" ? (
+                      <KeyPlaySpotlight content={message.content} />
+                    ) : (
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                    )}
                   </div>
 
                   {message.role === "user" && (
