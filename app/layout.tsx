@@ -32,20 +32,11 @@ export const metadata: Metadata = {
     siteName: "UpSide AI",
     title: "UpSide AI",
     description: "Your 24/7 Teammate for Scholar-Athletes",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1024,
-        height: 1024,
-        alt: "UpSide AI — Your 24/7 Teammate for Scholar-Athletes",
-      },
-    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "UpSide AI",
     description: "Your 24/7 Teammate for Scholar-Athletes",
-    images: ["/og-image.png"],
   },
 }
 
