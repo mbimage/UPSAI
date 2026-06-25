@@ -16,9 +16,9 @@ async function loadInter(weight: number) {
   throw new Error("Failed to load Inter font")
 }
 
-// Brand gradient matching the site: neon-400 (green) -> electric-400 (blue)
-const GREEN = "hsl(142, 71%, 55%)"
-const BLUE = "hsl(210, 100%, 60%)"
+// Brand gradient matching the site: neon-400 (purple) -> electric-400 (cyan)
+const GREEN = "hsl(270, 100%, 70%)"
+const BLUE = "hsl(195, 100%, 65%)"
 
 export default async function OpengraphImage() {
   const [inter800, inter500] = await Promise.all([loadInter(800), loadInter(500)])
@@ -35,7 +35,7 @@ export default async function OpengraphImage() {
           justifyContent: "center",
           backgroundColor: "hsl(220, 26%, 4%)",
           backgroundImage:
-            "radial-gradient(circle at 50% 0%, hsla(142, 71%, 45%, 0.30), transparent 55%), radial-gradient(circle at 50% 120%, hsla(210, 100%, 55%, 0.28), transparent 55%)",
+            "radial-gradient(circle at 50% 0%, hsla(270, 100%, 60%, 0.30), transparent 55%), radial-gradient(circle at 50% 120%, hsla(195, 100%, 55%, 0.28), transparent 55%)",
           fontFamily: "Inter",
         }}
       >
