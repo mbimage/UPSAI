@@ -33,6 +33,21 @@ export function SeamlessAuthProvider({ children }: { children: React.ReactNode }
   const [showAuthPrompt, setShowAuthPrompt] = useState(false)
   const [supabase, setSupabase] = useState<ReturnType<typeof createBrowserSupabaseClient> | null>(null)
 
+  // Safety net: never let the app hang on "Initializing authentication..." forever.
+  // If session restoration stalls (slow/blocked network, flaky mobile connection, etc.),
+  // resolve loading after a short timeout so the UI always renders.
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading((current) => {
+        if (current) {
+          console.warn("[v0] Auth init timed out - continuing without a restored session")
+        }
+        return false
+      })
+    }, 3000)
+    return () => clearTimeout(timeout)
+  }, [])
+
   useEffect(() => {
     try {
       const client = createBrowserSupabaseClient()
