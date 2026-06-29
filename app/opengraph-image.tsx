@@ -27,15 +27,15 @@ function Badge({ label }: { label: string }) {
       style={{
         display: "flex",
         alignItems: "center",
-        paddingTop: 14,
-        paddingBottom: 14,
-        paddingLeft: 28,
-        paddingRight: 28,
+        paddingTop: 12,
+        paddingBottom: 12,
+        paddingLeft: 24,
+        paddingRight: 24,
         borderRadius: 999,
         border: "1px solid hsla(270, 100%, 80%, 0.35)",
         backgroundColor: "hsla(270, 100%, 70%, 0.08)",
         color: "hsl(0, 0%, 92%)",
-        fontSize: 26,
+        fontSize: 24,
         fontWeight: 500,
       }}
     >
@@ -159,19 +159,20 @@ export default async function OpengraphImage() {
               display: "flex",
               marginTop: 24,
               color: "hsl(0, 0%, 78%)",
-              fontSize: 34,
+              fontSize: 32,
               fontWeight: 500,
+              maxWidth: 980,
             }}
           >
-            AI built for scholar-athletes — on and off the field.
+            Building social-emotional competence for student-athletes — on and off the field.
           </div>
         </div>
 
-        {/* Feature badge row */}
-        <div style={{ display: "flex", gap: 20 }}>
-          <Badge label="Study Smarter" />
-          <Badge label="Train Harder" />
-          <Badge label="24/7 Support" />
+        {/* Competency badge row — the app's core pillars */}
+        <div style={{ display: "flex", gap: 16 }}>
+          <Badge label="Self-Efficacy" />
+          <Badge label="Emotional Intelligence" />
+          <Badge label="Career Readiness" />
         </div>
       </div>
     ),
