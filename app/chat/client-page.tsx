@@ -405,7 +405,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           
           {/* Title - Centered */}
           <h1 className="text-sm md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent truncate max-w-[140px] sm:max-w-none">
-            UpSide AI
+            My Locker
           </h1>
           
           {/* Right-side actions */}

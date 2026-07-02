@@ -8,7 +8,7 @@ import { Menu } from "lucide-react"
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Chat", href: "/chat" },
+  { name: "My Locker", href: "/chat" },
   { name: "About", href: "/about" },
 ]
 

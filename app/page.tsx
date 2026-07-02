@@ -18,7 +18,7 @@ export default function Home() {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Chat", href: "/chat" },
+    { name: "My Locker", href: "/chat" },
     { name: "About", href: "/about" },
   ]
 
