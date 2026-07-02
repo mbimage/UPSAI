@@ -187,15 +187,6 @@ export default function Home() {
               </Link>
             </Button>
           </div>
-
-          {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 opacity-60 text-sm text-gray-400">
-            <span>24/7 Available</span>
-            <span className="hidden sm:inline">•</span>
-            <span>100% Private</span>
-            <span className="hidden sm:inline">•</span>
-            <span>Free for TX Students</span>
-          </div>
         </div>
       </section>
 
