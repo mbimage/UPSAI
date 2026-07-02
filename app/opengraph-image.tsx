@@ -56,7 +56,7 @@ export default async function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: 80,
+          padding: 60,
           backgroundColor: "hsl(220, 26%, 4%)",
           backgroundImage:
             "radial-gradient(circle at 12% 8%, hsla(270, 100%, 60%, 0.38), transparent 45%), radial-gradient(circle at 100% 100%, hsla(195, 100%, 55%, 0.32), transparent 50%)",
@@ -131,14 +131,37 @@ export default async function OpengraphImage() {
 
         {/* Headline block */}
         <div style={{ display: "flex", flexDirection: "column" }}>
+          {/* SEC eyebrow */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              alignSelf: "flex-start",
+              marginBottom: 18,
+              paddingTop: 10,
+              paddingBottom: 10,
+              paddingLeft: 22,
+              paddingRight: 22,
+              borderRadius: 999,
+              border: "1px solid hsla(195, 100%, 70%, 0.4)",
+              backgroundColor: "hsla(195, 100%, 60%, 0.1)",
+              color: "hsl(195, 100%, 82%)",
+              fontSize: 26,
+              fontWeight: 800,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+            }}
+          >
+            Social-Emotional Competence
+          </div>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 132,
+              fontSize: 94,
               fontWeight: 800,
-              letterSpacing: -4,
-              lineHeight: 1.02,
+              letterSpacing: -3,
+              lineHeight: 1.0,
             }}
           >
             <div style={{ display: "flex", color: "hsl(0, 0%, 98%)" }}>Your 24/7</div>
@@ -157,22 +180,36 @@ export default async function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              marginTop: 24,
+              marginTop: 20,
               color: "hsl(0, 0%, 78%)",
-              fontSize: 32,
+              fontSize: 30,
               fontWeight: 500,
-              maxWidth: 980,
+              maxWidth: 1000,
             }}
           >
-            Building social-emotional competence for student-athletes — on and off the field.
+            An AI teammate that grows student-athletes' social-emotional competence — on and off the field.
           </div>
         </div>
 
-        {/* Competency badge row — the app's core pillars */}
-        <div style={{ display: "flex", gap: 16 }}>
-          <Badge label="Self-Efficacy" />
-          <Badge label="Emotional Intelligence" />
-          <Badge label="Career Readiness" />
+        {/* Competency badge row — the three pillars of SEC */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div
+            style={{
+              display: "flex",
+              color: "hsl(0, 0%, 60%)",
+              fontSize: 22,
+              fontWeight: 500,
+              letterSpacing: 1,
+              textTransform: "uppercase",
+            }}
+          >
+            The three pillars of SEC
+          </div>
+          <div style={{ display: "flex", gap: 16 }}>
+            <Badge label="Self-Efficacy" />
+            <Badge label="Emotional Intelligence" />
+            <Badge label="Career Readiness" />
+          </div>
         </div>
       </div>
     ),
