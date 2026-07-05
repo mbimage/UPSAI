@@ -154,36 +154,14 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setMessages(updatedMessages)
     setIsLoading(true)
 
-    // Create a new conversation if needed (via API)
-    let sessionId = currentSession?.id
-    if (!sessionId && userId) {
-      try {
-        const createResponse = await fetch("/api/conversations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: userMessage.substring(0, 100) }),
-        })
-        if (createResponse.ok) {
-          const newSession = await createResponse.json()
-          sessionId = newSession.id
-          setCurrentSession({
-            id: newSession.id,
-            userId: userId,
-            title: newSession.title,
-            createdAt: newSession.createdAt,
-            updatedAt: newSession.updatedAt,
-            messageCount: 0,
-          })
-          // Navigate to the new conversation URL
-          router.replace(`/chat/${newSession.id}`, { scroll: false })
-        }
-      } catch (error) {
-        console.error("Error creating session:", error)
-      }
-    }
+    const existingSessionId = currentSession?.id
+    const isNewConversation = !existingSessionId
 
     try {
-      // Send message via secure API with conversationId for ownership validation
+      // The server (/api/chat) is the single source of truth for persistence:
+      // for authenticated users it creates the conversation if needed, saves
+      // both the user and assistant messages, sets the title, and returns the
+      // conversationId. We just need to keep the client linked to it.
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -191,7 +169,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         },
         body: JSON.stringify({
           message: userMessage,
-          conversationId: sessionId, // Pass conversationId for security
+          conversationId: existingSessionId, // undefined for a brand-new conversation
           hasTitle: hasTitle,
           isFirstMessage: isFirstMessage,
         }),
@@ -204,13 +182,24 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
       const data = await response.json()
 
-      if (data.conversationTitle && !hasTitle && currentSession?.id) {
+      // Capture the conversation the server saved so this session (and the
+      // history sidebar) stays linked to the persisted conversation.
+      if (data.conversationId && isNewConversation && userId) {
+        const now = new Date().toISOString()
+        setCurrentSession({
+          id: data.conversationId,
+          userId: userId,
+          title: data.conversationTitle || userMessage.substring(0, 50),
+          createdAt: now,
+          updatedAt: now,
+          messageCount: updatedMessages.length,
+        })
+        setHasTitle(!!data.conversationTitle)
+        // Reflect the saved conversation in the URL without a full navigation.
+        router.replace(`/chat/${data.conversationId}`, { scroll: false })
+      } else if (data.conversationTitle && !hasTitle) {
         setHasTitle(true)
-        try {
-          await chatHistoryService.updateSessionTitle(currentSession.id, data.conversationTitle)
-        } catch (error) {
-          console.error("Error updating session title:", error)
-        }
+        setCurrentSession((prev) => (prev ? { ...prev, title: data.conversationTitle } : prev))
       }
 
       if (data.message) {
@@ -228,10 +217,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             )
           } else {
             clearInterval(typeInterval)
-            if (currentSession?.id && userId) {
-              chatHistoryService
-                .saveMessage(userId, currentSession.id, "assistant", fullReply)
-                .catch((error) => console.error("Error saving assistant message:", error))
+            // The server already persisted both messages, so no client-side save
+            // is needed here (doing so would duplicate messages). We only refresh
+            // the history sidebar so the saved conversation shows up immediately.
+            if (userId) {
+              setSidebarKey((prev) => prev + 1)
             }
           }
         }, 15)
@@ -415,7 +405,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           
           {/* Title - Centered */}
           <h1 className="text-sm md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent truncate max-w-[140px] sm:max-w-none">
-            UpSide AI
+            My Locker
           </h1>
           
           {/* Right-side actions */}

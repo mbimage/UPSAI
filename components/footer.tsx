@@ -34,7 +34,7 @@ export function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link href="/chat" className="flex items-center min-h-[44px] py-2 text-gray-300 hover:text-white transition-colors touch-manipulation">
-                  Start Chat
+                  My Locker
                 </Link>
               </li>
               <li>

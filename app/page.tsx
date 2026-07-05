@@ -18,7 +18,7 @@ export default function Home() {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Chat", href: "/chat" },
+    { name: "My Locker", href: "/chat" },
     { name: "About", href: "/about" },
   ]
 
@@ -159,7 +159,7 @@ export default function Home() {
             >
               <Link href="/chat" className="flex items-center justify-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
-                <span>Start Chat</span>
+                <span>Open My Locker</span>
                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -186,15 +186,6 @@ export default function Home() {
                 </svg>
               </Link>
             </Button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 opacity-60 text-sm text-gray-400">
-            <span>24/7 Available</span>
-            <span className="hidden sm:inline">•</span>
-            <span>100% Private</span>
-            <span className="hidden sm:inline">•</span>
-            <span>Free for TX Students</span>
           </div>
         </div>
       </section>
@@ -383,7 +374,7 @@ export default function Home() {
                   />
                 </svg>
 
-                <span className="relative">Start Chatting Now</span>
+                <span className="relative">Enter My Locker</span>
 
                 {/* Arrow icon with slide animation */}
                 <svg
