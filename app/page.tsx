@@ -22,6 +22,39 @@ export default function Home() {
     { name: "About", href: "/about" },
   ]
 
+  const topics = [
+    {
+      title: "College decisions",
+      description: "Weigh offers, fit, playing time, and academics — and think through the questions that actually matter.",
+      icon: "M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.42A12 12 0 0121 12c0 2.5-4 4.5-9 4.5S3 14.5 3 12a12 12 0 012.84-1.42L12 14z",
+    },
+    {
+      title: "NIL & networking",
+      description: "Understand your brand, evaluate deals, and build relationships that last beyond your playing days.",
+      icon: "M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6-4a3 3 0 10-3-3",
+    },
+    {
+      title: "Emotional intelligence",
+      description: "Handle pressure, read the room, and navigate coaches, teammates, and family with more confidence.",
+      icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+    },
+    {
+      title: "Career preparation",
+      description: "Explore paths on and off the field, build skills, and prepare for a career that fits who you are.",
+      icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+    },
+    {
+      title: "Relationships & belonging",
+      description: "Talk through the people in your corner — and how to lean on them when things get heavy.",
+      icon: "M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l3.586-3.586z",
+    },
+    {
+      title: "Life beyond sport",
+      description: "Plan for who you are after the game — identity, purpose, and the self-efficacy to get there.",
+      icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    },
+  ]
+
   return (
     <div className="min-h-screen bg-midnight-950 text-foreground relative overflow-hidden">
       {/* Ambient Background Orbs */}
@@ -134,20 +167,25 @@ export default function Home() {
         {/* Content */}
         <div className="relative z-10 text-center max-w-4xl mx-auto pt-12 md:pt-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10 mt-8 md:mt-4">
+            <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Democratizing AI Access for Rural Texas
+              Built for college student-athletes · Starting with the SEC
             </span>
           </div>
 
+          {/* Eyebrow */}
+          <p className="text-sm md:text-base font-semibold uppercase tracking-[0.25em] text-electric-400 mb-4">
+            UpSide AI
+          </p>
+
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent animate-pulse-slow leading-tight">
-            Your 24/7 Teammate
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-tight text-balance">
+            Your AI teammate beyond the game.
           </h1>
 
-          <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2">
-            UpSide AI is your personal teammate designed specifically for rural Texas student-athletes. Get instant
-            support for self-efficacy, emotional intelligence, and career readiness anytime, anywhere. Build the
-            confidence and skills you need to succeed on the field and beyond.
+          <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2 text-pretty">
+            UpSide helps student-athletes navigate college decisions, relationships, education, career preparation,
+            emotional intelligence, self-efficacy, networking, NIL, and life beyond sport.
           </p>
 
           {/* CTA Buttons */}
@@ -155,11 +193,11 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="relative group bg-neon-600/20 hover:bg-neon-600/30 border border-neon-500/50 hover:border-neon-400 text-neon-300 hover:text-white px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:shadow-[0_0_25px_rgba(139,92,246,0.45)] w-full sm:w-auto backdrop-blur-sm"
+              className="relative group bg-gradient-to-r from-neon-500 to-electric-500 hover:from-neon-400 hover:to-electric-400 text-white px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 shadow-[0_0_25px_rgba(34,197,94,0.4)] hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] w-full sm:w-auto"
             >
               <Link href="/chat" className="flex items-center justify-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
-                <span>Start Chat</span>
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span>Talk to UpSide</span>
                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -169,32 +207,21 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="relative group bg-neon-500/10 hover:bg-neon-500/20 border border-neon-500/50 hover:border-neon-400/70 text-neon-300 hover:text-neon-200 px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(139,92,246,0.15)] hover:shadow-[0_0_25px_rgba(139,92,246,0.35)] w-full sm:w-auto backdrop-blur-sm"
+              className="relative group bg-neon-500/10 hover:bg-neon-500/20 border border-neon-500/50 hover:border-neon-400/70 text-neon-300 hover:text-neon-200 px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 w-full sm:w-auto backdrop-blur-sm"
             >
-              <Link href="/how-to-use-ai" className="flex items-center justify-center gap-2">
-                <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Learn More
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+              <Link href="/about" className="flex items-center justify-center gap-2">
+                <span>How it works</span>
               </Link>
             </Button>
           </div>
 
           {/* Trust Indicators */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 opacity-60 text-sm text-gray-400">
-            <span>24/7 Available</span>
+            <span>Available 24/7</span>
             <span className="hidden sm:inline">•</span>
-            <span>100% Private</span>
+            <span>Private by design</span>
             <span className="hidden sm:inline">•</span>
-            <span>Free for TX Students</span>
+            <span>Learns you as you talk</span>
           </div>
         </div>
       </section>
@@ -204,128 +231,42 @@ export default function Home() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
-              How UpSide AI Helps You Grow
+              What you can talk to UpSide about
             </h2>
-            <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-4">
-              Three core areas designed specifically for rural Texas student-athletes to build confidence and prepare
-              for success
+            <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-4 text-pretty">
+              UpSide understands the student-athlete journey. Start a conversation about anything below — or whatever
+              is actually on your mind right now.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <Link
-              href="/assessments"
-              className="bg-neon-900/40 p-8 rounded-xl border border-neon-500/20 text-center animate-breathing-glow hover:bg-neon-900/60 hover:border-neon-500/40 transition-all duration-300 cursor-pointer group"
-              aria-label="Build self-efficacy with assessments"
-            >
-              <div className="w-16 h-16 bg-neon-500/20 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-neon-500/30 transition-colors duration-300">
-                <svg
-                  className="h-8 w-8 text-neon-400 group-hover:text-neon-300 transition-colors duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-neon-200 transition-colors duration-300">
-                Self-Efficacy
-              </h3>
-              <p className="text-gray-300 mb-4 group-hover:text-gray-200 transition-colors duration-300">
-                Build unshakeable confidence in your ability to achieve goals both on and off the field
-              </p>
-
-              {/* Stat */}
-              <div className="bg-neon-500/10 rounded-lg p-3 border border-neon-500/20">
-                <div className="text-2xl font-bold text-neon-400 mb-2 group-hover:text-neon-300 transition-colors duration-300">
-                  Strong
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {topics.map((topic) => (
+              <Link
+                key={topic.title}
+                href="/chat"
+                className="group flex flex-col bg-midnight-900/50 p-6 rounded-xl border border-neon-500/15 hover:border-neon-500/40 hover:bg-midnight-900/80 transition-all duration-300"
+                aria-label={`Talk to UpSide about ${topic.title}`}
+              >
+                <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-4 group-hover:bg-neon-500/25 transition-colors duration-300">
+                  <svg
+                    className="h-6 w-6 text-neon-400 group-hover:text-electric-400 transition-colors duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.75}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d={topic.icon} />
+                  </svg>
                 </div>
-                <div className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  improvement in goal achievement
-                </div>
-              </div>
-            </Link>
-
-            <Link
-              href="/resources/mental-health"
-              className="bg-electric-900/40 p-8 rounded-xl border border-electric-500/20 text-center animate-breathing-glow hover:bg-electric-900/60 hover:border-electric-500/40 transition-all duration-300 cursor-pointer group"
-              style={{ animationDelay: "1s" }}
-              aria-label="Develop emotional intelligence"
-            >
-              <div className="w-16 h-16 bg-electric-500/20 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-electric-500/30 transition-colors duration-300">
-                <svg
-                  className="h-8 w-8 text-electric-400 group-hover:text-electric-300 transition-colors duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-electric-200 transition-colors duration-300">
-                Emotional Intelligence
-              </h3>
-              <p className="text-gray-300 mb-4 group-hover:text-gray-200 transition-colors duration-300">
-                Master your emotions and build stronger relationships with teammates, coaches, and peers
-              </p>
-
-              {/* Stat */}
-              <div className="bg-electric-500/10 rounded-lg p-3 border border-electric-500/20">
-                <div className="text-2xl font-bold text-electric-400 mb-2 group-hover:text-electric-300 transition-colors duration-300">
-                  Better
-                </div>
-                <div className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  stress management skills
-                </div>
-              </div>
-            </Link>
-
-            <Link
-              href="/about"
-              className="bg-electric-900/40 p-8 rounded-xl border border-electric-500/20 text-center animate-breathing-glow hover:bg-electric-900/60 hover:border-electric-500/40 transition-all duration-300 cursor-pointer group"
-              style={{ animationDelay: "3s" }}
-              aria-label="Prepare for career readiness"
-            >
-              <div className="w-16 h-16 bg-electric-500/20 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-electric-500/30 transition-colors duration-300">
-                <svg
-                  className="h-8 w-8 text-electric-400 group-hover:text-electric-300 transition-colors duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-electric-200 transition-colors duration-300">
-                About Us
-              </h3>
-              <p className="text-gray-300 mb-4 group-hover:text-gray-200 transition-colors duration-300">
-                Learn more about UpSide AI and our mission to support rural Texas student-athletes
-              </p>
-
-              {/* Stat */}
-              <div className="bg-electric-500/10 rounded-lg p-3 border border-electric-500/20">
-                <div className="text-2xl font-bold text-electric-400 mb-2 group-hover:text-electric-300 transition-colors duration-300">
-                  Higher
-                </div>
-                <div className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  career readiness levels
-                </div>
-              </div>
-            </Link>
+                <h3 className="text-lg font-semibold mb-2 text-white group-hover:text-neon-200 transition-colors duration-300">
+                  {topic.title}
+                </h3>
+                <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  {topic.description}
+                </p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -343,13 +284,13 @@ export default function Home() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Main Heading */}
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-neon-400 via-electric-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
-            Ready to Level Up?
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-neon-400 via-electric-400 to-cyan-400 bg-clip-text text-transparent leading-tight text-balance">
+            Your teammate beyond the game
           </h2>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl mb-12 text-gray-200 font-medium">
-            Your teammate is waiting to help you grow
+          <p className="text-xl md:text-2xl mb-12 text-gray-200 font-medium text-pretty">
+            No forms, no onboarding. Just start talking — UpSide learns you along the way.
           </p>
 
           {/* CTA Buttons */}
@@ -383,7 +324,7 @@ export default function Home() {
                   />
                 </svg>
 
-                <span className="relative">Start Chatting Now</span>
+                <span className="relative">Talk to UpSide</span>
 
                 {/* Arrow icon with slide animation */}
                 <svg
@@ -404,7 +345,7 @@ export default function Home() {
               size="lg"
               className="border border-gray-500/20 text-gray-400 hover:text-gray-300 hover:border-gray-400/30 hover:bg-gray-800/20 px-6 py-4 text-base font-medium backdrop-blur-sm transition-all duration-300 bg-transparent cursor-pointer"
             >
-              <Link href="/how-to-use-ai" className="flex items-center gap-2" aria-label="Learn how UpSide AI works">
+              <Link href="/about" className="flex items-center gap-2" aria-label="Learn more about UpSide AI">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
                     strokeLinecap="round"
@@ -413,14 +354,14 @@ export default function Home() {
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Learn How It Works
+                Learn About UpSide
               </Link>
             </Button>
           </div>
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Trusted by students across Texas</p>
+            <p className="text-sm text-gray-400">Built for student-athletes — starting with the SEC</p>
           </div>
         </div>
       </section>
@@ -504,7 +445,8 @@ export default function Home() {
                 </div>
               </Link>
               <p className="text-gray-400 mb-4 max-w-md">
-                Democratizing access to life strategy tools for scholar-athletes from low-income rural areas.
+                Your AI teammate beyond the game — helping student-athletes navigate college, career, and life
+                beyond sport.
               </p>
             </div>
             <div>
