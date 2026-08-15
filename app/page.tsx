@@ -91,7 +91,7 @@ export default function Home() {
                   <path d="M10 17L14 13L18 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.4" />
                 </svg>
               </div>
-              <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
+              <span className="font-display text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
                 UpSide AI
               </span>
               <span className="px-2 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 text-white rounded-full leading-none">
@@ -168,17 +168,15 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Eyebrow */}
-          <p className="text-sm md:text-base font-semibold uppercase tracking-[0.25em] text-electric-400 mb-4">
-            UpSide AI
-          </p>
-
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-neon-400 via-electric-400 to-neon-400 bg-clip-text text-transparent leading-tight text-balance animate-gradient-shift">
-            Your AI teammate beyond the game.
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.05] tracking-tight text-white text-balance">
+            Your AI teammate{" "}
+            <span className="bg-gradient-to-r from-neon-400 via-electric-400 to-electric-500 bg-clip-text text-transparent">
+              beyond the game.
+            </span>
           </h1>
 
-          <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2 text-pretty">
+          <p className="text-lg md:text-xl text-gray-300/90 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2 text-pretty">
             UpSide helps student-athletes navigate college decisions, relationships, education, career preparation,
             emotional intelligence, self-efficacy, networking, NIL, and life beyond sport.
           </p>
@@ -225,10 +223,10 @@ export default function Home() {
       <section className="py-16 md:py-24 px-4 relative overflow-hidden">
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-3 md:mb-4 tracking-tight text-white text-balance">
               What you can talk to UpSide about
             </h2>
-            <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-4 text-pretty">
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto px-4 text-pretty leading-relaxed">
               UpSide understands the student-athlete journey. Start a conversation about anything below — or whatever
               is actually on your mind right now.
             </p>
@@ -254,7 +252,7 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" d={topic.icon} />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-white group-hover:text-neon-200 transition-colors duration-300">
+                <h3 className="font-display text-lg font-semibold mb-2 tracking-tight text-white group-hover:text-neon-200 transition-colors duration-300">
                   {topic.title}
                 </h3>
                 <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
@@ -279,12 +277,15 @@ export default function Home() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Main Heading */}
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-neon-400 via-electric-400 to-cyan-400 bg-clip-text text-transparent leading-tight text-balance">
-            Your teammate beyond the game
+          <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 leading-[1.05] tracking-tight text-white text-balance">
+            Your teammate{" "}
+            <span className="bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
+              beyond the game
+            </span>
           </h2>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl mb-12 text-gray-200 font-medium text-pretty">
+          <p className="text-lg md:text-2xl mb-12 text-gray-300/90 font-medium text-pretty max-w-2xl mx-auto leading-relaxed">
             No forms, no onboarding. Just start talking — UpSide learns you along the way.
           </p>
 

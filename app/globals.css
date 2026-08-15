@@ -150,6 +150,8 @@
   /* Font Families */
   --font-family-sans: var(--font-inter);
   --font-family-inter: var(--font-inter);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Custom Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
