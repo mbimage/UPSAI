@@ -164,7 +164,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10 mt-8 md:mt-4">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for college student-athletes · Starting with the SEC
+              Built for Texas college athletes · Public & private schools
             </span>
           </div>
 
@@ -356,7 +356,7 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for student-athletes — starting with the SEC</p>
+            <p className="text-sm text-gray-400">Built for Texas college athletes — public and private schools</p>
           </div>
         </div>
       </section>
