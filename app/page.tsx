@@ -169,9 +169,11 @@ export default function Home() {
           </div>
 
           {/* Main Heading */}
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.05] tracking-tight text-white text-balance">
-            Your AI teammate{" "}
-            <span className="bg-gradient-to-r from-neon-400 via-electric-400 to-electric-500 bg-clip-text text-transparent">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.05] tracking-tight text-balance">
+            <span className="bg-gradient-to-r from-fuchsia-400 via-violet-400 to-sky-400 bg-clip-text text-transparent">
+              Your AI teammate
+            </span>{" "}
+            <span className="bg-gradient-to-r from-violet-400 via-electric-400 to-cyan-400 bg-clip-text text-transparent">
               beyond the game.
             </span>
           </h1>
