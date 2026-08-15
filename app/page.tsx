@@ -174,7 +174,7 @@ export default function Home() {
           </p>
 
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-tight text-balance">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-neon-400 via-electric-400 to-neon-400 bg-clip-text text-transparent leading-tight text-balance animate-gradient-shift">
             Your AI teammate beyond the game.
           </h1>
 
