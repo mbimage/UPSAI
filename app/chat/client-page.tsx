@@ -11,6 +11,7 @@ import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-serv
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
 import { KeyPlaySpotlight } from "@/components/key-play-spotlight"
 import { HumanSupport } from "@/components/human-support"
+import { AmbientBackground } from "@/components/ambient-background"
 import { cn } from "@/lib/utils"
 
 interface Message {
@@ -341,7 +342,10 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   }
 
   return (
-    <div className="flex h-[100dvh] bg-midnight-950 text-foreground overflow-hidden">
+    <div className="relative flex h-[100dvh] bg-midnight-950 text-foreground overflow-hidden">
+      {/* Ambient "alive" background */}
+      <AmbientBackground />
+
       {/* Mobile overlay */}
       {isSidebarOpen && (
         <div

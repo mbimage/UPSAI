@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
+import { AmbientBackground } from "@/components/ambient-background"
 
 export default function Home() {
   const pathname = usePathname()
@@ -57,14 +58,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-midnight-950 text-foreground relative overflow-hidden">
-      {/* Ambient Background Orbs */}
-      <div className="ambient-orb ambient-orb-1"></div>
-      <div className="ambient-orb ambient-orb-2"></div>
-      <div className="ambient-orb ambient-orb-3"></div>
-      <div className="ambient-orb ambient-orb-4"></div>
-
-      {/* Grid Overlay */}
-      <div className="absolute inset-0 grid-overlay"></div>
+      {/* Ambient "alive" background */}
+      <AmbientBackground />
 
       {/* Header - No Dead Click Areas */}
       <header className="sticky top-0 z-50 w-full border-b border-neon-500/20 bg-midnight-950/95 backdrop-blur-lg">
@@ -169,7 +164,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10 mt-8 md:mt-4">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for college student-athletes · Starting with the SEC
+              Built for Texas college athletes · Public & private schools
             </span>
           </div>
 
@@ -361,7 +356,7 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for student-athletes — starting with the SEC</p>
+            <p className="text-sm text-gray-400">Built for Texas college athletes — public and private schools</p>
           </div>
         </div>
       </section>

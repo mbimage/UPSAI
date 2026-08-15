@@ -20,6 +20,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
+import { AmbientBackground } from "@/components/ambient-background"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -38,15 +39,8 @@ const staggerContainer = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      {/* Enhanced Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse delay-2000" />
-      </div>
-
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      {/* Ambient "alive" background */}
+      <AmbientBackground />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 lg:py-12 max-w-7xl relative z-10">
         {/* Floating Back Button */}
