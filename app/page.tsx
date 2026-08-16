@@ -94,8 +94,8 @@ export default function Home() {
               <span className="font-display text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
                 UpSide AI
               </span>
-              <span className="px-2 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-neon-500 to-electric-500 text-white rounded-full leading-none">
-                BETA
+              <span className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider bg-neon-500/10 border border-neon-500/30 text-neon-300 rounded-full leading-none">
+                Beta
               </span>
             </Link>
 
