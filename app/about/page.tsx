@@ -38,7 +38,7 @@ const staggerContainer = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+    <div className="min-h-screen bg-midnight-950 relative overflow-hidden">
       {/* Ambient "alive" background */}
       <AmbientBackground />
 
@@ -113,7 +113,7 @@ export default function AboutPage() {
                             height={320}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-midnight-950/40 to-transparent" />
                         </div>
                       </div>
 
@@ -266,12 +266,12 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div className="group" variants={fadeInUp}>
-              <Card className="h-full bg-card/80 backdrop-blur-sm border-border hover:border-orange-500/50 transition-all duration-300">
+              <Card className="h-full bg-card/80 backdrop-blur-sm border-border hover:border-neon-500/50 transition-all duration-300">
                 <CardContent className="p-6 md:p-8 flex flex-col items-center text-center">
-                  <div className="w-14 h-14 md:w-16 md:h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:bg-orange-500/20 transition-colors duration-300">
-                    <Shield className="w-7 h-7 md:w-8 md:h-8 text-orange-400" />
+                  <div className="w-14 h-14 md:w-16 md:h-16 bg-neon-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:bg-neon-500/20 transition-colors duration-300">
+                    <Shield className="w-7 h-7 md:w-8 md:h-8 text-neon-400" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold text-orange-400 mb-3 md:mb-4">Resource Gaps</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-neon-400 mb-3 md:mb-4">Resource Gaps</h3>
                   <p className="text-sm md:text-base text-muted-foreground">
                     Fewer guidance counselors, career coaches, and life strategy tools per student.
                   </p>
@@ -280,12 +280,12 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div className="group" variants={fadeInUp}>
-              <Card className="h-full bg-card/80 backdrop-blur-sm border-border hover:border-yellow-500/50 transition-all duration-300">
+              <Card className="h-full bg-card/80 backdrop-blur-sm border-border hover:border-electric-500/50 transition-all duration-300">
                 <CardContent className="p-6 md:p-8 flex flex-col items-center text-center">
-                  <div className="w-14 h-14 md:w-16 md:h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:bg-yellow-500/20 transition-colors duration-300">
-                    <Zap className="w-7 h-7 md:w-8 md:h-8 text-yellow-400" />
+                  <div className="w-14 h-14 md:w-16 md:h-16 bg-electric-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:bg-electric-500/20 transition-colors duration-300">
+                    <Zap className="w-7 h-7 md:w-8 md:h-8 text-electric-400" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold text-yellow-400 mb-3 md:mb-4">Confidence Barriers</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-electric-400 mb-3 md:mb-4">Confidence Barriers</h3>
                   <p className="text-sm md:text-base text-muted-foreground">
                     Self-doubt about competing with peers from better-resourced backgrounds.
                   </p>

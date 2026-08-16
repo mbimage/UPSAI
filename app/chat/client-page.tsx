@@ -448,7 +448,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
               <div key={message.id} className="group">
                 <div className={`flex gap-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                   {message.role === "assistant" && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)]">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(153,51,255,0.3)]">
                       <svg
                         width="18"
                         height="18"
@@ -489,7 +489,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                   <div
                     className={`rounded-2xl px-4 py-3 max-w-[80%] ${
                       message.role === "user"
-                        ? "bg-gradient-to-r from-neon-500/90 via-electric-500/90 to-cyan-500/90 text-white shadow-[0_0_20px_rgba(34,197,94,0.4)]"
+                        ? "bg-gradient-to-r from-neon-500/90 to-electric-500/90 text-white shadow-[0_0_20px_rgba(153,51,255,0.4)]"
                         : "bg-midnight-900/80 text-gray-200 border border-neon-500/10"
                     }`}
                   >
@@ -501,7 +501,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                   </div>
 
                   {message.role === "user" && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-electric-500/10 border border-electric-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-electric-500/10 border border-electric-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(0,183,255,0.3)]">
                       <User className="h-4 w-4 text-electric-400" />
                     </div>
                   )}
@@ -511,7 +511,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
             {isLoading && (
               <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)] animate-pulse">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(153,51,255,0.5)] animate-pulse">
                   <svg
                     width="18"
                     height="18"

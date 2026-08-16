@@ -77,7 +77,7 @@ export default function Home() {
                   viewBox="0 0 28 28"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-10 h-10 text-neon-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.6)] group-hover:text-electric-400 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
+                  className="w-10 h-10 text-neon-400 drop-shadow-[0_0_8px_rgba(153,51,255,0.6)] group-hover:text-electric-400 group-hover:drop-shadow-[0_0_12px_rgba(0,183,255,0.8)] transition-all duration-300"
                 >
                   {/* Outer glow ring */}
                   <circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
@@ -94,7 +94,7 @@ export default function Home() {
               <span className="font-display text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
                 UpSide AI
               </span>
-              <span className="px-2 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 text-white rounded-full leading-none">
+              <span className="px-2 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-neon-500 to-electric-500 text-white rounded-full leading-none">
                 BETA
               </span>
             </Link>
@@ -170,10 +170,10 @@ export default function Home() {
 
           {/* Main Heading */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.05] tracking-tight text-balance">
-            <span className="bg-gradient-to-r from-fuchsia-400 via-violet-400 to-sky-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-clip-text text-transparent">
               Your AI teammate
             </span>{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-electric-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
               beyond the game.
             </span>
           </h1>
@@ -188,7 +188,7 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="relative group bg-gradient-to-r from-neon-500 to-electric-500 hover:from-neon-400 hover:to-electric-400 text-white px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 shadow-[0_0_25px_rgba(34,197,94,0.4)] hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] w-full sm:w-auto"
+              className="relative group bg-gradient-to-r from-neon-500 to-electric-500 hover:from-neon-400 hover:to-electric-400 text-white px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 shadow-[0_0_25px_rgba(153,51,255,0.4)] hover:shadow-[0_0_40px_rgba(153,51,255,0.6)] w-full sm:w-auto"
             >
               <Link href="/chat" className="flex items-center justify-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
@@ -296,7 +296,7 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="relative group bg-gradient-to-r from-neon-500 via-electric-500 to-cyan-500 hover:from-neon-400 hover:via-electric-400 hover:to-cyan-400 px-12 py-7 text-xl font-black shadow-[0_0_40px_rgba(34,197,94,0.6),0_0_80px_rgba(59,130,246,0.4)] hover:shadow-[0_0_60px_rgba(34,197,94,0.8),0_0_120px_rgba(59,130,246,0.6)] transition-all duration-500 transform hover:scale-105 border-2 border-white/30 hover:border-white/50 rounded-2xl overflow-hidden"
+              className="relative group bg-gradient-to-r from-neon-500 via-neon-400 to-electric-500 hover:from-neon-400 hover:via-neon-300 hover:to-electric-400 px-12 py-7 text-xl font-black shadow-[0_0_40px_rgba(153,51,255,0.55),0_0_80px_rgba(0,183,255,0.35)] hover:shadow-[0_0_60px_rgba(153,51,255,0.75),0_0_120px_rgba(0,183,255,0.5)] transition-all duration-500 transform hover:scale-105 border-2 border-white/30 hover:border-white/50 rounded-2xl overflow-hidden"
             >
               <Link
                 href="/chat"
@@ -388,7 +388,7 @@ export default function Home() {
                       viewBox="0 0 28 28"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="text-neon-400 drop-shadow-xl filter drop-shadow-[0_0_8px_rgba(34,197,94,0.6)] group-hover:text-electric-400 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
+                      className="text-neon-400 drop-shadow-xl filter drop-shadow-[0_0_8px_rgba(153,51,255,0.6)] group-hover:text-electric-400 group-hover:drop-shadow-[0_0_12px_rgba(0,183,255,0.8)] transition-all duration-300"
                     >
                       {/* Outer glow ring */}
                       <circle
