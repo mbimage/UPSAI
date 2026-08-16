@@ -120,7 +120,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     if (messages.length === 0) {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hey — I'm UpSide, your teammate beyond the game. Whether it's college decisions, NIL, relationships, career, or just figuring out life after sport, I'm here for it. No forms, no script — I'll get to know you as we talk. So what's going on with you right now?"
+        "Hey, I'm UpSide, your teammate beyond the game. Whether it's college decisions, NIL, relationships, career, or just figuring out life after sport, I'm here for it. No forms, no script, so I'll get to know you as we talk. So what's going on with you right now?"
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 
@@ -297,7 +297,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setTimeout(() => {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Fresh start. What's on your mind — college, NIL, your team, career, or life beyond the game? Wherever you want to begin is good with me."
+        "Fresh start. What's on your mind: college, NIL, your team, career, or life beyond the game? Wherever you want to begin is good with me."
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 

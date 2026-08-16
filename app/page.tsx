@@ -26,7 +26,7 @@ export default function Home() {
   const topics = [
     {
       title: "College decisions",
-      description: "Weigh offers, fit, playing time, and academics — and think through the questions that actually matter.",
+      description: "Weigh offers, fit, playing time, and academics, then think through the questions that actually matter.",
       icon: "M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.42A12 12 0 0121 12c0 2.5-4 4.5-9 4.5S3 14.5 3 12a12 12 0 012.84-1.42L12 14z",
     },
     {
@@ -46,12 +46,12 @@ export default function Home() {
     },
     {
       title: "Relationships & belonging",
-      description: "Talk through the people in your corner — and how to lean on them when things get heavy.",
+      description: "Talk through the people in your corner, and how to lean on them when things get heavy.",
       icon: "M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l3.586-3.586z",
     },
     {
       title: "Life beyond sport",
-      description: "Plan for who you are after the game — identity, purpose, and the self-efficacy to get there.",
+      description: "Plan for who you are after the game: identity, purpose, and the self-efficacy to get there.",
       icon: "M13 10V3L4 14h7v7l9-11h-7z",
     },
   ]
@@ -229,7 +229,7 @@ export default function Home() {
               What you can talk to UpSide about
             </h2>
             <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto px-4 text-pretty leading-relaxed">
-              UpSide understands the student-athlete journey. Start a conversation about anything below — or whatever
+              UpSide understands the student-athlete journey. Start a conversation about anything below, or whatever
               is actually on your mind right now.
             </p>
           </div>
@@ -288,7 +288,7 @@ export default function Home() {
 
           {/* Subheading */}
           <p className="text-lg md:text-2xl mb-12 text-gray-300/90 font-medium text-pretty max-w-2xl mx-auto leading-relaxed">
-            No forms, no onboarding. Just start talking — UpSide learns you along the way.
+            No forms, no onboarding. Just start talking, and UpSide learns you along the way.
           </p>
 
           {/* CTA Buttons */}
@@ -359,7 +359,7 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for Texas college athletes — public and private schools</p>
+            <p className="text-sm text-gray-400">Built for Texas college athletes, public and private schools</p>
           </div>
         </div>
       </section>
@@ -443,7 +443,7 @@ export default function Home() {
                 </div>
               </Link>
               <p className="text-gray-400 mb-4 max-w-md">
-                Your AI teammate beyond the game — helping student-athletes navigate college, career, and life
+                Your AI teammate beyond the game, helping student-athletes navigate college, career, and life
                 beyond sport.
               </p>
             </div>

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og"
 
-export const alt = "UpSide AI — Your 24/7 Teammate"
+export const alt = "UpSide AI: Your 24/7 Teammate"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -187,11 +187,11 @@ export default async function OpengraphImage() {
               maxWidth: 1000,
             }}
           >
-            An AI teammate that grows student-athletes' social-emotional competence — on and off the field.
+            An AI teammate that grows student-athletes' social-emotional competence, on and off the field.
           </div>
         </div>
 
-        {/* Competency badge row — the three pillars of SEC */}
+        {/* Competency badge row: the three pillars of SEC */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div
             style={{

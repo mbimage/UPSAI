@@ -86,7 +86,7 @@ export function HumanSupport() {
                   </div>
                   <div className="min-w-0">
                     <div className="text-sm font-semibold text-foreground">Call or text 988</div>
-                    <div className="text-xs text-muted-foreground">Suicide &amp; Crisis Lifeline — free, 24/7, confidential</div>
+                    <div className="text-xs text-muted-foreground">Suicide &amp; Crisis Lifeline: free, 24/7, confidential</div>
                   </div>
                 </a>
 
@@ -99,7 +99,7 @@ export function HumanSupport() {
                   </div>
                   <div className="min-w-0">
                     <div className="text-sm font-semibold text-foreground">Text HOME to 741741</div>
-                    <div className="text-xs text-muted-foreground">Crisis Text Line — text with a trained counselor</div>
+                    <div className="text-xs text-muted-foreground">Crisis Text Line: text with a trained counselor</div>
                   </div>
                 </a>
 
