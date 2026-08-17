@@ -56,6 +56,27 @@ export default function Home() {
     },
   ]
 
+  const pillars = [
+    {
+      title: "Self-Efficacy",
+      description:
+        "Build the belief and the habits to act, whether that means approaching a professor, prepping for office hours, or thinking through a major change on your own terms.",
+      icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    },
+    {
+      title: "Emotional Intelligence",
+      description:
+        "Read the room and handle the hard conversations, from a teammate conflict to talking honestly with your coach or family.",
+      icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+    },
+    {
+      title: "Career Readiness",
+      description:
+        "Turn connections into opportunities, connect with an alum, land an internship, and prepare for the transition out of sport before it arrives.",
+      icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+    },
+  ]
+
   return (
     <div className="min-h-screen bg-midnight-950 text-foreground relative overflow-hidden">
       {/* Ambient "alive" background */}
@@ -261,6 +282,72 @@ export default function Home() {
                   {topic.description}
                 </p>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pillars / Foundations Section */}
+      <section className="py-16 md:py-24 px-4 relative overflow-hidden border-t border-neon-500/10">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-3 md:mb-4 tracking-tight text-white text-balance">
+              A teammate for the whole journey
+            </h2>
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto px-4 text-pretty leading-relaxed">
+              From your first week on campus to the day you transition out of sport, UpSide grows with you, and three
+              things sit underneath every conversation.
+            </p>
+          </div>
+
+          {/* Journey progression */}
+          <div className="mb-12 md:mb-16">
+            <ol className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 text-sm md:text-base">
+              {["Campus life", "Relationships", "Opportunities", "Career", "Transition from sport"].map(
+                (step, index, arr) => (
+                  <li key={step} className="flex items-center gap-3">
+                    <span className="px-4 py-2 rounded-full bg-midnight-900/60 border border-neon-500/20 text-gray-200 font-medium whitespace-nowrap">
+                      {step}
+                    </span>
+                    {index < arr.length - 1 && (
+                      <svg
+                        className="w-4 h-4 text-neon-400/60 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    )}
+                  </li>
+                ),
+              )}
+            </ol>
+          </div>
+
+          {/* The three foundations */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {pillars.map((pillar) => (
+              <div
+                key={pillar.title}
+                className="flex flex-col bg-gradient-to-b from-midnight-900/70 to-midnight-900/30 p-6 md:p-8 rounded-2xl border border-neon-500/20"
+              >
+                <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-5">
+                  <svg
+                    className="h-6 w-6 text-neon-400"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.75}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d={pillar.icon} />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">{pillar.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{pillar.description}</p>
+              </div>
             ))}
           </div>
         </div>
