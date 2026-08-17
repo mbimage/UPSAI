@@ -78,6 +78,15 @@ export default function Home() {
     },
   ]
 
+  const supportMoments = [
+    "Talk through a situation",
+    "Ask questions when you're not sure who to ask",
+    "Think through your options",
+    "Prepare for an important conversation",
+    "Identify a practical next move",
+    "Connect with the right human resource when it's time",
+  ]
+
   return (
     <div className="min-h-screen bg-midnight-950 text-foreground relative overflow-hidden">
       {/* Ambient "alive" background */}
@@ -195,7 +204,7 @@ export default function Home() {
             <span className="block bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
               Your 24/7 Teammate
             </span>
-            <span className="block bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
+            <span className="block w-full max-w-full break-words text-4xl sm:text-6xl md:text-7xl bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
               beyond the game.
             </span>
           </h1>
@@ -249,6 +258,55 @@ export default function Home() {
             <span className="hidden sm:inline" aria-hidden="true">•</span>
             <span>Learns you as you talk</span>
           </div>
+        </div>
+      </section>
+
+      {/* Support Between the Support Section */}
+      <section className="py-16 md:py-24 px-4 relative overflow-hidden border-t border-neon-500/10">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <Reveal className="text-center mb-10 md:mb-14">
+            <span className="inline-block px-3 py-1.5 rounded-full bg-neon-500/10 border border-neon-500/20 text-xs md:text-sm font-medium text-neon-400 mb-5">
+              An additional layer, not a replacement
+            </span>
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-4 tracking-tight text-white text-balance">
+              Support between the support
+            </h2>
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto text-pretty leading-relaxed">
+              You already have coaches, professors, advisors, counselors, mentors, and career services in your
+              corner. But those people can&apos;t always be available the moment a question or situation comes up.
+              UpSide fills the space between those conversations.
+            </p>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+              {supportMoments.map((moment) => (
+                <li
+                  key={moment}
+                  className="flex items-start gap-3 bg-midnight-900/50 p-4 md:p-5 rounded-xl border border-neon-500/15"
+                >
+                  <svg
+                    className="h-5 w-5 text-neon-400 flex-shrink-0 mt-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-sm md:text-base text-gray-300 leading-relaxed">{moment}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal delay={200}>
+            <p className="text-center text-sm text-gray-500 mt-8 md:mt-10 max-w-2xl mx-auto text-pretty leading-relaxed">
+              UpSide never replaces the people in your corner. When something calls for a coach, counselor, advisor,
+              or other professional, it points you back to the right person.
+            </p>
+          </Reveal>
         </div>
       </section>
 
