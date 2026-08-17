@@ -280,7 +280,7 @@ export function UserOutcomesDashboard({ userId }: UserOutcomesDashboardProps) {
                   <ChartContainer
                     config={{
                       self_efficacy: {
-                        label: "Self Efficacy",
+                        label: "Self-Efficacy",
                         color: "hsl(var(--chart-1))",
                       },
                       emotional_intelligence: {
@@ -317,7 +317,7 @@ export function UserOutcomesDashboard({ userId }: UserOutcomesDashboardProps) {
                           type="monotone"
                           dataKey="self_efficacy"
                           stroke="var(--color-self_efficacy)"
-                          name="Self Efficacy"
+                          name="Self-Efficacy"
                         />
                         <Line
                           type="monotone"

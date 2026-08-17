@@ -63,7 +63,7 @@ export function AdminAnalyticsDashboard() {
 
         // Mock category distribution
         const mockDistribution = [
-          { name: "Self Efficacy", value: 35 },
+          { name: "Self-Efficacy", value: 35 },
           { name: "Emotional Intelligence", value: 25 },
           { name: "Social Awareness", value: 15 },
           { name: "Career Readiness", value: 10 },
@@ -186,7 +186,7 @@ export function AdminAnalyticsDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={[
-                        { category: "Self Efficacy", averageGrowth: stats.averageGrowth.self_efficacy },
+                        { category: "Self-Efficacy", averageGrowth: stats.averageGrowth.self_efficacy },
                         {
                           category: "Emotional Intelligence",
                           averageGrowth: stats.averageGrowth.emotional_intelligence,
