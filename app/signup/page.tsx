@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createBrowserClient } from "@supabase/ssr"
+import { createClient } from "@/lib/supabase/client"
 import { Loader2, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
@@ -22,10 +22,7 @@ export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  const supabase = createClient()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -51,6 +48,12 @@ export default function SignupPage() {
     }
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters")
+      setIsSubmitting(false)
+      return
+    }
+
+    if (!supabase) {
+      setError("Authentication is not configured. Please try again later.")
       setIsSubmitting(false)
       return
     }
