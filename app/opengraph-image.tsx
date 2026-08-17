@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og"
 
-export const alt = "UpSide AI: Someone in your corner, 24/7, for Texas college students"
+export const alt = "UpSide AI: Your AI teammate for college athletes across Texas"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -152,7 +152,7 @@ export default async function OpengraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Built for Texas college students
+            Built for college athletes across Texas
           </div>
           <div
             style={{
@@ -187,7 +187,7 @@ export default async function OpengraphImage() {
               maxWidth: 1000,
             }}
           >
-            On-demand support that helps Texas college students turn opportunity into action.
+            Personalized, on-demand support for college athletes across Texas.
           </div>
         </div>
 

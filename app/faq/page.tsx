@@ -20,7 +20,7 @@ import {
 export const metadata: Metadata = {
   title: "Frequently Asked Questions | UpSide AI",
   description:
-    "Find answers to common questions about UpSide AI's life strategy tools for scholar-athletes from rural communities.",
+    "Find answers to common questions about UpSide AI's personalized, on-demand support for college athletes across Texas.",
 }
 
 const faqCategories = [
@@ -33,22 +33,22 @@ const faqCategories = [
       {
         question: "What is UpSide AI and who is it for?",
         answer:
-          "UpSide AI is a platform designed specifically for scholar-athletes from low-income rural areas. We provide AI-powered life strategy tools to help develop self-efficacy, emotional intelligence, social awareness, and future-focused thinking about career opportunities.",
+          "UpSide AI is personalized, on-demand support for college athletes across Texas. We provide an AI teammate that helps you navigate academics, relationships, opportunities, careers, and life on campus, centered on self-efficacy, emotional intelligence, and career readiness.",
       },
       {
         question: "How do I get started with UpSide AI?",
         answer:
-          "Simply sign up for a free account and complete our brief onboarding assessment. This helps us understand your background, goals, and current challenges so we can personalize your experience. You'll then have access to our AI teammate, assessments, and resource library.",
+          "Just sign up for a free account and start a conversation. There's no long onboarding form. UpSide learns about you naturally as you talk, so it can personalize its guidance to your goals, your sport, and what's actually going on in your life.",
       },
       {
         question: "Is UpSide AI really free?",
         answer:
-          "Yes! UpSide AI is completely free for students. Our mission is to democratize access to life strategy tools, so we don't charge students for any of our core features including the AI teammate, assessments, or resources.",
+          "Yes! UpSide AI is completely free for college athletes. Our mission is to make personalized support available to every athlete, so we don't charge for any of our core features including the AI teammate, assessments, or resources.",
       },
       {
-        question: "Do I need to be a student-athlete to use UpSide AI?",
+        question: "Do I need to be a college athlete to use UpSide AI?",
         answer:
-          "While our platform is designed with scholar-athletes in mind, any student from a rural or low-income background can benefit from our tools. The strategies we teach are valuable for anyone looking to develop life skills and plan for their future.",
+          "UpSide is built for college athletes across Texas, but any college student can benefit from the guidance. The strategies we teach are valuable for anyone navigating college, relationships, and career planning.",
       },
     ],
   },
@@ -61,12 +61,12 @@ const faqCategories = [
       {
         question: "How does the AI teammate work?",
         answer:
-          "Our AI teammate is trained specifically to understand the unique challenges faced by rural scholar-athletes. It provides personalized guidance on academic planning, athletic development, emotional regulation, social situations, and career exploration. The more you interact with it, the better it understands your specific needs.",
+          "Our AI teammate is trained to understand the challenges college athletes face. It provides personalized guidance on academics, athletic development, emotional regulation, relationships, networking, and career exploration. The more you interact with it, the better it understands your specific needs.",
       },
       {
         question: "What kind of questions can I ask the AI teammate?",
         answer:
-          "You can ask about anything related to your personal development: managing stress during competition, balancing academics and athletics, dealing with social situations, planning for college or career, setting goals, or working through emotional challenges. The AI is trained to provide supportive, practical advice.",
+          "You can ask about anything related to your growth: managing pressure in competition, balancing academics and athletics, navigating relationships, building your network, planning your career, setting goals, or working through emotional challenges. The AI is trained to provide supportive, practical advice.",
       },
       {
         question: "Is my conversation with the AI private?",
@@ -76,7 +76,7 @@ const faqCategories = [
       {
         question: "Can the AI teammate replace talking to a counselor or coach?",
         answer:
-          "No, the AI teammate is a supplement to, not a replacement for, human support. While it can provide valuable guidance and strategies, we always encourage you to also talk with trusted adults like counselors, coaches, teachers, or family members about important decisions.",
+          "No, the AI teammate is a supplement to, not a replacement for, human support. While it can provide valuable guidance and strategies, we always encourage you to also talk with the people in your corner, like campus counselors, coaches, professors, academic advisors, career services, or family, about important decisions.",
       },
     ],
   },
@@ -104,7 +104,7 @@ const faqCategories = [
       {
         question: "Are the assessments scientifically validated?",
         answer:
-          "Yes, our assessments are based on established psychological research and validated instruments. They're adapted specifically for the experiences and challenges of rural scholar-athletes while maintaining scientific rigor.",
+          "Yes, our assessments are based on established psychological research and validated instruments. They're adapted specifically for the experiences and challenges of college athletes while maintaining scientific rigor.",
       },
     ],
   },
@@ -120,9 +120,9 @@ const faqCategories = [
           "We use industry-standard encryption and security measures to protect your data. We collect only the information necessary to provide our services, and we never sell or share your personal information with third parties.",
       },
       {
-        question: "Do my parents need to give permission?",
+        question: "Who can access my account and data?",
         answer:
-          "If you're under 18, yes. We require parental consent for minors to use our platform. This ensures parents are aware of and comfortable with their child's participation in our program.",
+          "Only you. UpSide is built for college athletes 18 and older, and your account is yours alone. We never share your information with your school, coaches, or anyone else without your explicit permission.",
       },
       {
         question: "What if I'm having a mental health crisis?",
@@ -132,7 +132,7 @@ const faqCategories = [
       {
         question: "Can my school or coaches see my UpSide AI activity?",
         answer:
-          "No, your activity on UpSide AI is private. We don't share information with schools, coaches, or other third parties unless you explicitly choose to share something or in rare cases where we're legally required to do so for safety reasons.",
+          "No, your activity on UpSide AI is private. We don't share information with your school, athletic department, coaches, or other third parties unless you explicitly choose to share something or in rare cases where we're legally required to do so for safety reasons.",
       },
     ],
   },
@@ -145,12 +145,12 @@ const faqCategories = [
       {
         question: "What devices can I use UpSide AI on?",
         answer:
-          "UpSide AI works on any device with a web browser - smartphones, tablets, laptops, or desktop computers. We've optimized the experience for mobile devices since we know many rural students primarily use smartphones.",
+          "UpSide AI works on any device with a web browser - smartphones, tablets, laptops, or desktop computers. We've optimized the experience for mobile so you can get support anywhere on campus.",
       },
       {
         question: "Do I need a fast internet connection?",
         answer:
-          "No, UpSide AI is designed to work well even with slower rural internet connections. The platform loads efficiently and most features work with basic connectivity.",
+          "No, UpSide AI is designed to work well even on slower connections. The platform loads efficiently and most features work with basic connectivity.",
       },
       {
         question: "What if I'm having technical problems?",
@@ -165,30 +165,30 @@ const faqCategories = [
     ],
   },
   {
-    id: "parents-coaches",
-    title: "For Parents & Coaches",
+    id: "coaches-departments",
+    title: "For Coaches & Athletic Departments",
     icon: Users,
     color: "bg-orange-500/10 text-orange-600",
     questions: [
       {
-        question: "How can parents support their child's use of UpSide AI?",
+        question: "How can coaches support their athletes' use of UpSide AI?",
         answer:
-          "Parents can encourage regular use, ask about what their child is learning, and help them apply the strategies in real life. We also provide resources specifically for parents to understand the platform and support their child's development.",
+          "Coaches can encourage regular use and reinforce the strategies athletes are building. Because individual accounts are private, UpSide works alongside your existing support without adding to your staff's workload.",
       },
       {
-        question: "Can coaches integrate UpSide AI into their programs?",
+        question: "Can athletic departments integrate UpSide AI into their programs?",
         answer:
-          "While individual student accounts are private, coaches can encourage their athletes to use UpSide AI and can access our coaching resources to learn about the strategies we teach. We're developing coach-specific tools for team integration.",
+          "Yes. UpSide extends your student-athlete support infrastructure between human interactions and helps athletes take greater advantage of the resources and relationships your institution already provides. Reach out and we'll help you get set up.",
       },
       {
-        question: "Are there resources for parents who want to learn more?",
+        question: "Are there resources for athletic departments who want to learn more?",
         answer:
-          "Yes! We have a dedicated section for parents with guides on supporting rural scholar-athletes, understanding the challenges they face, and helping them develop life skills. Check out our 'For Parents' resource section.",
+          "Absolutely. We can walk you through how UpSide supports self-efficacy, emotional intelligence, and career readiness, and how it complements the work of your advisors, counselors, and career services. Contact us to learn more.",
       },
       {
-        question: "How do I know if UpSide AI is helping my child?",
+        question: "How do we know if UpSide AI is helping our athletes?",
         answer:
-          "Look for signs like improved confidence, better stress management, clearer goal-setting, and more thoughtful decision-making. Your child can also share their assessment results and progress with you if they choose to.",
+          "Look for signs like improved confidence, better stress management, clearer goal-setting, and more thoughtful decision-making. Athletes can also choose to share their assessment results and progress.",
       },
     ],
   },

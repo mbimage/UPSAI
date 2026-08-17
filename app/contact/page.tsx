@@ -42,17 +42,17 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              We're here to support rural Texas scholar-athletes on their journey to success. Reach out anytime - we'd
+              We're here to support college athletes across Texas on their journey to success. Reach out anytime - we'd
               love to hear from you.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-8">
               <Badge variant="outline" className="border-neon-500/30 text-neon-400">
                 <Heart className="w-3 h-3 mr-1" />
-                Rural Texas Focus
+                Texas Colleges
               </Badge>
               <Badge variant="outline" className="border-electric-500/30 text-electric-400">
                 <Users className="w-3 h-3 mr-1" />
-                Scholar-Athletes
+                College Athletes
               </Badge>
               <Badge variant="outline" className="border-neon-500/30 text-neon-400">
                 <Zap className="w-3 h-3 mr-1" />
@@ -137,11 +137,11 @@ export default function ContactPage() {
                         required
                       >
                         <option value="">Select your role</option>
-                        <option value="student-athlete">Student-Athlete</option>
-                        <option value="parent">Parent/Guardian</option>
+                        <option value="college-athlete">College Athlete</option>
                         <option value="coach">Coach</option>
-                        <option value="educator">Educator</option>
-                        <option value="counselor">School Counselor</option>
+                        <option value="athletic-staff">Athletic Department Staff</option>
+                        <option value="academic-advisor">Academic Advisor</option>
+                        <option value="career-services">Career Services</option>
                         <option value="administrator">Administrator</option>
                         <option value="other">Other</option>
                       </select>
@@ -259,9 +259,9 @@ export default function ContactPage() {
                     <MapPin className="h-6 w-6 text-neon-400 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold mb-1">Serving</h3>
-                      <p className="text-gray-400 mb-1">Rural Texas Communities</p>
+                      <p className="text-gray-400 mb-1">Colleges &amp; Universities Across Texas</p>
                       <p className="text-sm text-gray-500">
-                        Focused on East Texas, Central Texas, and surrounding rural areas
+                        Supporting college athletes throughout the state
                       </p>
                     </div>
                   </div>

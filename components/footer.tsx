@@ -12,8 +12,8 @@ export function Footer() {
               <span className="text-xl font-bold">UpSide AI</span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Empowering rural scholar-athletes in Texas with AI-powered life strategy tools. Building self-efficacy,
-              emotional intelligence, and future-focused thinking for the next generation of leaders.
+              Personalized, on-demand support for college athletes across Texas. Building self-efficacy,
+              emotional intelligence, and career readiness for the next generation of leaders.
             </p>
             <div className="flex gap-2">
               <a href="mailto:support@upsideai.com" aria-label="Email us" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
@@ -79,7 +79,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400">© 2025 UpSide AI. All rights reserved. For rural scholar-athletes in Texas.</p>
+          <p className="text-gray-400">© 2025 UpSide AI. All rights reserved. For college athletes across Texas.</p>
         </div>
       </div>
     </footer>
