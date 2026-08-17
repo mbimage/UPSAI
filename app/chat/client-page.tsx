@@ -120,7 +120,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     if (messages.length === 0) {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hey, I'm UpSide, your teammate beyond the game. Whether it's college decisions, NIL, relationships, career, or just figuring out life after sport, I'm here for it. No forms, no script, so I'll get to know you as we talk. So what's going on with you right now?"
+        "Hey, I'm UpSide, your teammate beyond the game. Whether you're building self-efficacy, strengthening emotional intelligence, preparing for your career, navigating college decisions, NIL, relationships, or figuring out life after sport, I'm here for it. No forms, no script, so I'll get to know you as we talk. So what's going on with you right now?"
 
       setMessages([{ role: "assistant", content: "", id: welcomeId }])
 
@@ -177,6 +177,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           })
           // Navigate to the new conversation URL
           router.replace(`/chat/${newSession.id}`, { scroll: false })
+          // Refresh the sidebar so the new conversation appears in "Your Conversations"
+          setSidebarKey((prev) => prev + 1)
         }
       } catch (error) {
         console.error("Error creating session:", error)
@@ -208,7 +210,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       if (data.conversationTitle && !hasTitle && currentSession?.id) {
         setHasTitle(true)
         try {
-          await chatHistoryService.updateSessionTitle(currentSession.id, data.conversationTitle)
+          await chatHistoryService.updateSessionTitle(currentSession.id, data.conversationTitle, userId ?? undefined)
+          // Refresh the sidebar so the auto-generated title shows up
+          setSidebarKey((prev) => prev + 1)
         } catch (error) {
           console.error("Error updating session title:", error)
         }

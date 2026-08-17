@@ -186,22 +186,45 @@ export async function PATCH(
     }
     
     const body = await request.json()
-    const { title } = body
-    
-    // SECURITY: Validate title input
-    if (!title || typeof title !== "string" || title.length > 200) {
+    const { title, pinned } = body
+
+    // Build the update from whichever supported fields were provided
+    const updates: { title?: string; pinned?: boolean; updatedAt: string } = {
+      updatedAt: new Date().toISOString(),
+    }
+
+    if (title !== undefined) {
+      // SECURITY: Validate title input
+      if (typeof title !== "string" || title.trim().length === 0 || title.length > 200) {
+        return NextResponse.json(
+          { error: "Invalid title" },
+          { status: 400, headers: getSecurityHeaders() }
+        )
+      }
+      updates.title = title.trim()
+    }
+
+    if (pinned !== undefined) {
+      // SECURITY: Validate pinned input
+      if (typeof pinned !== "boolean") {
+        return NextResponse.json(
+          { error: "Invalid pinned value" },
+          { status: 400, headers: getSecurityHeaders() }
+        )
+      }
+      updates.pinned = pinned
+    }
+
+    if (updates.title === undefined && updates.pinned === undefined) {
       return NextResponse.json(
-        { error: "Invalid title" },
+        { error: "Nothing to update" },
         { status: 400, headers: getSecurityHeaders() }
       )
     }
-    
+
     const { data, error } = await supabase
       .from("chat_sessions")
-      .update({ 
-        title, 
-        updatedAt: new Date().toISOString() 
-      })
+      .update(updates)
       .eq("id", conversationId)
       .eq("userId", userId)
       .select()

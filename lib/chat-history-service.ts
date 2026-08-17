@@ -8,6 +8,7 @@ export interface ChatSession {
   updatedAt: string
   messageCount: number
   lastMessage?: string
+  pinned?: boolean
 }
 
 export interface ChatMessage {
@@ -283,6 +284,24 @@ export const localChatHistory = {
     this.saveSessions(sessions)
     localStorage.removeItem(`upside_chat_messages_${sessionId}`)
   },
+
+  renameSession(sessionId: string, title: string): void {
+    const sessions = this.getSessions()
+    const idx = sessions.findIndex((s) => s.id === sessionId)
+    if (idx !== -1) {
+      sessions[idx].title = title
+      this.saveSessions(sessions)
+    }
+  },
+
+  setPinned(sessionId: string, pinned: boolean): void {
+    const sessions = this.getSessions()
+    const idx = sessions.findIndex((s) => s.id === sessionId)
+    if (idx !== -1) {
+      sessions[idx].pinned = pinned
+      this.saveSessions(sessions)
+    }
+  },
 }
 
 export class ChatHistoryService {
@@ -358,6 +377,33 @@ export class ChatHistoryService {
       return true
     } catch (error) {
       console.error("Error updating session title:", error)
+      return false
+    }
+  }
+
+  async setSessionPinned(sessionId: string, pinned: boolean, userId?: string): Promise<boolean> {
+    try {
+      const supabase = createClient()
+
+      let query = supabase
+        .from("chat_sessions")
+        .update({ pinned, updatedAt: new Date().toISOString() })
+        .eq("id", sessionId)
+
+      if (userId) {
+        query = query.eq("userId", userId) // SECURITY: Ownership check
+      }
+
+      const { error } = await query
+
+      if (error) {
+        console.error("Error updating pinned state:", error)
+        return false
+      }
+
+      return true
+    } catch (error) {
+      console.error("Error updating pinned state:", error)
       return false
     }
   }

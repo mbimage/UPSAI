@@ -1,17 +1,12 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { MessageSquare, Plus, Trash2, Search, X, ChevronUp } from "lucide-react"
+import { MessageSquare, Plus, Trash2, Search, X, Pin, PinOff, Pencil, MoreVertical, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
-import {
-  type ChatSession,
-  getChatSessions,
-  deleteChatSession,
-  localChatHistory,
-} from "@/lib/chat-history-service"
+import { type ChatSession, deleteChatSession, localChatHistory, getChatHistoryService } from "@/lib/chat-history-service"
 
 interface ChatHistorySidebarProps {
   currentSessionId?: string
@@ -32,37 +27,60 @@ export function ChatHistorySidebar({
   const [sessions, setSessions] = useState<ChatSession[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true)
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [renamingId, setRenamingId] = useState<string | null>(null)
+  const [renameValue, setRenameValue] = useState("")
+  const renameInputRef = useRef<HTMLInputElement>(null)
+
+  const isGuest = userId === "demo-user"
+  const chatHistoryService = getChatHistoryService()
 
   const handleSessionSelect = (sessionId: string) => {
-    // Navigate to the conversation route
     router.push(`/chat/${sessionId}`)
-    // Also call the callback if provided (for closing mobile sidebar, etc.)
     onSessionSelect?.(sessionId)
   }
 
   const handleNewChat = () => {
-    // Navigate to /chat for new conversation
     router.push("/chat")
-    // Also call the callback if provided
     onNewChat?.()
   }
 
   useEffect(() => {
     loadSessions()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId])
+
+  useEffect(() => {
+    if (renamingId) {
+      renameInputRef.current?.focus()
+      renameInputRef.current?.select()
+    }
+  }, [renamingId])
+
+  // Close the action menu when clicking anywhere else
+  useEffect(() => {
+    if (!openMenuId) return
+    const close = () => setOpenMenuId(null)
+    document.addEventListener("click", close)
+    return () => document.removeEventListener("click", close)
+  }, [openMenuId])
 
   const loadSessions = async () => {
     setIsLoading(true)
     try {
-      if (userId === "demo-user") {
-        const localSessions = localChatHistory.getSessions()
-        setSessions(localSessions)
+      if (isGuest) {
+        setSessions(sortSessions(localChatHistory.getSessions()))
       } else {
-        const userSessions = await getChatSessions(userId)
-        setSessions(userSessions)
+        const res = await fetch("/api/conversations")
+        if (res.ok) {
+          const data = await res.json()
+          setSessions(sortSessions(data.conversations || []))
+        } else {
+          setSessions([])
+        }
       }
     } catch (error) {
-      console.error("Error loading sessions:", error)
+      console.error("Error loading conversations:", error)
     } finally {
       setIsLoading(false)
     }
@@ -70,14 +88,19 @@ export function ChatHistorySidebar({
 
   const handleDeleteSession = async (sessionId: string, e: React.MouseEvent) => {
     e.stopPropagation()
+    setOpenMenuId(null)
 
-    if (userId === "demo-user") {
+    // Optimistic removal
+    setSessions((prev) => prev.filter((s) => s.id !== sessionId))
+
+    if (isGuest) {
       localChatHistory.deleteSession(sessionId)
-      setSessions((prev) => prev.filter((s) => s.id !== sessionId))
     } else {
-      const success = await deleteChatSession(sessionId)
-      if (success) {
-        setSessions((prev) => prev.filter((s) => s.id !== sessionId))
+      try {
+        const res = await fetch(`/api/conversations/${sessionId}`, { method: "DELETE" })
+        if (!res.ok) await deleteChatSession(sessionId, userId)
+      } catch {
+        await deleteChatSession(sessionId, userId)
       }
     }
 
@@ -86,41 +109,224 @@ export function ChatHistorySidebar({
     }
   }
 
+  const handleTogglePin = async (session: ChatSession, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setOpenMenuId(null)
+    const nextPinned = !session.pinned
+
+    setSessions((prev) => sortSessions(prev.map((s) => (s.id === session.id ? { ...s, pinned: nextPinned } : s))))
+
+    if (isGuest) {
+      localChatHistory.setPinned(session.id, nextPinned)
+    } else {
+      try {
+        await fetch(`/api/conversations/${session.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pinned: nextPinned }),
+        })
+      } catch (error) {
+        console.error("Error toggling pin:", error)
+      }
+    }
+  }
+
+  const startRename = (session: ChatSession, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setOpenMenuId(null)
+    setRenamingId(session.id)
+    setRenameValue(session.title || "")
+  }
+
+  const commitRename = async (sessionId: string) => {
+    const title = renameValue.trim()
+    setRenamingId(null)
+    if (!title) return
+
+    setSessions((prev) => prev.map((s) => (s.id === sessionId ? { ...s, title } : s)))
+
+    if (isGuest) {
+      localChatHistory.renameSession(sessionId, title)
+    } else {
+      try {
+        const res = await fetch(`/api/conversations/${sessionId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title }),
+        })
+        if (!res.ok) await chatHistoryService.updateSessionTitle(sessionId, title, userId)
+      } catch {
+        await chatHistoryService.updateSessionTitle(sessionId, title, userId)
+      }
+    }
+  }
+
+  const handleRenameKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, sessionId: string) => {
+    // Respect CJK IME composition before submitting
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return
+    if (e.key === "Enter") {
+      e.preventDefault()
+      commitRename(sessionId)
+    } else if (e.key === "Escape") {
+      e.preventDefault()
+      setRenamingId(null)
+    }
+  }
+
   const filteredSessions = sessions.filter(
     (session) =>
-      session.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      session.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       session.lastMessage?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
-  const groupedSessions = {
-    today: filteredSessions.filter((s) => isToday(s.updatedAt)),
-    yesterday: filteredSessions.filter((s) => isYesterday(s.updatedAt)),
-    thisWeek: filteredSessions.filter(
-      (s) => isThisWeek(s.updatedAt) && !isToday(s.updatedAt) && !isYesterday(s.updatedAt),
-    ),
-    older: filteredSessions.filter((s) => !isThisWeek(s.updatedAt)),
+  const pinned = filteredSessions.filter((s) => s.pinned)
+  const unpinned = filteredSessions.filter((s) => !s.pinned)
+
+  const groupedSessions: Record<string, ChatSession[]> = {
+    today: unpinned.filter((s) => isToday(s.updatedAt)),
+    yesterday: unpinned.filter((s) => isYesterday(s.updatedAt)),
+    thisWeek: unpinned.filter((s) => isThisWeek(s.updatedAt) && !isToday(s.updatedAt) && !isYesterday(s.updatedAt)),
+    older: unpinned.filter((s) => !isThisWeek(s.updatedAt)),
+  }
+
+  const renderSessionItem = (session: ChatSession) => {
+    const isActive = currentSessionId === session.id
+    const isRenaming = renamingId === session.id
+
+    return (
+      <div
+        key={session.id}
+        className={cn(
+          "w-full text-left rounded-lg transition-all duration-200 group relative",
+          isActive
+            ? "bg-gradient-to-r from-neon-500/20 to-electric-500/20 border border-neon-500/30"
+            : "hover:bg-white/5 border border-transparent",
+        )}
+      >
+        <button
+          type="button"
+          className="w-full text-left px-3 py-2.5 rounded-lg"
+          onClick={() => !isRenaming && handleSessionSelect(session.id)}
+        >
+          <div className="relative flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                {session.pinned ? (
+                  <Pin className="w-3 h-3 text-electric-400 flex-shrink-0 fill-current" />
+                ) : (
+                  <MessageSquare className="w-3 h-3 text-neon-400 flex-shrink-0" />
+                )}
+                {isRenaming ? (
+                  <input
+                    ref={renameInputRef}
+                    value={renameValue}
+                    onChange={(e) => setRenameValue(e.target.value)}
+                    onKeyDown={(e) => handleRenameKeyDown(e, session.id)}
+                    onBlur={() => commitRename(session.id)}
+                    onClick={(e) => e.stopPropagation()}
+                    maxLength={200}
+                    className="flex-1 min-w-0 bg-midnight-950 border border-neon-500/40 rounded px-1.5 py-0.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-neon-500/40"
+                  />
+                ) : (
+                  <span className="text-sm font-medium text-white truncate">{session.title || "New conversation"}</span>
+                )}
+              </div>
+              {!isRenaming && session.lastMessage && (
+                <p className="text-xs text-white/40 truncate pl-5">{session.lastMessage}</p>
+              )}
+              {!isRenaming && (
+                <div className="text-[10px] text-white/30 mt-1 pl-5">{formatRelativeTime(session.updatedAt)}</div>
+              )}
+            </div>
+          </div>
+        </button>
+
+        {/* Actions */}
+        {isRenaming ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              commitRename(session.id)
+            }}
+            className="absolute right-2 top-2.5 p-1 rounded text-neon-300 hover:bg-neon-500/20"
+            aria-label="Save name"
+          >
+            <Check className="w-3.5 h-3.5" />
+          </button>
+        ) : (
+          <div className="absolute right-1.5 top-2">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpenMenuId(openMenuId === session.id ? null : session.id)
+              }}
+              className="p-1 rounded text-white/40 hover:text-white hover:bg-white/10 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity data-[open=true]:opacity-100"
+              data-open={openMenuId === session.id}
+              aria-label="Conversation options"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+
+            {openMenuId === session.id && (
+              <div
+                className="absolute right-0 top-8 z-50 w-36 rounded-lg border border-neon-500/20 bg-midnight-900/95 backdrop-blur-md shadow-xl shadow-black/40 py-1"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  onClick={(e) => handleTogglePin(session, e)}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-white/80 hover:bg-white/5"
+                >
+                  {session.pinned ? <PinOff className="w-3.5 h-3.5" /> : <Pin className="w-3.5 h-3.5" />}
+                  {session.pinned ? "Unpin" : "Pin"}
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => startRename(session, e)}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-white/80 hover:bg-white/5"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                  Rename
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => handleDeleteSession(session.id, e)}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-red-400 hover:bg-red-500/10"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    )
   }
 
   return (
     <div className={cn("w-72 bg-midnight-950 border-r border-white/5 flex flex-col", className)}>
-      {/* Minimal Header */}
-      <div className="p-4 border-b border-white/5">
+      {/* Header */}
+      <div className="p-4 border-b border-white/5 space-y-3">
+        <h2 className="text-sm font-semibold text-white/90 px-1">Your Conversations</h2>
         <Button
           onClick={handleNewChat}
           className="w-full bg-gradient-to-r from-neon-500 to-electric-500 hover:from-neon-400 hover:to-electric-400 text-white font-medium rounded-full h-10 transition-all duration-200 hover:scale-[1.02] shadow-lg shadow-neon-500/20"
         >
           <Plus className="w-4 h-4 mr-2" />
-          New Chat
+          New conversation
         </Button>
       </div>
 
-      {/* Minimal Search */}
+      {/* Search */}
       <div className="px-4 py-3 border-b border-white/5">
         <div className="relative">
           <Search className="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search conversations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-8 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:border-neon-500/50 focus:outline-none focus:ring-1 focus:ring-neon-500/20 transition-all"
@@ -129,6 +335,7 @@ export function ChatHistorySidebar({
             <button
               onClick={() => setSearchQuery("")}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+              aria-label="Clear search"
             >
               <X className="w-3 h-3" />
             </button>
@@ -136,7 +343,7 @@ export function ChatHistorySidebar({
         </div>
       </div>
 
-      {/* Sessions List - Minimal & Clean */}
+      {/* Sessions List */}
       <div className="flex-1 overflow-y-auto">
         {isLoading ? (
           <div className="p-3 space-y-2">
@@ -149,67 +356,31 @@ export function ChatHistorySidebar({
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-3">
               <MessageSquare className="w-6 h-6 text-white/30" />
             </div>
-            <p className="text-sm text-white/50">No conversations</p>
+            <p className="text-sm text-white/50">No conversations yet</p>
+            <p className="text-xs text-white/30 mt-1">Start talking and it&apos;ll show up here.</p>
           </div>
         ) : (
           <div className="p-3 space-y-4">
+            {/* Pinned */}
+            {pinned.length > 0 && (
+              <div>
+                <div className="text-[11px] font-medium text-electric-400/70 uppercase tracking-wider mb-2 px-2 flex items-center gap-1">
+                  <Pin className="w-3 h-3 fill-current" />
+                  Pinned
+                </div>
+                <div className="space-y-1">{pinned.map(renderSessionItem)}</div>
+              </div>
+            )}
+
+            {/* Date groups */}
             {Object.entries(groupedSessions).map(([period, periodSessions]) => {
               if (periodSessions.length === 0) return null
-
               return (
                 <div key={period}>
-                  {/* Minimal Period Label */}
                   <div className="text-[11px] font-medium text-white/30 uppercase tracking-wider mb-2 px-2">
                     {period === "thisWeek" ? "This Week" : period}
                   </div>
-
-                  {/* Clean Session Items */}
-                  <div className="space-y-1">
-                    {periodSessions.map((session) => (
-                      <button
-                        key={session.id}
-                        className={cn(
-                          "w-full text-left px-3 py-2.5 rounded-lg transition-all duration-200 group relative overflow-hidden",
-                          currentSessionId === session.id
-                            ? "bg-gradient-to-r from-neon-500/20 to-electric-500/20 border border-neon-500/30"
-                            : "hover:bg-white/5 border border-transparent",
-                        )}
-                        onClick={() => handleSessionSelect(session.id)}
-                      >
-                        {/* Glow effect on active */}
-                        {currentSessionId === session.id && (
-                          <div className="absolute inset-0 bg-gradient-to-r from-neon-500/10 to-electric-500/10 blur-sm" />
-                        )}
-
-                        <div className="relative flex items-start justify-between gap-2">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <MessageSquare className="w-3 h-3 text-neon-400 flex-shrink-0" />
-                              <span className="text-sm font-medium text-white truncate">
-                                {session.title || "New chat"}
-                              </span>
-                            </div>
-                            {session.lastMessage && (
-                              <p className="text-xs text-white/40 truncate pl-5">{session.lastMessage}</p>
-                            )}
-                          </div>
-
-                          {/* Delete button - only show on hover */}
-                          <button
-                            onClick={(e) => handleDeleteSession(session.id, e)}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 p-1 hover:bg-red-500/20 rounded text-red-400 hover:text-red-300"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        </div>
-
-                        {/* Timestamp */}
-                        <div className="text-[10px] text-white/30 mt-1 pl-5">
-                          {formatRelativeTime(session.updatedAt)}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
+                  <div className="space-y-1">{periodSessions.map(renderSessionItem)}</div>
                 </div>
               )
             })}
@@ -217,15 +388,23 @@ export function ChatHistorySidebar({
         )}
       </div>
 
-      {/* Minimal Footer */}
+      {/* Footer */}
       <div className="p-4 border-t border-white/5">
         <div className="flex items-center justify-between text-[11px] text-white/30">
-          <span>{sessions.length} conversations</span>
-          <ChevronUp className="w-3 h-3" />
+          <span>
+            {sessions.length} {sessions.length === 1 ? "conversation" : "conversations"}
+          </span>
         </div>
       </div>
     </div>
   )
+}
+
+function sortSessions(list: ChatSession[]): ChatSession[] {
+  return [...list].sort((a, b) => {
+    if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  })
 }
 
 // Helper functions
