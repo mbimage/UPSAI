@@ -360,12 +360,16 @@ export default function Home() {
       <section className="py-16 md:py-24 px-4 relative overflow-hidden border-t border-neon-500/10">
         <div className="max-w-6xl mx-auto relative z-10">
           <Reveal className="text-center mb-12 md:mb-16">
+            <span className="inline-block px-3 py-1.5 rounded-full bg-neon-500/10 border border-neon-500/20 text-xs md:text-sm font-medium text-neon-400 mb-5">
+              The SEC Framework
+            </span>
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-3 md:mb-4 tracking-tight text-white text-balance">
               A teammate for the whole journey
             </h2>
             <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto px-4 text-pretty leading-relaxed">
-              From your first week on campus to the day you transition out of sport, UpSide grows with you, and three
-              things sit underneath every conversation.
+              UpSide is built on the SEC Framework: Self-Efficacy, Emotional Intelligence, and Career Readiness. (Not
+              the Southeastern Conference.) These are the developmental foundations underneath every conversation, not
+              programs or courses to complete.
             </p>
           </Reveal>
 
@@ -418,6 +422,39 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+
+          {/* E+R=O — navigating the moment */}
+          <Reveal delay={120} className="mt-12 md:mt-16">
+            <div className="max-w-3xl mx-auto bg-midnight-900/50 rounded-2xl border border-neon-500/15 p-6 md:p-8 text-center">
+              <p className="font-display text-lg md:text-xl font-semibold text-white mb-2">
+                In the moment, UpSide thinks in E+R=O
+              </p>
+              <p className="text-sm md:text-base text-gray-400 max-w-xl mx-auto text-pretty leading-relaxed mb-6">
+                When something comes up, UpSide helps you talk it through: Event + Response = Outcome. The SEC Framework
+                develops you over time; E+R=O helps you navigate the moment in front of you.
+              </p>
+              <div className="flex flex-col sm:flex-row items-stretch justify-center gap-3 text-left">
+                <div className="flex-1 bg-neon-500/5 rounded-xl border border-neon-500/15 p-4">
+                  <span className="text-neon-400 font-semibold text-sm">Event</span>
+                  <p className="text-sm text-gray-400 mt-1 leading-relaxed">What happened?</p>
+                </div>
+                <div className="flex items-center justify-center text-neon-400/60 font-bold sm:px-1" aria-hidden="true">
+                  +
+                </div>
+                <div className="flex-1 bg-neon-500/5 rounded-xl border border-neon-500/15 p-4">
+                  <span className="text-neon-400 font-semibold text-sm">Response</span>
+                  <p className="text-sm text-gray-400 mt-1 leading-relaxed">What can you control, and how will you respond?</p>
+                </div>
+                <div className="flex items-center justify-center text-neon-400/60 font-bold sm:px-1" aria-hidden="true">
+                  =
+                </div>
+                <div className="flex-1 bg-neon-500/5 rounded-xl border border-neon-500/15 p-4">
+                  <span className="text-neon-400 font-semibold text-sm">Outcome</span>
+                  <p className="text-sm text-gray-400 mt-1 leading-relaxed">What are you trying to achieve?</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
