@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import { AmbientBackground } from "@/components/ambient-background"
+import { Reveal } from "@/components/reveal"
 
 export default function Home() {
   const pathname = usePathname()
@@ -254,7 +255,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-16 md:py-24 px-4 relative overflow-hidden">
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-12 md:mb-16">
+          <Reveal className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-3 md:mb-4 tracking-tight text-white text-balance">
               What you can talk to UpSide about
             </h2>
@@ -262,35 +263,36 @@ export default function Home() {
               UpSide understands the student-athlete journey. Start a conversation about anything below, or whatever
               is actually on your mind right now.
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {topics.map((topic) => (
-              <Link
-                key={topic.title}
-                href="/chat"
-                className="group flex flex-col bg-midnight-900/50 p-6 rounded-xl border border-neon-500/15 hover:border-neon-500/40 hover:bg-midnight-900/80 transition-all duration-300"
-                aria-label={`Talk to UpSide about ${topic.title}`}
-              >
-                <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-4 group-hover:bg-neon-500/25 transition-colors duration-300">
-                  <svg
-                    className="h-6 w-6 text-neon-400 group-hover:text-electric-400 transition-colors duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.75}
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d={topic.icon} />
-                  </svg>
-                </div>
-                <h3 className="font-display text-lg font-semibold mb-2 tracking-tight text-white group-hover:text-neon-200 transition-colors duration-300">
-                  {topic.title}
-                </h3>
-                <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                  {topic.description}
-                </p>
-              </Link>
+            {topics.map((topic, index) => (
+              <Reveal key={topic.title} delay={index * 80} className="flex">
+                <Link
+                  href="/chat"
+                  className="group flex flex-col flex-1 bg-midnight-900/50 p-6 rounded-xl border border-neon-500/15 hover:border-neon-500/40 hover:bg-midnight-900/80 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(153,51,255,0.15)] transition-all duration-300"
+                  aria-label={`Talk to UpSide about ${topic.title}`}
+                >
+                  <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-4 group-hover:bg-neon-500/25 group-hover:scale-110 transition-all duration-300">
+                    <svg
+                      className="h-6 w-6 text-neon-400 group-hover:text-electric-400 transition-colors duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.75}
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d={topic.icon} />
+                    </svg>
+                  </div>
+                  <h3 className="font-display text-lg font-semibold mb-2 tracking-tight text-white group-hover:text-neon-200 transition-colors duration-300">
+                    {topic.title}
+                  </h3>
+                  <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                    {topic.description}
+                  </p>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -299,7 +301,7 @@ export default function Home() {
       {/* Pillars / Foundations Section */}
       <section className="py-16 md:py-24 px-4 relative overflow-hidden border-t border-neon-500/10">
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-12 md:mb-16">
+          <Reveal className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-3 md:mb-4 tracking-tight text-white text-balance">
               A teammate for the whole journey
             </h2>
@@ -307,15 +309,15 @@ export default function Home() {
               From your first week on campus to the day you transition out of sport, UpSide grows with you, and three
               things sit underneath every conversation.
             </p>
-          </div>
+          </Reveal>
 
           {/* Journey progression */}
           <div className="mb-12 md:mb-16">
             <ol className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 text-sm md:text-base">
               {["Campus life", "Relationships", "Opportunities", "Career", "Transition from sport"].map(
                 (step, index, arr) => (
-                  <li key={step} className="flex items-center gap-3">
-                    <span className="px-4 py-2 rounded-full bg-midnight-900/60 border border-neon-500/20 text-gray-200 font-medium whitespace-nowrap">
+                  <Reveal as="li" key={step} delay={index * 100} className="flex items-center gap-3">
+                    <span className="px-4 py-2 rounded-full bg-midnight-900/60 border border-neon-500/20 text-gray-200 font-medium whitespace-nowrap transition-colors duration-300 hover:border-neon-400/50 hover:text-white">
                       {step}
                     </span>
                     {index < arr.length - 1 && (
@@ -329,7 +331,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     )}
-                  </li>
+                  </Reveal>
                 ),
               )}
             </ol>
@@ -337,26 +339,25 @@ export default function Home() {
 
           {/* The three foundations */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {pillars.map((pillar) => (
-              <div
-                key={pillar.title}
-                className="flex flex-col bg-gradient-to-b from-midnight-900/70 to-midnight-900/30 p-6 md:p-8 rounded-2xl border border-neon-500/20"
-              >
-                <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-5">
-                  <svg
-                    className="h-6 w-6 text-neon-400"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.75}
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d={pillar.icon} />
-                  </svg>
+            {pillars.map((pillar, index) => (
+              <Reveal key={pillar.title} delay={index * 120} className="flex">
+                <div className="group flex flex-col flex-1 bg-gradient-to-b from-midnight-900/70 to-midnight-900/30 p-6 md:p-8 rounded-2xl border border-neon-500/20 hover:border-neon-400/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(153,51,255,0.15)] transition-all duration-300">
+                  <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-5 group-hover:bg-neon-500/25 group-hover:scale-110 transition-all duration-300">
+                    <svg
+                      className="h-6 w-6 text-neon-400 group-hover:text-electric-400 transition-colors duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.75}
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d={pillar.icon} />
+                    </svg>
+                  </div>
+                  <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">{pillar.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{pillar.description}</p>
                 </div>
-                <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">{pillar.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{pillar.description}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -375,17 +376,19 @@ export default function Home() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Main Heading */}
-          <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 leading-[1.05] tracking-tight text-white text-balance">
-            Your teammate{" "}
-            <span className="bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
-              beyond the game
-            </span>
-          </h2>
+          <Reveal>
+            <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 leading-[1.05] tracking-tight text-white text-balance">
+              Your teammate{" "}
+              <span className="bg-gradient-to-r from-neon-400 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite]">
+                beyond the game
+              </span>
+            </h2>
 
-          {/* Subheading */}
-          <p className="text-lg md:text-2xl mb-12 text-gray-300/90 font-medium text-pretty max-w-2xl mx-auto leading-relaxed">
-            No forms, no onboarding. Just start talking, and UpSide learns you along the way.
-          </p>
+            {/* Subheading */}
+            <p className="text-lg md:text-2xl mb-12 text-gray-300/90 font-medium text-pretty max-w-2xl mx-auto leading-relaxed">
+              No forms, no onboarding. Just start talking, and UpSide learns you along the way.
+            </p>
+          </Reveal>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -455,22 +458,26 @@ export default function Home() {
 
           {/* Dual-audience notes */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-            <div className="bg-midnight-900/50 border border-neon-500/20 rounded-2xl p-6">
-              <p className="text-xs font-semibold uppercase tracking-wider text-neon-300 mb-2">For athletes</p>
-              <p className="text-sm text-gray-300 leading-relaxed text-pretty">
-                UpSide fills the gaps between meetings with your advisors, coaches, and mentors, so you can think
-                through the moment while it&apos;s happening.
-              </p>
-            </div>
-            <div className="bg-midnight-900/50 border border-electric-500/20 rounded-2xl p-6">
-              <p className="text-xs font-semibold uppercase tracking-wider text-electric-300 mb-2">
-                For athletic departments
-              </p>
-              <p className="text-sm text-gray-300 leading-relaxed text-pretty">
-                UpSide extends your student-athlete support infrastructure between human interactions and helps athletes
-                take greater advantage of the resources and relationships your institution already provides.
-              </p>
-            </div>
+            <Reveal delay={80} className="flex">
+              <div className="flex-1 bg-midnight-900/50 border border-neon-500/20 rounded-2xl p-6 hover:border-neon-400/40 hover:-translate-y-1 transition-all duration-300">
+                <p className="text-xs font-semibold uppercase tracking-wider text-neon-300 mb-2">For athletes</p>
+                <p className="text-sm text-gray-300 leading-relaxed text-pretty">
+                  UpSide fills the gaps between meetings with your advisors, coaches, and mentors, so you can think
+                  through the moment while it&apos;s happening.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={160} className="flex">
+              <div className="flex-1 bg-midnight-900/50 border border-electric-500/20 rounded-2xl p-6 hover:border-electric-400/40 hover:-translate-y-1 transition-all duration-300">
+                <p className="text-xs font-semibold uppercase tracking-wider text-electric-300 mb-2">
+                  For athletic departments
+                </p>
+                <p className="text-sm text-gray-300 leading-relaxed text-pretty">
+                  UpSide extends your student-athlete support infrastructure between human interactions and helps
+                  athletes take greater advantage of the resources and relationships your institution already provides.
+                </p>
+              </div>
+            </Reveal>
           </div>
 
           {/* Trust Indicators */}
