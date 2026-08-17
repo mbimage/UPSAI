@@ -74,8 +74,9 @@ export async function GET(request: NextRequest) {
     
     const { data, error } = await supabase
       .from("chat_sessions")
-      .select("id, title, updatedAt, messageCount, lastMessage, createdAt")
+      .select("id, title, updatedAt, messageCount, lastMessage, createdAt, pinned")
       .eq("userId", userId)
+      .order("pinned", { ascending: false })
       .order("updatedAt", { ascending: false })
     
     if (error) {
