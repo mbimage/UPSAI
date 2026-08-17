@@ -195,33 +195,32 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for Texas college students · Public &amp; private schools
+              Built for college athletes across Texas
             </span>
           </div>
 
           {/* Main Heading */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-4 md:mb-5 leading-[1.12] tracking-tight text-balance">
             <span className="block pb-1 bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
-              Someone in your
+              Ask your UpSide
             </span>
-            <span className="block w-full max-w-full break-words pb-2 text-4xl sm:text-6xl md:text-7xl bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
-              corner, 24/7.
+            <span className="block w-full max-w-full break-words pb-2 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
+              Teammate.
             </span>
           </h1>
 
-          {/* Availability marker */}
+          {/* Supporting line */}
           <div className="inline-flex items-center gap-2 mb-6 md:mb-8 text-sm text-gray-400">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-neon-400 opacity-75 animate-ping" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-400" />
             </span>
-            Always on. Answers on demand, day or night.
+            Personalized support, day or night.
           </div>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
-            UpSide helps Texas college students turn opportunity into action, navigating college, relationships,
-            careers, and what comes next, with personalized support centered on self-efficacy, emotional intelligence,
-            and career readiness.
+            UpSide helps Texas college athletes navigate academics, relationships, opportunities, careers, and life on
+            campus with personalized, on-demand support.
           </p>
 
           {/* CTA Buttons */}
@@ -233,7 +232,7 @@ export default function Home() {
             >
               <Link href="/chat" className="flex items-center justify-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                <span>Talk to UpSide</span>
+                <span>Ask UpSide</span>
                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
