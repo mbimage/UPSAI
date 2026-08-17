@@ -181,17 +181,17 @@ export default function Home() {
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-midnight-950 via-neon-900/20 to-midnight-950"></div>
 
-        {/* Content */}
-        <div className="relative z-10 text-center max-w-4xl mx-auto pt-12 md:pt-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10 mt-8 md:mt-4">
+        {/* Content — single centered axis with consistent vertical rhythm */}
+        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for Texas college athletes · Public & private schools
+              Built for Texas college athletes · Public &amp; private schools
             </span>
           </div>
 
           {/* Main Heading */}
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.02] tracking-tight text-balance">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-4 md:mb-5 leading-[1.02] tracking-tight text-balance">
             <span className="block bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
               Your 24/7 Teammate
             </span>
@@ -209,13 +209,13 @@ export default function Home() {
             Always on. Answers on demand, day or night.
           </div>
 
-          <p className="text-lg md:text-xl text-gray-300/90 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2 text-pretty">
-            UpSide helps college athletes navigate decisions, relationships, education centered around self efficay,
-            emotional intelligence and career readiness.
+          <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
+            UpSide helps college athletes navigate decisions, relationships, and education, centered on self-efficacy,
+            emotional intelligence, and career readiness.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center mb-12 md:mb-16 px-4">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center mb-10 md:mb-12 w-full sm:w-auto max-w-md sm:max-w-none mx-auto">
             <Button
               asChild
               size="lg"
@@ -242,11 +242,11 @@ export default function Home() {
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 opacity-60 text-sm text-gray-400">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-8 opacity-60 text-sm text-gray-400">
             <span>Available 24/7</span>
-            <span className="hidden sm:inline">•</span>
+            <span className="hidden sm:inline" aria-hidden="true">•</span>
             <span>Private by design</span>
-            <span className="hidden sm:inline">•</span>
+            <span className="hidden sm:inline" aria-hidden="true">•</span>
             <span>Learns you as you talk</span>
           </div>
         </div>
