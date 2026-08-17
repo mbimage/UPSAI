@@ -192,7 +192,7 @@ export default function Home() {
           {/* Main Heading */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.02] tracking-tight text-balance">
             <span className="block bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-clip-text text-transparent">
-              Your 24/7 AI teammate
+              Your 24/7 Teammate
             </span>
             <span className="block bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
               beyond the game.
