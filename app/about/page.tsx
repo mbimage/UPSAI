@@ -336,7 +336,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-3 md:mb-4">Excellence</h3>
                   <p className="text-sm md:text-base text-muted-foreground mb-4">
-                    We provide world-class AI guidance designed specifically for the unique challenges rural athletes
+                    We provide world-class AI guidance designed specifically for the challenges college students
                     face.
                   </p>
                   <Badge className="bg-primary/20 text-primary hover:bg-primary/30">Premium Support</Badge>
@@ -372,7 +372,7 @@ export default function AboutPage() {
               What Makes UpSide AI Different
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
-              UpSide AI isn't just another app. It's a movement built specifically for rural scholar-athletes.
+              UpSide AI isn&apos;t just another app. It&apos;s built specifically for Texas college students.
             </p>
           </div>
 
@@ -384,13 +384,13 @@ export default function AboutPage() {
                     <Users className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-secondary mb-3">
-                    From Cleats to Code: Athlete-Built
+                    From Cleats to Code: Founder-Built
                   </h3>
                   <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    UpSide AI was designed by Marqez Bimage, who experienced firsthand the challenges rural athletes
-                    face. Our platform isn't built from theory alone. It's rooted in real-life experience and a deep
-                    understanding of what it means to balance athletics, academics, and personal growth in
-                    resource-limited environments.
+                    UpSide AI was designed by Marqez Bimage, who experienced firsthand how hard it is to balance
+                    school, growth, and life without support always within reach. Our platform isn&apos;t built from
+                    theory alone. It&apos;s rooted in real-life experience and a deep understanding of what college
+                    students actually navigate.
                   </p>
                 </CardContent>
               </Card>
@@ -404,9 +404,9 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-primary mb-3">Research-Backed Approach</h3>
                   <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    Our AI guidance is informed by established psychological frameworks, including Albert Bandura's
-                    self-efficacy theory and Jack Canfield's E+R=O success principles. We blend evidence-based
-                    strategies with practical, athlete-friendly advice you can actually use.
+                    Our AI guidance is informed by established psychological frameworks, including Albert Bandura&apos;s
+                    self-efficacy theory and Jack Canfield&apos;s E+R=O success principles. We blend evidence-based
+                    strategies with practical, real-world advice you can actually use.
                   </p>
                 </CardContent>
               </Card>
@@ -435,8 +435,9 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-accent mb-3">Community-Driven Growth</h3>
                   <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    Students, coaches, and parents help shape our roadmap through feedback and feature requests. This
-                    isn't built in a Silicon Valley bubble. It's built with and for rural communities.
+                    Students, advisors, and educators help shape our roadmap through feedback and feature requests.
+                    This isn&apos;t built in a Silicon Valley bubble. It&apos;s built with and for Texas college
+                    communities.
                   </p>
                 </CardContent>
               </Card>
@@ -462,7 +463,7 @@ export default function AboutPage() {
                   </h2>
                   <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-secondary to-primary mx-auto rounded-full" />
                   <p className="text-base sm:text-lg md:text-xl text-muted-foreground mt-4 md:mt-6 max-w-3xl mx-auto px-4">
-                    UpSide AI's responses are built on proven psychological frameworks that help athletes develop
+                    UpSide AI&apos;s responses are built on proven psychological frameworks that help students develop
                     resilience and emotional intelligence.
                   </p>
                 </div>
@@ -564,7 +565,7 @@ export default function AboutPage() {
                           <div>
                             <span className="text-secondary font-medium text-sm md:text-base">Safety & Security:</span>
                             <span className="text-muted-foreground text-xs md:text-sm ml-2">
-                              Stability in school, sports, and relationships
+                              Stability in school, finances, and relationships
                             </span>
                           </div>
                         </div>
@@ -578,7 +579,7 @@ export default function AboutPage() {
                               Belonging & Connection:
                             </span>
                             <span className="text-muted-foreground text-xs md:text-sm ml-2">
-                              Building meaningful relationships with teammates, family, and community
+                              Building meaningful relationships with peers, family, and community
                             </span>
                           </div>
                         </div>
