@@ -8,26 +8,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight, Lightbulb } from "lucide-react"
 import type { Scenario } from "@/lib/scenario-library"
 
-// Texas-specific scenarios
+// College-athlete scenarios
 const TEXAS_SCENARIOS = [
   {
-    title: "UIL State Championship Pressure",
-    description: "You're about to compete in the UIL State Championship and feeling overwhelmed by the pressure.",
+    title: "Game Day Pressure",
+    description: "You have a big game coming up and the pressure to perform is starting to feel overwhelming.",
     theme: "performance-anxiety",
   },
   {
-    title: "Balancing Ranch Work and Sports",
-    description: "You're struggling to balance your family ranch responsibilities with your athletic commitments.",
+    title: "Balancing Classes and Your Sport",
+    description: "You're struggling to keep up with your course load while meeting your athletic commitments.",
     theme: "academic-athletic-balance",
   },
   {
-    title: "Small Town Recognition",
-    description: "Everyone in your small town knows you as 'the athlete' and you're feeling the pressure to perform.",
-    theme: "performance-anxiety",
+    title: "Talking to a Professor",
+    description: "You need to ask a professor for an extension after travel for an away game, but you're not sure how.",
+    theme: "communication",
   },
   {
-    title: "College Opportunities from Rural Texas",
-    description: "You're worried about getting noticed by college scouts while attending a small rural school.",
+    title: "Life After the Last Game",
+    description: "You're thinking about your career after college and want to turn connections into opportunities.",
     theme: "career-planning",
   },
 ]
@@ -60,7 +60,7 @@ export function ScenarioSuggestions() {
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
-        <CardDescription>Practice handling real-life situations specific to Texas student-athletes</CardDescription>
+        <CardDescription>Practice handling real-life situations college athletes face</CardDescription>
       </CardHeader>
       <CardContent>
         {showBrowser ? (

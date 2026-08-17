@@ -27,14 +27,14 @@ const FALLBACK_RESPONSES = {
   future:
     "Thinking about your future is smart! Consider: 1) What are your interests beyond sports?, 2) What skills do you want to develop?, 3) Who can mentor you?. What excites you most about your future?",
   grades:
-    "Academic success is just as important as athletic success! Try: 1) Find a study routine that works with your schedule, 2) Ask teachers for help early, 3) Form study groups with teammates. What subject needs the most attention?",
+    "Academic success is just as important as athletic success! Try: 1) Find a study routine that works with your schedule, 2) Go to office hours and ask professors for help early, 3) Form study groups with teammates or classmates. What subject needs the most attention?",
   team: "Being a good teammate is crucial! Focus on: 1) Encouraging others when they struggle, 2) Showing up with positive energy, 3) Accepting your role while working to improve. How do you contribute to your team?",
   nutrition:
     "Fueling your body right makes a huge difference! Basic tips: 1) Eat protein after workouts, 2) Stay hydrated throughout the day, 3) Don't skip meals, especially breakfast. Are you getting enough fuel for your training?",
   sleep:
     "Sleep is when your body recovers and grows stronger! Aim for: 1) 8-9 hours per night, 2) Consistent bed/wake times, 3) No screens 30 minutes before bed. How many hours are you getting?",
   parents:
-    "Parent communication can be challenging! Remember: 1) They want what's best for you, 2) Be honest about how you feel, 3) Ask for their support in specific ways. What's the main issue you're navigating?",
+    "Family communication can be challenging! Remember: 1) They want what's best for you, 2) Be honest about how you feel, 3) Ask for their support in specific ways. What's the main issue you're navigating?",
 }
 
 export async function POST(req: Request) {
