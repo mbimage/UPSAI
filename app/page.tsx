@@ -190,12 +190,12 @@ export default function Home() {
           </div>
 
           {/* Main Heading */}
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.05] tracking-tight text-balance">
-            <span className="bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-clip-text text-transparent">
-              Your AI teammate
-            </span>{" "}
-            <span className="bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
-              beyond the game.
+          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold mb-5 md:mb-6 leading-[0.98] tracking-[-0.04em] text-balance max-w-5xl mx-auto">
+            <span className="block bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-clip-text text-transparent">
+              Your always-on AI teammate
+            </span>
+            <span className="block mt-2 md:mt-3 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
+              for every decision beyond sport.
             </span>
           </h1>
 
