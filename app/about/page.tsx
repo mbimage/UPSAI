@@ -72,7 +72,7 @@ export default function AboutPage() {
             About UpSide AI
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light px-4">
-            Democratizing access to life strategy tools for rural Texans, fostering
+            Personalized, on-demand support for Texas college students, fostering
             <span className="text-secondary font-medium"> self-efficacy</span>,
             <span className="text-primary font-medium"> emotional intelligence</span>, and
             <span className="text-accent font-medium"> career readiness</span>.
@@ -137,9 +137,9 @@ export default function AboutPage() {
                           challenges in developing <span className="text-secondary font-medium">self-efficacy</span>,
                           building <span className="text-primary font-medium">emotional intelligence</span>, and
                           preparing for <span className="text-accent font-medium">career readiness</span> throughout his
-                          academic, social, and athletic journey. He witnessed his teammates struggle with the same
+                          academic, social, and athletic journey. He witnessed peers struggle with the same
                           obstacles, driving him to create a transformative digital tool for the next generation of
-                          athletes.
+                          college students.
                         </p>
                       </motion.div>
 
@@ -194,9 +194,9 @@ export default function AboutPage() {
 
                 <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
                   <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed font-light text-center px-4">
-                    UpSide AI was created to close the gap in access to meaningful technology for rural Texas athletes.
-                    It's more than just an app. It's a{" "}
-                    <span className="text-secondary font-medium">digital teammate</span> offering personalized guidance.
+                    UpSide AI was created to give every Texas college student personalized, on-demand support. It&apos;s
+                    more than just an app. It&apos;s{" "}
+                    <span className="text-secondary font-medium">someone in your corner</span>, 24/7.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
@@ -227,7 +227,7 @@ export default function AboutPage() {
                       size="lg"
                       className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-2xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 px-6 md:px-8 py-5 md:py-6 text-base md:text-lg rounded-xl w-full sm:w-auto"
                     >
-                      <Link href="/chat">Experience Our Platform</Link>
+                      <Link href="/chat">Talk to UpSide</Link>
                     </Button>
                   </div>
                 </div>
@@ -257,9 +257,10 @@ export default function AboutPage() {
                   <div className="w-14 h-14 md:w-16 md:h-16 bg-destructive/10 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:bg-destructive/20 transition-colors duration-300">
                     <Globe className="w-7 h-7 md:w-8 md:h-8 text-destructive" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold text-destructive mb-3 md:mb-4">Geographic Isolation</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-destructive mb-3 md:mb-4">Between the Meetings</h3>
                   <p className="text-sm md:text-base text-muted-foreground">
-                    Rural communities often lack access to advanced coaching resources and networking opportunities.
+                    Questions rarely wait for office hours. The right person often isn&apos;t available the moment a
+                    decision or situation comes up.
                   </p>
                 </CardContent>
               </Card>
@@ -271,9 +272,9 @@ export default function AboutPage() {
                   <div className="w-14 h-14 md:w-16 md:h-16 bg-neon-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 group-hover:bg-neon-500/20 transition-colors duration-300">
                     <Shield className="w-7 h-7 md:w-8 md:h-8 text-neon-400" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold text-neon-400 mb-3 md:mb-4">Resource Gaps</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-neon-400 mb-3 md:mb-4">Stretched Support</h3>
                   <p className="text-sm md:text-base text-muted-foreground">
-                    Fewer guidance counselors, career coaches, and life strategy tools per student.
+                    Advisors, counselors, and career services are stretched thin, with limited time per student.
                   </p>
                 </CardContent>
               </Card>
@@ -287,7 +288,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-electric-400 mb-3 md:mb-4">Confidence Barriers</h3>
                   <p className="text-sm md:text-base text-muted-foreground">
-                    Self-doubt about competing with peers from better-resourced backgrounds.
+                    Self-doubt about belonging, speaking up, and taking the next step in a new environment.
                   </p>
                 </CardContent>
               </Card>
@@ -320,7 +321,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold text-secondary mb-3 md:mb-4">Access</h3>
                   <p className="text-sm md:text-base text-muted-foreground mb-4">
-                    Every student athlete deserves the same opportunities, regardless of their ZIP code.
+                    Every college student deserves the same support, regardless of their background.
                   </p>
                   <Badge className="bg-secondary/20 text-secondary hover:bg-secondary/30">Universal Opportunity</Badge>
                 </CardContent>

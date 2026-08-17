@@ -68,8 +68,9 @@ export function HumanSupport() {
                   <h3 className="text-sm font-semibold text-foreground">People who know you</h3>
                 </div>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  A coach, teacher, school counselor, parent, or another adult you trust. Pick one person and tell them
-                  one true thing about how you&apos;re doing. That first sentence is the hardest part.
+                  A professor, academic advisor, campus counselor, mentor, family member, or someone you trust. Pick
+                  one person and tell them one true thing about how you&apos;re doing. That first sentence is the
+                  hardest part.
                 </p>
               </section>
 
@@ -118,7 +119,7 @@ export function HumanSupport() {
               </section>
 
               <p className="text-xs leading-relaxed text-muted-foreground/80 text-pretty">
-                UpSide is a supportive teammate, not a licensed counselor or emergency service. For anything serious,
+                UpSide is a supportive presence, not a licensed counselor or emergency service. For anything serious,
                 please reach out to a real person who can help.
               </p>
             </div>

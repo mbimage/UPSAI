@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "UpSide AI",
     short_name: "UpSide AI",
-    description: "Your 24/7 Teammate for Scholar-Athletes",
+    description: "Someone in your corner, 24/7, for Texas college students.",
     start_url: "/",
     display: "standalone",
     background_color: "#0a0a0f",
