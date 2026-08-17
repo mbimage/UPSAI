@@ -444,6 +444,26 @@ export default function Home() {
             </Button>
           </div>
 
+          {/* Dual-audience notes */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+            <div className="bg-midnight-900/50 border border-neon-500/20 rounded-2xl p-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-neon-300 mb-2">For athletes</p>
+              <p className="text-sm text-gray-300 leading-relaxed text-pretty">
+                UpSide fills the gaps between meetings with your advisors, coaches, and mentors, so you can think
+                through the moment while it&apos;s happening.
+              </p>
+            </div>
+            <div className="bg-midnight-900/50 border border-electric-500/20 rounded-2xl p-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-electric-300 mb-2">
+                For athletic departments
+              </p>
+              <p className="text-sm text-gray-300 leading-relaxed text-pretty">
+                UpSide extends your student-athlete support infrastructure between human interactions and helps athletes
+                take greater advantage of the resources and relationships your institution already provides.
+              </p>
+            </div>
+          </div>
+
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
             <p className="text-sm text-gray-400">Built for Texas college athletes, public and private schools</p>
