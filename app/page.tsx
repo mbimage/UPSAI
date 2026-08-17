@@ -190,14 +190,23 @@ export default function Home() {
           </div>
 
           {/* Main Heading */}
-          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold mb-5 md:mb-6 leading-[0.98] tracking-[-0.04em] text-balance max-w-5xl mx-auto">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-5 md:mb-6 leading-[1.02] tracking-tight text-balance">
             <span className="block bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-clip-text text-transparent">
-              Your always-on AI teammate
+              Your 24/7 AI teammate
             </span>
-            <span className="block mt-2 md:mt-3 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
-              for every decision beyond sport.
+            <span className="block bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
+              beyond the game.
             </span>
           </h1>
+
+          {/* Availability marker */}
+          <div className="inline-flex items-center gap-2 mb-6 md:mb-8 text-sm text-gray-400">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-neon-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-400" />
+            </span>
+            Always on. Answers on demand, day or night.
+          </div>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2 text-pretty">
             UpSide helps college athletes navigate decisions, relationships, education centered around self efficay,
