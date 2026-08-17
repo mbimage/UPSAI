@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SeamlessAuthProvider } from "@/contexts/seamless-auth-context"
@@ -13,6 +13,13 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700", "800"],
 })
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+  weight: ["500", "600", "700"],
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://upsideai.app"),
   title: {
@@ -20,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | UpSide AI",
   },
   description:
-    "Your AI teammate beyond the game. UpSide helps college student-athletes navigate recruiting, NIL, education, career, and life beyond sport — starting with the SEC.",
+    "Your AI teammate beyond the game. UpSide helps college student-athletes navigate recruiting, NIL, education, career, and life beyond sport, starting with the SEC.",
   applicationName: "UpSide AI",
   generator: "v0.dev",
   manifest: "/manifest.webmanifest",
@@ -31,15 +38,15 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://upsideai.app",
     siteName: "UpSide AI",
-    title: "UpSide AI — Your AI teammate beyond the game",
+    title: "UpSide AI: Your AI teammate beyond the game",
     description:
-      "UpSide helps college student-athletes navigate recruiting, NIL, education, career, and life beyond sport — starting with the SEC.",
+      "UpSide helps college student-athletes navigate recruiting, NIL, education, career, and life beyond sport, starting with the SEC.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "UpSide AI — Your AI teammate beyond the game",
+    title: "UpSide AI: Your AI teammate beyond the game",
     description:
-      "UpSide helps college student-athletes navigate recruiting, NIL, education, career, and life beyond sport — starting with the SEC.",
+      "UpSide helps college student-athletes navigate recruiting, NIL, education, career, and life beyond sport, starting with the SEC.",
   },
 }
 
@@ -58,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body
         className={`${inter.className} font-inter antialiased`}
         style={{ fontFamily: "var(--font-inter), Inter, system-ui, -apple-system, sans-serif" }}

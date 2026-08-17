@@ -20,7 +20,7 @@ import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createBrowserClient } from "@supabase/ssr"
+import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 
 // Dynamically import the login form with client-side only rendering
@@ -42,10 +42,7 @@ export default function LoginClient() {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
   const router = useRouter()
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+  const supabase = createClient()
 
   useEffect(() => {
     // Check if Supabase is available
@@ -64,6 +61,12 @@ export default function LoginClient() {
     e.preventDefault()
     setIsLoading(true)
     setMessage(null)
+
+    if (!supabase) {
+      setMessage({ type: "error", text: "Authentication is not configured. Please try again later." })
+      setIsLoading(false)
+      return
+    }
 
     try {
       const { error } = await supabase.auth.signInWithOtp({
