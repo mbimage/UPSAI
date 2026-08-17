@@ -179,8 +179,8 @@ export default function Home() {
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2 text-pretty">
-            UpSide helps student-athletes navigate college decisions, relationships, education, career preparation,
-            emotional intelligence, self-efficacy, networking, NIL, and life beyond sport.
+            UpSide helps college athletes navigate decisions, relationships, education centered around self efficay,
+            emotional intelligence and career readiness.
           </p>
 
           {/* CTA Buttons */}
