@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowLeft, Target, Heart, Users, Lightbulb } from "lucide-react"
+import { ArrowLeft, Target, Heart, Lightbulb } from "lucide-react"
 
 export default function MissionPage() {
   return (
@@ -21,13 +21,13 @@ export default function MissionPage() {
             Our Mission
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Personalized, on-demand support for college athletes across Texas - fostering self-efficacy, emotional
-            intelligence, reading the room, and career readiness for life on campus and beyond.
+            To help Texas college athletes confidently navigate the moments that shape who they become and what comes
+            next.
           </p>
         </div>
 
-        {/* Core values */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {/* SEC Framework — the philosophy guiding UpSide conversations */}
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
           <Card className="bg-midnight-900 border-neon-500/20">
             <CardContent className="p-6 text-center">
               <Target className="h-12 w-12 text-neon-400 mx-auto mb-4" />
@@ -48,19 +48,9 @@ export default function MissionPage() {
 
           <Card className="bg-midnight-900 border-neon-500/20">
             <CardContent className="p-6 text-center">
-              <Users className="h-12 w-12 text-neon-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Reading the Room</h3>
-              <p className="text-gray-400 text-sm">
-                Learning to navigate social situations and understand group dynamics.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-midnight-900 border-neon-500/20">
-            <CardContent className="p-6 text-center">
-              <Lightbulb className="h-12 w-12 text-electric-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Future-Focused</h3>
-              <p className="text-gray-400 text-sm">Preparing for workforce opportunities and long-term success.</p>
+              <Lightbulb className="h-12 w-12 text-neon-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Career Readiness</h3>
+              <p className="text-gray-400 text-sm">Preparing for opportunities and life after college.</p>
             </CardContent>
           </Card>
         </div>

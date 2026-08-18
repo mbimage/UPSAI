@@ -223,7 +223,7 @@ const HowToUseAI = () => {
                 <h3 className="text-xl font-bold text-cyan-400 mb-2">Career Readiness</h3>
                 <p className="text-slate-400 text-sm mb-3">(Job Skills)</p>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  Develop professional skills and workforce preparation for your future
+                  Develop professional skills and prepare for what comes after college
                 </p>
 
                 <div className="mt-4 flex justify-center">

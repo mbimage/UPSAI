@@ -139,7 +139,7 @@ export default function AboutPage() {
                           preparing for <span className="text-accent font-medium">career readiness</span> throughout his
                           academic, social, and athletic journey. He witnessed peers struggle with the same
                           obstacles, driving him to create a transformative digital tool for the next generation of
-                          college students.
+                          Texas college athletes.
                         </p>
                       </motion.div>
 
@@ -194,8 +194,8 @@ export default function AboutPage() {
 
                 <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
                   <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed font-light text-center px-4">
-                    UpSide AI was created to give every Texas college student personalized, on-demand support. It&apos;s
-                    more than just an app. It&apos;s{" "}
+                    Our mission is to help Texas college athletes confidently navigate the moments that shape who they
+                    become and what comes next. It&apos;s more than just an app. It&apos;s{" "}
                     <span className="text-secondary font-medium">someone in your corner</span>, 24/7.
                   </p>
 
@@ -321,7 +321,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold text-secondary mb-3 md:mb-4">Access</h3>
                   <p className="text-sm md:text-base text-muted-foreground mb-4">
-                    Every college student deserves the same support, regardless of their background.
+                    Every Texas college athlete deserves the same support, regardless of their background.
                   </p>
                   <Badge className="bg-secondary/20 text-secondary hover:bg-secondary/30">Universal Opportunity</Badge>
                 </CardContent>
@@ -336,7 +336,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-3 md:mb-4">Excellence</h3>
                   <p className="text-sm md:text-base text-muted-foreground mb-4">
-                    We provide world-class AI guidance designed specifically for the challenges college students
+                    We provide world-class AI guidance designed specifically for the challenges Texas college athletes
                     face.
                   </p>
                   <Badge className="bg-primary/20 text-primary hover:bg-primary/30">Premium Support</Badge>

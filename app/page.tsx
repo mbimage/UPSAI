@@ -37,7 +37,7 @@ export default function Home() {
     },
     {
       title: "Emotional intelligence",
-      description: "Handle pressure, read the room, and navigate professors, roommates, and family with more confidence.",
+      description: "Handle pressure and navigate professors, roommates, and family with more confidence.",
       icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
     },
     {
@@ -67,7 +67,7 @@ export default function Home() {
     {
       title: "Emotional Intelligence",
       description:
-        "Read the room and handle the hard conversations, from a roommate conflict to talking honestly with an advisor or your family.",
+        "Handle the hard conversations, from a roommate conflict to talking honestly with an advisor or your family.",
       icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
     },
     {
@@ -210,10 +210,10 @@ export default function Home() {
           {/* Main Heading */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-4 md:mb-5 leading-[1.12] tracking-tight text-balance">
             <span className="block pb-1 bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
-              Ask your UpSide
+              Ask UpSide.
             </span>
             <span className="block w-full max-w-full break-words pb-2 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
-              Teammate.
+              Make your next move.
             </span>
           </h1>
 
@@ -227,8 +227,7 @@ export default function Home() {
           </div>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
-            UpSide helps Texas college athletes navigate academics, relationships, opportunities, careers, and life on
-            campus with personalized, on-demand support.
+            A 24/7 conversational tool built for Texas college athletes navigating life on and off campus.
           </p>
 
           {/* CTA Buttons */}
@@ -264,7 +263,7 @@ export default function Home() {
             <span className="hidden sm:inline" aria-hidden="true">•</span>
             <span>Private by design</span>
             <span className="hidden sm:inline" aria-hidden="true">•</span>
-            <span>Learns you as you talk</span>
+            <span>Learns as you talk</span>
           </div>
         </div>
       </section>
@@ -563,21 +562,23 @@ export default function Home() {
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
             <Reveal delay={80} className="flex">
               <div className="flex-1 bg-midnight-900/50 border border-neon-500/20 rounded-2xl p-6 hover:border-neon-400/40 hover:-translate-y-1 transition-all duration-300">
-                <p className="text-xs font-semibold uppercase tracking-wider text-neon-300 mb-2">For students</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-neon-300 mb-2">
+                  For Texas college athletes
+                </p>
                 <p className="text-sm text-gray-300 leading-relaxed text-pretty">
-                  UpSide fills the gaps between meetings with your professors, advisors, and mentors, so you can think
-                  through the moment while it&apos;s happening.
+                  UpSide fills the gaps between meetings with your professors, coaches, advisors, and mentors, so you
+                  can think through the moment while it&apos;s happening.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={160} className="flex">
               <div className="flex-1 bg-midnight-900/50 border border-electric-500/20 rounded-2xl p-6 hover:border-electric-400/40 hover:-translate-y-1 transition-all duration-300">
                 <p className="text-xs font-semibold uppercase tracking-wider text-electric-300 mb-2">
-                  For colleges &amp; universities
+                  For Texas athletic departments
                 </p>
                 <p className="text-sm text-gray-300 leading-relaxed text-pretty">
-                  UpSide extends your student support infrastructure between human interactions and helps students
-                  take greater advantage of the resources and relationships your institution already provides.
+                  UpSide extends your athlete support infrastructure between human interactions and helps athletes
+                  take greater advantage of the resources and relationships your program already provides.
                 </p>
               </div>
             </Reveal>
@@ -734,8 +735,8 @@ export default function Home() {
           <div className="border-t border-neon-500/10 pt-8 text-center">
             <p className="text-gray-400 text-sm">© {new Date().getFullYear()} UpSide AI. All rights reserved.</p>
             <p className="text-gray-500 text-xs mt-2">
-              <span className="text-white font-medium">Our Mission:</span> Fostering self-efficacy, emotional
-              intelligence, reading the room, and future-focused thinking about the workforce.
+              <span className="text-white font-medium">Our Mission:</span> Helping Texas college athletes confidently
+              navigate the moments that shape who they become and what comes next.
             </p>
           </div>
         </div>
