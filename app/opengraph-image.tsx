@@ -157,12 +157,14 @@ export default async function OpengraphImage() {
           }}
         >
           <div style={{ display: "flex" }}>Up</div>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ display: "flex" }}>Side</div>
+          <div style={{ display: "flex", position: "relative" }}>
+            Side
             <div
               style={{
                 display: "flex",
-                marginTop: 6,
+                position: "absolute",
+                left: 0,
+                bottom: -14,
                 width: "100%",
                 height: 8,
                 borderRadius: 999,
