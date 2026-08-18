@@ -34,53 +34,70 @@ export default async function OpengraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          padding: 70,
           backgroundColor: "hsl(220, 26%, 4%)",
+          backgroundImage:
+            "radial-gradient(circle at 15% 12%, hsla(270, 100%, 62%, 0.55), transparent 42%), radial-gradient(circle at 88% 90%, hsla(195, 100%, 55%, 0.5), transparent 45%), radial-gradient(circle at 90% 8%, hsla(320, 100%, 62%, 0.28), transparent 40%)",
           fontFamily: "Inter",
+          position: "relative",
         }}
       >
-        {/* Brand emblem */}
-        <svg width="128" height="128" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="brandGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor={PURPLE} />
-              <stop offset="100%" stopColor={CYAN} />
-            </linearGradient>
-          </defs>
-          <circle
-            cx="14"
-            cy="14"
-            r="11"
-            fill="url(#brandGrad)"
-            fillOpacity="0.16"
-            stroke="url(#brandGrad)"
-            strokeWidth="1.2"
-            strokeOpacity="0.6"
-          />
-          <path
-            d="M9 16L14 11L19 16"
-            stroke="url(#brandGrad)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 17L14 13L18 17"
-            stroke="url(#brandGrad)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeOpacity="0.7"
-          />
-        </svg>
+        {/* Glow ring behind emblem */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 168,
+            height: 168,
+            borderRadius: 999,
+            backgroundColor: "hsla(270, 100%, 65%, 0.14)",
+            border: "2px solid hsla(270, 100%, 80%, 0.35)",
+          }}
+        >
+          <svg width="110" height="110" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brandGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor={PURPLE} />
+                <stop offset="100%" stopColor={CYAN} />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="14"
+              cy="14"
+              r="11"
+              fill="url(#brandGrad)"
+              fillOpacity="0.18"
+              stroke="url(#brandGrad)"
+              strokeWidth="1.2"
+              strokeOpacity="0.7"
+            />
+            <path
+              d="M9 16L14 11L19 16"
+              stroke="url(#brandGrad)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 17L14 13L18 17"
+              stroke="url(#brandGrad)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeOpacity="0.7"
+            />
+          </svg>
+        </div>
 
         {/* Wordmark */}
         <div
           style={{
             display: "flex",
-            marginTop: 32,
-            fontSize: 104,
+            marginTop: 28,
+            fontSize: 128,
             fontWeight: 800,
-            letterSpacing: -3,
+            letterSpacing: -4,
             backgroundImage: GRAD,
             backgroundClip: "text",
             WebkitBackgroundClip: "text",
@@ -90,17 +107,21 @@ export default async function OpengraphImage() {
           UpSide AI
         </div>
 
-        {/* Tagline */}
+        {/* Description */}
         <div
           style={{
             display: "flex",
-            marginTop: 12,
-            color: "hsl(0, 0%, 72%)",
-            fontSize: 34,
+            marginTop: 22,
+            textAlign: "center",
+            color: "hsl(0, 0%, 86%)",
+            fontSize: 33,
             fontWeight: 500,
+            lineHeight: 1.35,
+            maxWidth: 1000,
           }}
         >
-          Your AI teammate
+          An on-demand tool that helps Texas college athletes navigate academics, relationships, opportunities,
+          careers, and life on campus with personalized support.
         </div>
       </div>
     ),
