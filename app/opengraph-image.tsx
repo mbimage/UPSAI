@@ -51,7 +51,10 @@ export default async function OpengraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: 70,
+          paddingTop: 56,
+          paddingBottom: 104,
+          paddingLeft: 70,
+          paddingRight: 70,
           backgroundColor: "hsl(220, 26%, 4%)",
           backgroundImage:
             "radial-gradient(circle at 12% 10%, hsla(270, 100%, 62%, 0.6), transparent 40%), radial-gradient(circle at 90% 92%, hsla(195, 100%, 55%, 0.55), transparent 42%), radial-gradient(circle at 92% 6%, hsla(270, 100%, 62%, 0.35), transparent 38%), radial-gradient(circle at 6% 88%, hsla(195, 100%, 60%, 0.3), transparent 40%)",
@@ -146,8 +149,8 @@ export default async function OpengraphImage() {
           style={{
             display: "flex",
             alignItems: "flex-end",
-            marginTop: 26,
-            fontSize: 122,
+            marginTop: 24,
+            fontSize: 106,
             fontWeight: 800,
             letterSpacing: -4,
             backgroundImage: GRAD,
@@ -163,39 +166,43 @@ export default async function OpengraphImage() {
               style={{
                 display: "flex",
                 position: "absolute",
-                left: 0,
-                bottom: -14,
-                width: "100%",
-                height: 8,
+                left: "50%",
+                bottom: -12,
+                width: "84%",
+                height: 7,
                 borderRadius: 999,
                 backgroundImage: GRAD,
+                transform: "translateX(-50%)",
               }}
             />
           </div>
-          <div style={{ display: "flex", marginLeft: 28 }}>AI</div>
+          <div style={{ display: "flex", marginLeft: 24 }}>AI</div>
         </div>
 
         {/* Description */}
         <div
           style={{
             display: "flex",
-            marginTop: 20,
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: 30,
             textAlign: "center",
             color: "hsl(0, 0%, 88%)",
-            fontSize: 30,
+            fontSize: 31,
             fontWeight: 500,
-            lineHeight: 1.35,
-            maxWidth: 940,
+            lineHeight: 1.45,
+            maxWidth: 860,
           }}
         >
-          An on-demand tool helping Texas college athletes navigate life on and off campus with personalized support.
+          <div style={{ display: "flex" }}>A 24/7 conversational tool built for Texas college</div>
+          <div style={{ display: "flex" }}>athletes navigating life on and off campus.</div>
         </div>
 
         {/* Topic chips */}
         <div
           style={{
             display: "flex",
-            marginTop: 34,
+            marginTop: 52,
             gap: 14,
           }}
         >
