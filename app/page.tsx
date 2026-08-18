@@ -210,7 +210,15 @@ export default function Home() {
           {/* Main Heading */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-4 md:mb-5 leading-[1.12] tracking-tight text-balance">
             <span className="block pb-2 bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
-              Ask UpSide.
+              Up
+              <span className="relative">
+                Side
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-1 w-[84%] rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
+                />
+              </span>
+              .
             </span>
           </h1>
 
