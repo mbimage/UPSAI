@@ -28,7 +28,7 @@ export function Header() {
               {/* UpSide AI text */}
               <span className="text-lg md:text-2xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
                 Up
-                <span className="relative">
+                <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
                   Side
                   <span
                     aria-hidden="true"
@@ -147,7 +147,7 @@ export function Header() {
                     <div className="flex items-center space-x-2">
                       <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
                         Up
-                        <span className="relative">
+                        <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
                           Side
                           <span
                             aria-hidden="true"

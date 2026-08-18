@@ -124,7 +124,7 @@ export default function Home() {
               </div>
               <span className="font-display text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
                 Up
-                <span className="relative">
+                <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
                   Side
                   <span
                     aria-hidden="true"
@@ -605,7 +605,7 @@ export default function Home() {
                   {/* UpSide AI text */}
                   <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
                     Up
-                    <span className="relative">
+                    <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
                       Side
                       <span
                         aria-hidden="true"

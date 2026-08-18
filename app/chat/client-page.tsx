@@ -424,7 +424,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           {/* Title - Centered */}
           <h1 className="text-sm md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent max-w-[140px] sm:max-w-none">
             Up
-            <span className="relative">
+            <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
               Side
               <span
                 aria-hidden="true"

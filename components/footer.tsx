@@ -11,7 +11,7 @@ export function Footer() {
             <div className="flex items-center space-x-2 mb-4">
               <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
                 Up
-                <span className="relative">
+                <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
                   Side
                   <span
                     aria-hidden="true"
