@@ -132,7 +132,7 @@ export default function AboutPage() {
                         variants={fadeInUp}
                       >
                         <p className="text-muted-foreground leading-relaxed text-sm md:text-base lg:text-lg">
-                          Marqez Bimage is a fifth-generation Texan and a proud alumnus of the University of Texas at
+                          Marqez Bimage is a Texas native and a proud alumnus of the University of Texas at
                           Austin and the University of California, Berkeley. As a Pell Grant recipient, he faced
                           challenges in developing <span className="text-secondary font-medium">self-efficacy</span>,
                           building <span className="text-primary font-medium">emotional intelligence</span>, and
