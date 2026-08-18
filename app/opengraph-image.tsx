@@ -19,7 +19,6 @@ async function loadInter(weight: number) {
 // Brand gradient matching the site: neon-400 (purple) -> electric-400 (cyan)
 const PURPLE = "hsl(270, 100%, 70%)"
 const CYAN = "hsl(195, 100%, 65%)"
-const PINK = "hsl(320, 100%, 68%)"
 const GRAD = `linear-gradient(120deg, ${PURPLE}, ${CYAN})`
 
 // Scattered glowing accent dots that add a sense of motion/energy.
@@ -27,18 +26,16 @@ const DOTS: { x: number; y: number; r: number; color: string; opacity: number }[
   { x: 120, y: 90, r: 8, color: PURPLE, opacity: 0.9 },
   { x: 1040, y: 130, r: 10, color: CYAN, opacity: 0.85 },
   { x: 220, y: 470, r: 7, color: CYAN, opacity: 0.7 },
-  { x: 970, y: 500, r: 9, color: PINK, opacity: 0.8 },
+  { x: 970, y: 500, r: 9, color: PURPLE, opacity: 0.8 },
   { x: 1120, y: 320, r: 6, color: PURPLE, opacity: 0.65 },
-  { x: 80, y: 300, r: 6, color: PINK, opacity: 0.6 },
+  { x: 80, y: 300, r: 6, color: CYAN, opacity: 0.6 },
 ]
 
-// Topic chips conveying what UpSide covers.
+// Framework pillar chips.
 const CHIPS: { label: string; color: string }[] = [
-  { label: "Academics", color: PURPLE },
-  { label: "Relationships", color: CYAN },
-  { label: "Opportunities", color: PINK },
-  { label: "Careers", color: PURPLE },
-  { label: "Campus Life", color: CYAN },
+  { label: "Self-Efficacy", color: PURPLE },
+  { label: "Emotional Intelligence", color: CYAN },
+  { label: "Career Readiness", color: PURPLE },
 ]
 
 export default async function OpengraphImage() {
@@ -57,7 +54,7 @@ export default async function OpengraphImage() {
           padding: 70,
           backgroundColor: "hsl(220, 26%, 4%)",
           backgroundImage:
-            "radial-gradient(circle at 12% 10%, hsla(270, 100%, 62%, 0.6), transparent 40%), radial-gradient(circle at 90% 92%, hsla(195, 100%, 55%, 0.55), transparent 42%), radial-gradient(circle at 92% 6%, hsla(320, 100%, 62%, 0.4), transparent 38%), radial-gradient(circle at 6% 88%, hsla(195, 100%, 60%, 0.28), transparent 40%)",
+            "radial-gradient(circle at 12% 10%, hsla(270, 100%, 62%, 0.6), transparent 40%), radial-gradient(circle at 90% 92%, hsla(195, 100%, 55%, 0.55), transparent 42%), radial-gradient(circle at 92% 6%, hsla(270, 100%, 62%, 0.35), transparent 38%), radial-gradient(circle at 6% 88%, hsla(195, 100%, 60%, 0.3), transparent 40%)",
           fontFamily: "Inter",
           position: "relative",
         }}
