@@ -141,10 +141,11 @@ export default async function OpengraphImage() {
           </svg>
         </div>
 
-        {/* Wordmark */}
+        {/* Wordmark with underline under just "Side" */}
         <div
           style={{
             display: "flex",
+            alignItems: "flex-end",
             marginTop: 26,
             fontSize: 122,
             fontWeight: 800,
@@ -155,29 +156,31 @@ export default async function OpengraphImage() {
             color: "transparent",
           }}
         >
-          UpSide AI
+          <div style={{ display: "flex" }}>Up</div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex" }}>Side</div>
+            <div
+              style={{
+                display: "flex",
+                marginTop: 6,
+                width: "100%",
+                height: 8,
+                borderRadius: 999,
+                backgroundImage: GRAD,
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", marginLeft: 28 }}>AI</div>
         </div>
-
-        {/* Gradient underline accent */}
-        <div
-          style={{
-            display: "flex",
-            marginTop: 8,
-            width: 220,
-            height: 6,
-            borderRadius: 999,
-            backgroundImage: GRAD,
-          }}
-        />
 
         {/* Description */}
         <div
           style={{
             display: "flex",
-            marginTop: 24,
+            marginTop: 20,
             textAlign: "center",
             color: "hsl(0, 0%, 88%)",
-            fontSize: 31,
+            fontSize: 30,
             fontWeight: 500,
             lineHeight: 1.35,
             maxWidth: 940,
@@ -190,7 +193,7 @@ export default async function OpengraphImage() {
         <div
           style={{
             display: "flex",
-            marginTop: 30,
+            marginTop: 34,
             gap: 14,
           }}
         >
