@@ -26,9 +26,15 @@ export function Header() {
           >
             <div className="flex items-center space-x-2">
               {/* UpSide AI text */}
-              <span className="text-lg md:text-2xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
-                UpSide AI
-              </span>
+              <div className="flex flex-col">
+                <span className="text-lg md:text-2xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
+                  UpSide AI
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400 group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300"
+                />
+              </div>
               {/* Compact chevron emblem */}
               <div className="relative">
                 <svg
@@ -137,9 +143,15 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                   >
                     <div className="flex items-center space-x-2">
-                      <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
-                        UpSide AI
-                      </span>
+                      <div className="flex flex-col">
+                        <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
+                          UpSide AI
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="mt-0.5 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400 group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300"
+                        />
+                      </div>
                       <div className="relative">
                         <svg
                           width="28"

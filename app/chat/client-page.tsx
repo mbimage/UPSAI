@@ -422,9 +422,15 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           </div>
           
           {/* Title - Centered */}
-          <h1 className="text-sm md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent truncate max-w-[140px] sm:max-w-none">
-            UpSide AI
-          </h1>
+          <div className="flex flex-col items-center">
+            <h1 className="text-sm md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent truncate max-w-[140px] sm:max-w-none">
+              UpSide AI
+            </h1>
+            <span
+              aria-hidden="true"
+              className="mt-0.5 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
+            />
+          </div>
           
           {/* Right-side actions */}
           <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
