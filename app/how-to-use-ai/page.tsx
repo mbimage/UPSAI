@@ -67,7 +67,7 @@ const HowToUseAI = () => {
             className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent mb-8 tracking-tight"
             variants={fadeInUp}
           >
-            AI for Scholar-Athletes
+            AI for College Athletes
           </motion.h1>
           <motion.div className="max-w-5xl mx-auto" variants={fadeInUp}>
             <motion.p
@@ -740,7 +740,7 @@ const HowToUseAI = () => {
               Ready to Level Up?
             </h2>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6">
-              AI gives scholar-athletes the competitive edge needed to excel in academics, athletics, and life.
+              AI gives college athletes the competitive edge needed to excel in academics, athletics, and life.
             </p>
 
             {/* Chat Link */}

@@ -72,7 +72,7 @@ export default function AboutPage() {
             About UpSide AI
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light px-4">
-            Personalized, on-demand support for Texas college students, fostering
+            Personalized, on-demand support for college athletes across Texas, fostering
             <span className="text-secondary font-medium"> self-efficacy</span>,
             <span className="text-primary font-medium"> emotional intelligence</span>, and
             <span className="text-accent font-medium"> career readiness</span>.
@@ -372,7 +372,7 @@ export default function AboutPage() {
               What Makes UpSide AI Different
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
-              UpSide AI isn&apos;t just another app. It&apos;s built specifically for Texas college students.
+              UpSide AI isn&apos;t just another app. It&apos;s built specifically for college athletes across Texas.
             </p>
           </div>
 

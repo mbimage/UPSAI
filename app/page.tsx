@@ -577,7 +577,7 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for Texas college students, public and private schools</p>
+            <p className="text-sm text-gray-400">Built for college athletes across Texas</p>
           </div>
         </div>
       </section>
@@ -661,8 +661,8 @@ export default function Home() {
                 </div>
               </Link>
               <p className="text-gray-400 mb-4 max-w-md">
-                Someone in your corner, 24/7, helping Texas college students navigate college, relationships,
-                opportunities, careers, and what comes next.
+                Personalized, on-demand support for college athletes across Texas, navigating academics,
+                relationships, opportunities, careers, and life on campus.
               </p>
             </div>
             <div>
