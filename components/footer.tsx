@@ -9,15 +9,17 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="flex flex-col">
-                <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
-                  UpSide AI
+              <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
+                Up
+                <span className="relative">
+                  Side
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 -bottom-1 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
+                  />
                 </span>
-                <span
-                  aria-hidden="true"
-                  className="mt-0.5 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
-                />
-              </div>
+                {" AI"}
+              </span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
               Personalized, on-demand support for college athletes across Texas. Building self-efficacy,

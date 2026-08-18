@@ -122,14 +122,16 @@ export default function Home() {
                   <path d="M10 17L14 13L18 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.4" />
                 </svg>
               </div>
-              <span className="flex flex-col">
-                <span className="font-display text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
-                  UpSide AI
+              <span className="font-display text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent leading-none">
+                Up
+                <span className="relative">
+                  Side
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 -bottom-1 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
+                  />
                 </span>
-                <span
-                  aria-hidden="true"
-                  className="mt-1 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
-                />
+                {" AI"}
               </span>
               <span className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider bg-neon-500/10 border border-neon-500/30 text-neon-300 rounded-full leading-none">
                 Beta
@@ -601,14 +603,16 @@ export default function Home() {
               >
                 <div className="flex items-center space-x-4">
                   {/* UpSide AI text */}
-                  <span className="flex flex-col">
-                    <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
-                      UpSide AI
+                  <span className="text-xl font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300">
+                    Up
+                    <span className="relative">
+                      Side
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-0 -bottom-1 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400 group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300"
+                      />
                     </span>
-                    <span
-                      aria-hidden="true"
-                      className="mt-0.5 h-0.5 w-full rounded-full bg-gradient-to-r from-neon-400 to-electric-400 group-hover:from-neon-300 group-hover:to-electric-300 transition-all duration-300"
-                    />
+                    {" AI"}
                   </span>
                   {/* Prominent chevron emblem */}
                   <div className="relative">
