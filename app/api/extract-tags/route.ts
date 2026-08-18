@@ -33,9 +33,9 @@ export async function POST(req: Request) {
           {
             role: "system",
             content: `You are a tag extraction system. Extract 3-5 relevant tags from the given text.
-            Focus on topics related to sports, education, rural communities, self-efficacy, emotional intelligence, 
+            Focus on topics related to college athletics, academics, campus life, self-efficacy, emotional intelligence, 
             and career readiness. Return ONLY an array of lowercase tags without any explanation.
-            Example output: ["confidence", "team-dynamics", "leadership", "rural-resources"]`,
+            Example output: ["confidence", "team-dynamics", "leadership", "career-prep"]`,
           },
           {
             role: "user",

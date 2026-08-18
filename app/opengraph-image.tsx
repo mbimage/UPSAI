@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og"
 
-export const alt = "UpSide AI: Your 24/7 Teammate"
+export const alt = "UpSide AI: Your AI teammate for college athletes across Texas"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -131,7 +131,7 @@ export default async function OpengraphImage() {
 
         {/* Headline block */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {/* SEC eyebrow */}
+          {/* Audience eyebrow */}
           <div
             style={{
               display: "flex",
@@ -152,7 +152,7 @@ export default async function OpengraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Social-Emotional Competence
+            Built for college athletes across Texas
           </div>
           <div
             style={{
@@ -164,7 +164,7 @@ export default async function OpengraphImage() {
               lineHeight: 1.0,
             }}
           >
-            <div style={{ display: "flex", color: "hsl(0, 0%, 98%)" }}>Your 24/7</div>
+            <div style={{ display: "flex", color: "hsl(0, 0%, 98%)" }}>Someone in</div>
             <div
               style={{
                 display: "flex",
@@ -174,7 +174,7 @@ export default async function OpengraphImage() {
                 color: "transparent",
               }}
             >
-              Teammate
+              your corner, 24/7
             </div>
           </div>
           <div
@@ -187,11 +187,11 @@ export default async function OpengraphImage() {
               maxWidth: 1000,
             }}
           >
-            An AI teammate that grows student-athletes' social-emotional competence, on and off the field.
+            Personalized, on-demand support for college athletes across Texas.
           </div>
         </div>
 
-        {/* Competency badge row: the three pillars of SEC */}
+        {/* Competency badge row: the three pillars of the SEC Framework */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div
             style={{
@@ -203,7 +203,7 @@ export default async function OpengraphImage() {
               textTransform: "uppercase",
             }}
           >
-            The three pillars of SEC
+            The SEC Framework
           </div>
           <div style={{ display: "flex", gap: 16 }}>
             <Badge label="Self-Efficacy" />

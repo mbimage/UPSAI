@@ -21,8 +21,8 @@ export default function MissionPage() {
             Our Mission
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Democratizing access to life strategy tools for scholar-athletes from low-income rural areas - fostering
-            self-efficacy, emotional intelligence, reading the room, and future-focused thinking about the workforce.
+            Personalized, on-demand support for college athletes across Texas - fostering self-efficacy, emotional
+            intelligence, reading the room, and career readiness for life on campus and beyond.
           </p>
         </div>
 
@@ -71,19 +71,20 @@ export default function MissionPage() {
             <h2 className="text-2xl font-bold mb-6 text-center">Why We Exist</h2>
             <div className="space-y-6 text-gray-300">
               <p>
-                Rural scholar-athletes face unique challenges that urban students rarely encounter. Limited access to
-                resources, fewer mentorship opportunities, and geographic isolation can create barriers to personal and
-                professional development.
+                College athletes juggle demands that most students never face: the pressure of competition, packed
+                schedules, and constant decisions about academics, relationships, and their future. Support from
+                coaches, advisors, and counselors is invaluable, but it isn't always available the moment a question or
+                situation comes up.
               </p>
               <p>
-                At UpSide AI, we believe that every student-athlete deserves access to the tools and guidance needed to
+                At UpSide AI, we believe that every college athlete deserves access to the tools and guidance needed to
                 develop crucial life skills. Our AI-powered platform serves as a personalized teammate and mentor,
-                available 24/7 to help rural scholar-athletes build the emotional intelligence, self-efficacy, and
-                strategic thinking skills they need to succeed both on and off the field.
+                available 24/7 to help athletes build the emotional intelligence, self-efficacy, and career readiness
+                they need to succeed both on and off the field.
               </p>
               <p>
                 We're not just building technology - we're building bridges to opportunity, creating pathways to
-                success, and ensuring that talent and potential aren't limited by zip code or economic circumstances.
+                success, and making sure talent and potential aren't limited by who happens to be available.
               </p>
             </div>
           </CardContent>
@@ -93,7 +94,7 @@ export default function MissionPage() {
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Ready to Start Your Journey?</h2>
           <p className="text-gray-400 mb-6">
-            Join thousands of scholar-athletes who are already using UpSide AI to unlock their potential.
+            Join the college athletes across Texas who are already using UpSide AI to unlock their potential.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="bg-neon-600 hover:bg-neon-700">

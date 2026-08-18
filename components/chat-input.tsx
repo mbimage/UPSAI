@@ -27,7 +27,7 @@ export function ChatInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { toast } = useToast()
 
-  // Check for offline status - important for rural areas with spotty connectivity
+  // Check for offline status - handle spotty connectivity gracefully
   useEffect(() => {
     const handleOnlineStatus = () => setIsOffline(!navigator.onLine)
 
@@ -105,7 +105,7 @@ export function ChatInput({
 
       // Simulating voice recognition result after 3 seconds
       setTimeout(() => {
-        setMessage((prev) => prev + " I'm a student-athlete from rural Texas looking for advice.")
+        setMessage((prev) => prev + " I'm a college athlete looking for advice.")
         setIsRecording(false)
       }, 3000)
     }

@@ -41,10 +41,11 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-2xl font-bold text-white mb-4">Student Privacy</h2>
+                  <h2 className="text-2xl font-bold text-white mb-4">Eligibility &amp; Privacy</h2>
                   <p>
-                    We take student privacy seriously and comply with applicable privacy laws including FERPA and COPPA.
-                    For users under 18, parental consent is required before creating an account.
+                    UpSide AI is intended for college athletes who are 18 years of age or older. We take your privacy
+                    seriously and comply with applicable privacy laws. Your account and conversations are yours, and we
+                    never share them with your school, athletic department, or coaches without your explicit consent.
                   </p>
                 </section>
 

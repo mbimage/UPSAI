@@ -137,7 +137,7 @@ export default function LoginClient() {
                       <Input
                         id="email"
                         type="email"
-                        placeholder="athlete@school.edu"
+                        placeholder="you@school.edu"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
