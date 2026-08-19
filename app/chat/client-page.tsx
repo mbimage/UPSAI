@@ -5,11 +5,11 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, User, Plus, Menu, ArrowLeft } from "lucide-react"
+import { Send, Plus, Menu, ArrowLeft } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
-import { KeyPlaySpotlight } from "@/components/key-play-spotlight"
+import { UpsideResponse } from "@/components/upside-response"
 import { HumanSupport } from "@/components/human-support"
 import { AmbientBackground } from "@/components/ambient-background"
 import { cn } from "@/lib/utils"
@@ -122,19 +122,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       const fullMessage =
         "Hey, I'm UpSide, someone in your corner, 24/7. Whether you're building self-efficacy, strengthening emotional intelligence, preparing for your career, navigating college decisions, relationships, opportunities, or figuring out what comes next, I'm here for it. No forms, no script, so I'll get to know you as we talk. So what's going on with you right now?"
 
-      setMessages([{ role: "assistant", content: "", id: welcomeId }])
-
-      let index = 0
-      const interval = setInterval(() => {
-        if (index < fullMessage.length) {
-          setMessages([{ role: "assistant", content: fullMessage.slice(0, index + 1), id: welcomeId }])
-          index++
-        } else {
-          clearInterval(interval)
-        }
-      }, 20)
-
-      return () => clearInterval(interval)
+      // Show the complete message right away (it fades in) — no typewriter.
+      setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
     }
   }, [])
 
@@ -222,24 +211,14 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         const assistantId = (Date.now() + 1).toString()
         const fullReply = data.message
 
-        setMessages([...updatedMessages, { role: "assistant", content: "", id: assistantId }])
+        // Reveal the full response at once (it fades in) — no typewriter.
+        setMessages([...updatedMessages, { role: "assistant", content: fullReply, id: assistantId }])
 
-        let index = 0
-        const typeInterval = setInterval(() => {
-          if (index < fullReply.length) {
-            index++
-            setMessages((prev) =>
-              prev.map((msg) => (msg.id === assistantId ? { ...msg, content: fullReply.slice(0, index) } : msg)),
-            )
-          } else {
-            clearInterval(typeInterval)
-            if (currentSession?.id && userId) {
-              chatHistoryService
-                .saveMessage(userId, currentSession.id, "assistant", fullReply)
-                .catch((error) => console.error("Error saving assistant message:", error))
-            }
-          }
-        }, 15)
+        if (currentSession?.id && userId) {
+          chatHistoryService
+            .saveMessage(userId, currentSession.id, "assistant", fullReply)
+            .catch((error) => console.error("Error saving assistant message:", error))
+        }
       } else {
         throw new Error("No response content received")
       }
@@ -303,19 +282,10 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       const fullMessage =
         "Fresh start. What's on your mind: college, relationships, opportunities, career, or what comes next? Wherever you want to begin is good with me."
 
-      setMessages([{ role: "assistant", content: "", id: welcomeId }])
-
-      let index = 0
-      const interval = setInterval(() => {
-        if (index < fullMessage.length) {
-          setMessages([{ role: "assistant", content: fullMessage.slice(0, index + 1), id: welcomeId }])
-          index++
-        } else {
-          clearInterval(interval)
-          setIsCreatingNewChat(false)
-          inputRef.current?.focus()
-        }
-      }, 20)
+      // Show the complete message right away (it fades in) — no typewriter.
+      setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
+      setIsCreatingNewChat(false)
+      inputRef.current?.focus()
     }, 300)
   }
 
@@ -457,9 +427,17 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         <div className="flex-1 overflow-y-auto overscroll-contain scroll-smooth">
           <div className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-6 space-y-4 pb-4">
             {messages.map((message) => (
-              <div key={message.id} className="group">
-                <div className={`flex gap-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {message.role === "assistant" && (
+              <div key={message.id} className="group animate-fadeIn">
+                {message.role === "user" ? (
+                  // Compact, right-aligned gradient bubble.
+                  <div className="flex justify-end">
+                    <div className="max-w-[80%] rounded-2xl rounded-br-md bg-gradient-to-r from-neon-500/90 to-electric-500/90 px-4 py-2.5 text-white shadow-[0_0_18px_rgba(153,51,255,0.32)]">
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                    </div>
+                  </div>
+                ) : (
+                  // Clean, open response text with a small UpSide icon — no card.
+                  <div className="flex gap-3">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(153,51,255,0.3)]">
                       <svg
                         width="18"
@@ -496,33 +474,16 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                         />
                       </svg>
                     </div>
-                  )}
-
-                  <div
-                    className={`rounded-2xl px-4 py-3 max-w-[80%] ${
-                      message.role === "user"
-                        ? "bg-gradient-to-r from-neon-500/90 to-electric-500/90 text-white shadow-[0_0_20px_rgba(153,51,255,0.4)]"
-                        : "bg-midnight-900/80 text-gray-200 border border-neon-500/10"
-                    }`}
-                  >
-                    {message.role === "assistant" ? (
-                      <KeyPlaySpotlight content={message.content} />
-                    ) : (
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
-                    )}
-                  </div>
-
-                  {message.role === "user" && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-electric-500/10 border border-electric-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(0,183,255,0.3)]">
-                      <User className="h-4 w-4 text-electric-400" />
+                    <div className="flex-1 min-w-0 pt-0.5">
+                      <UpsideResponse content={message.content} />
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
 
             {isLoading && (
-              <div className="flex gap-4">
+              <div className="flex gap-3 animate-fadeIn">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(153,51,255,0.5)] animate-pulse">
                   <svg
                     width="18"
@@ -559,12 +520,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                     />
                   </svg>
                 </div>
-                <div className="rounded-2xl px-4 py-3 bg-midnight-900/80 border border-neon-500/10">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-neon-400 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-neon-400 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
-                    <div className="w-2 h-2 bg-neon-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                  </div>
+                <div className="flex items-center pt-1.5">
+                  <span className="text-sm text-gray-400 animate-pulse">Thinking it through...</span>
                 </div>
               </div>
             )}
