@@ -313,7 +313,7 @@ export function ChatHistorySidebar({
   }
 
   return (
-    <div className={cn("w-72 bg-midnight-950 border-r border-white/5 flex flex-col", className)}>
+    <div className={cn("w-full bg-midnight-950 border-r border-white/5 flex flex-col", className)}>
       {/* Header */}
       <div className="p-4 border-b border-white/5 space-y-3">
         <h2 className="text-sm font-semibold text-white/90 px-1">Your Conversations</h2>
