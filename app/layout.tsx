@@ -66,6 +66,9 @@ export const viewport: Viewport = {
   userScalable: false,
   themeColor: "#0a0a0f",
   viewportFit: "cover",
+  // When the on-screen keyboard opens, shrink the visual viewport (and our
+  // 100dvh layout) instead of overlaying it, so the composer stays visible.
+  interactiveWidget: "resizes-content",
 }
 
 export default function RootLayout({
