@@ -211,7 +211,7 @@ export default function Home() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-4 md:mb-5 leading-[1.12] tracking-tight text-balance">
             <span className="block pb-2 bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
               Up
-              <span className="relative">
+              <span className="relative bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite]">
                 Side
                 <span
                   aria-hidden="true"
