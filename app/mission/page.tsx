@@ -88,7 +88,7 @@ export default function MissionPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="bg-neon-600 hover:bg-neon-700">
-              <Link href="/signup">Get Started Today</Link>
+              <Link href="/chat">Get Started Today</Link>
             </Button>
             <Button
               variant="outline"

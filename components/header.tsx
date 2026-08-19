@@ -115,13 +115,6 @@ export function Header() {
           <div className="hidden md:flex items-center space-x-4">
             <Button
               asChild
-              variant="outline"
-              className="border-slate-600 text-gray-300 hover:bg-slate-800 bg-transparent"
-            >
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button
-              asChild
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
             >
               <Link href="/chat">Get Started</Link>
@@ -228,15 +221,6 @@ export function Header() {
                 </nav>
 
                 <div className="mt-auto space-y-4 pb-4">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full border-slate-600 text-gray-300 hover:bg-slate-800 bg-transparent"
-                  >
-                    <Link href="/login" onClick={() => setIsOpen(false)}>
-                      Sign In
-                    </Link>
-                  </Button>
                   <Button
                     asChild
                     className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
