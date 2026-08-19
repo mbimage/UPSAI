@@ -212,7 +212,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    // Don't submit mid-IME composition (CJK input); Safari's final event reports keyCode 229.
+    if ((e.nativeEvent as any).isComposing || e.keyCode === 229) return
+    if (e.key === "Enter") {
       e.preventDefault()
       sendMessage()
     }
@@ -305,24 +307,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       {/* Ambient "alive" background */}
       <AmbientBackground />
 
-      {/* Mobile overlay */}
+      {/* Mobile overlay - tap anywhere to close the drawer */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
           onClick={() => setIsSidebarOpen(false)}
-          onTouchStart={(e) => {
-            const touch = e.touches[0]
-            const startX = touch.clientX
-            const handleTouchMove = (moveEvent: TouchEvent) => {
-              const currentX = moveEvent.touches[0].clientX
-              if (startX - currentX > 50) {
-                setIsSidebarOpen(false)
-                document.removeEventListener('touchmove', handleTouchMove)
-              }
-            }
-            document.addEventListener('touchmove', handleTouchMove, { passive: true })
-            setTimeout(() => document.removeEventListener('touchmove', handleTouchMove), 300)
-          }}
           aria-hidden="true"
         />
       )}
@@ -426,7 +415,12 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
         {/* Messages Area - ChatGPT style centered layout */}
         <div className="flex-1 overflow-y-auto overscroll-contain scroll-smooth">
-          <div className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-6 space-y-4 pb-4">
+          <div
+            className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-6 space-y-4 pb-4"
+            role="log"
+            aria-live="polite"
+            aria-label="Conversation with UpSide"
+          >
             {messages.map((message) => (
               <div key={message.id} className="group animate-fadeIn">
                 {message.role === "user" ? (
@@ -484,7 +478,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             ))}
 
             {isLoading && (
-              <div className="flex gap-3 animate-fadeIn">
+              <div className="flex gap-3 animate-fadeIn" role="status" aria-label="UpSide is thinking">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(153,51,255,0.5)] animate-pulse">
                   <svg
                     width="18"
@@ -528,7 +522,12 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             )}
 
             {error && (
-              <div className="rounded-lg bg-red-900/20 border border-red-500/30 p-4 text-sm text-red-400">{error}</div>
+              <div
+                role="alert"
+                className="rounded-lg bg-red-900/20 border border-red-500/30 p-4 text-sm text-red-400"
+              >
+                {error}
+              </div>
             )}
 
             <div ref={messagesEndRef} />
@@ -582,9 +581,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             </form>
             
             {/* Helper text - hidden on mobile to save space */}
-            <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">
-              Press Enter to send, Shift+Enter for new line
-            </p>
+            <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">Press Enter to send</p>
           </div>
         </div>
       </main>
