@@ -11,6 +11,17 @@ import {
 export async function POST(request: NextRequest) {
   try {
     console.log("[v0] Chat API: Starting request processing")
+
+    // Feature flag: chat is paused unless NEXT_PUBLIC_CHAT_ENABLED is explicitly "true".
+    // Keeps the endpoint from being used directly while the UI shows the locked state.
+    // Flip the env var to "true" to restore full functionality automatically.
+    if (process.env.NEXT_PUBLIC_CHAT_ENABLED !== "true") {
+      return NextResponse.json(
+        { error: "Chat is temporarily unavailable during our private beta." },
+        { status: 503, headers: getSecurityHeaders() },
+      )
+    }
+
     const supabase = await createServerSupabaseClient()
     const user = await getUser()
     

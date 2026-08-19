@@ -3,9 +3,10 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight } from "lucide-react"
+import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight, Lock } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
@@ -24,6 +25,10 @@ interface ClientChatPageProps {
   initialMessage?: string
   conversationId?: string
 }
+
+// Chat is gated behind a Vercel env var. Only an explicit "true" enables it, so the
+// chat stays locked by default (including when the var is unset) until we flip it on.
+const CHAT_ENABLED = process.env.NEXT_PUBLIC_CHAT_ENABLED === "true"
 
 // Three calm starting points, shown in the welcome state before a conversation begins.
 const STARTER_PROMPTS = [
@@ -188,6 +193,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   }, [messages])
 
   const sendMessage = async (overrideText?: string) => {
+    // Hard stop while chat is locked, regardless of how it was triggered.
+    if (!CHAT_ENABLED) return
     const text = (overrideText ?? input).trim()
     if (!text || isLoading) return
 
@@ -465,7 +472,36 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             aria-live="polite"
             aria-label="Conversation with UpSide"
           >
-            {!conversationStarted ? (
+            {!CHAT_ENABLED ? (
+              // Locked state: interface stays visible, but the conversation is paused.
+              // Intentional and on-brand, never an error screen.
+              <div className="flex min-h-[54vh] flex-col items-center justify-center px-2 text-center animate-fadeIn">
+                <div className="relative mb-6">
+                  <UpsideMark className="h-16 w-16" />
+                  <span className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border border-neon-500/30 bg-midnight-900 shadow-[0_0_10px_rgba(153,51,255,0.3)]">
+                    <Lock className="h-3.5 w-3.5 text-neon-300" aria-hidden="true" />
+                  </span>
+                </div>
+
+                <span className="mb-5 inline-flex items-center rounded-full border border-electric-400/30 bg-electric-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-electric-300">
+                  Private beta
+                </span>
+
+                <h2 className="max-w-xl text-balance text-2xl font-semibold leading-snug text-white md:text-3xl">
+                  UpSide is getting ready for the next conversation.
+                </h2>
+                <p className="mt-4 max-w-md text-pretty text-base leading-relaxed text-gray-400">
+                  Chat access is temporarily limited while we improve the experience for college athletes.
+                </p>
+
+                <Button
+                  asChild
+                  className="mt-8 bg-gradient-to-r from-neon-500 to-electric-500 px-6 py-6 text-base font-semibold text-white shadow-lg shadow-neon-500/25 transition-all hover:from-neon-400 hover:to-electric-400 active:scale-95"
+                >
+                  <Link href="/contact?interest=early-access">Join Early Access</Link>
+                </Button>
+              </div>
+            ) : !conversationStarted ? (
               // Compact, centered welcome instead of a big empty gradient panel.
               <div className="flex min-h-[54vh] flex-col items-center justify-center text-center animate-fadeIn">
                 <UpsideMark className="mb-5 h-14 w-14" />
@@ -575,16 +611,25 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
               }}
               className="relative flex items-end gap-2"
             >
-              {/* Inviting, high-contrast input container. */}
-              <div className="relative flex-1 flex items-end bg-midnight-800 rounded-2xl border-2 border-neon-500/30 focus-within:border-neon-500/60 focus-within:ring-2 focus-within:ring-neon-500/20 shadow-lg shadow-black/20 transition-all">
+              {/* Inviting, high-contrast input container. Dims to a clearly-disabled
+                  look while chat is locked. */}
+              <div
+                className={cn(
+                  "relative flex-1 flex items-end rounded-2xl border-2 shadow-lg shadow-black/20 transition-all",
+                  CHAT_ENABLED
+                    ? "bg-midnight-800 border-neon-500/30 focus-within:border-neon-500/60 focus-within:ring-2 focus-within:ring-neon-500/20"
+                    : "bg-midnight-800/50 border-white/10",
+                )}
+              >
                 <Input
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask anything or think out loud…"
-                  disabled={isLoading}
-                  className="flex-1 bg-transparent border-0 text-white placeholder:text-gray-400 min-h-[48px] md:min-h-[52px] text-base px-4 py-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  placeholder={CHAT_ENABLED ? "Ask anything or think out loud…" : "Chat is temporarily unavailable"}
+                  disabled={isLoading || !CHAT_ENABLED}
+                  aria-disabled={!CHAT_ENABLED}
+                  className="flex-1 bg-transparent border-0 text-white placeholder:text-gray-400 min-h-[48px] md:min-h-[52px] text-base px-4 py-3 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-70"
                   autoComplete="off"
                   enterKeyHint="send"
                 />
@@ -593,26 +638,30 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
               {/* Send button */}
               <Button
                 type="submit"
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || !input.trim() || !CHAT_ENABLED}
                 size="icon"
                 className={cn(
                   "flex-shrink-0 w-12 h-12 md:w-[52px] md:h-[52px] rounded-xl transition-all duration-200 touch-manipulation",
-                  input.trim()
+                  CHAT_ENABLED && input.trim()
                     ? "bg-gradient-to-r from-neon-500 to-electric-500 hover:from-neon-400 hover:to-electric-400 active:scale-95 shadow-lg shadow-neon-500/25"
                     : "bg-midnight-800 text-gray-600 cursor-not-allowed"
                 )}
               >
-                {isLoading ? (
+                {CHAT_ENABLED && isLoading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : !CHAT_ENABLED ? (
+                  <Lock className="w-5 h-5" />
                 ) : (
                   <Send className="w-5 h-5" />
                 )}
-                <span className="sr-only">Send message</span>
+                <span className="sr-only">{CHAT_ENABLED ? "Send message" : "Chat is temporarily unavailable"}</span>
               </Button>
             </form>
             
             {/* Helper text - hidden on mobile to save space */}
-            <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">Press Enter to send</p>
+            <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">
+              {CHAT_ENABLED ? "Press Enter to send" : "Chat is temporarily paused during our private beta"}
+            </p>
           </div>
         </div>
       </main>
