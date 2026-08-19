@@ -3,9 +3,18 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight, RefreshCw, Pencil } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight, RefreshCw, Pencil, LogIn, LogOut, UserRound } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
@@ -100,8 +109,35 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const { user, userId } = useAuth()
+  const { user, userId, signOut } = useAuth()
   const chatHistoryService = getChatHistoryService()
+  // Track the previous signed-in user so we can detect a sign-OUT transition
+  // and clear any visible personal data from the screen.
+  const prevUserIdRef = useRef<string | null>(null)
+
+  const handleSignOut = async () => {
+    await signOut()
+    // The effect below clears on-screen data when userId flips to null.
+    router.push("/")
+    router.refresh()
+  }
+
+  // Privacy: when a signed-in user signs out, wipe any personal data still on
+  // screen (messages, the active conversation, its title) so nothing lingers on
+  // the device. We only act on the signed-in -> signed-out transition, never on
+  // guests (who start signed-out and may have an in-progress ephemeral chat).
+  useEffect(() => {
+    const prev = prevUserIdRef.current
+    if (prev && !userId) {
+      setMessages([])
+      setCurrentSession(null)
+      setHasTitle(false)
+      setFailedQuestion(null)
+      setInput("")
+      setSidebarKey((k) => k + 1)
+    }
+    prevUserIdRef.current = userId
+  }, [userId])
 
   useEffect(() => {
     async function loadConversation() {
@@ -500,6 +536,44 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           {/* Right-side actions. New conversation lives in the sidebar; keep this lean. */}
           <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
             <HumanSupport />
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-9 gap-1.5 border border-neon-500/20 px-2 text-neon-400 hover:border-neon-500/40 hover:bg-neon-500/10 md:px-3"
+                    aria-label="Account menu"
+                  >
+                    <UserRound className="h-4 w-4" />
+                    <span className="hidden max-w-[120px] truncate lg:inline">{user.email}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 border-neon-500/20 bg-midnight-900 text-gray-200">
+                  <DropdownMenuLabel className="truncate font-normal text-gray-400">{user.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-neon-500/20" />
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="cursor-pointer text-red-300 focus:bg-midnight-800 focus:text-red-200"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="h-9 gap-1.5 border border-neon-500/20 px-2 text-neon-400 hover:border-neon-500/40 hover:bg-neon-500/10 md:px-3"
+              >
+                <Link href="/auth?redirect=/chat">
+                  <LogIn className="h-4 w-4" />
+                  <span className="hidden sm:inline">Sign in to save</span>
+                </Link>
+              </Button>
+            )}
           </div>
         </header>
 

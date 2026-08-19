@@ -13,6 +13,7 @@ interface SeamlessAuthContextType {
   setShowAuthPrompt: (show: boolean) => void
   attemptSeamlessSignIn: () => Promise<boolean>
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
+  signUp: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   signOut: () => Promise<void>
 }
 
@@ -24,6 +25,7 @@ const SeamlessAuthContext = createContext<SeamlessAuthContextType>({
   setShowAuthPrompt: () => {},
   attemptSeamlessSignIn: async () => false,
   signIn: async () => ({ success: false, error: "Not initialized" }),
+  signUp: async () => ({ success: false, error: "Not initialized" }),
   signOut: async () => {},
 })
 
@@ -143,6 +145,30 @@ export function SeamlessAuthProvider({ children }: { children: React.ReactNode }
     }
   }
 
+  const signUp = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    if (!supabase) return { success: false, error: "Supabase not initialized" }
+
+    try {
+      // Create the account on the server (service role, email pre-confirmed).
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        return { success: false, error: data.error || "We couldn't create your account. Please try again." }
+      }
+
+      // Account exists and is confirmed — establish a session by signing in.
+      return await signIn(email, password)
+    } catch (error: any) {
+      console.error("[v0] Error signing up:", error)
+      return { success: false, error: "An unexpected error occurred. Please try again." }
+    }
+  }
+
   const signOut = async (): Promise<void> => {
     if (!supabase) return
 
@@ -162,6 +188,7 @@ export function SeamlessAuthProvider({ children }: { children: React.ReactNode }
     setShowAuthPrompt,
     attemptSeamlessSignIn,
     signIn,
+    signUp,
     signOut,
   }
 

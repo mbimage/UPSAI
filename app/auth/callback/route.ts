@@ -1,21 +1,24 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { getFullUrl } from "@/lib/url-utils"
+import { createServerSupabaseClient } from "@/lib/supabase/server"
 
+// Exchanges a Supabase auth code for a session (used by email-link / OAuth flows
+// if they are ever enabled). Password sign-in doesn't hit this route. On success
+// we send users to the chat, where their saved history loads.
 export async function GET(request: NextRequest) {
-  const requestUrl = new URL(request.url)
-  const code = requestUrl.searchParams.get("code")
+  const { searchParams, origin } = new URL(request.url)
+  const code = searchParams.get("code")
+  const redirectParam = searchParams.get("redirect")
+  const next = redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//") ? redirectParam : "/chat"
 
   if (code) {
-    const cookieStore = await cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
-
-    await supabase.auth.exchangeCodeForSession(code)
+    const supabase = await createServerSupabaseClient()
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (error) {
+      console.error("[v0] Auth callback: failed to exchange code", { message: error.message?.slice(0, 200) })
+      return NextResponse.redirect(`${origin}/auth?error=callback`)
+    }
   }
 
-  // URL to redirect to after sign in process completes
-  // Use the environment variable for consistent behavior
-  return NextResponse.redirect(getFullUrl("/dashboard"))
+  return NextResponse.redirect(`${origin}${next}`)
 }
