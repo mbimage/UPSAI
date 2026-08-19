@@ -209,22 +209,23 @@ export default function Home() {
 
           {/* Main Heading */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold mb-4 md:mb-5 leading-[1.12] tracking-tight text-balance">
-            <span className="block pb-1 bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
-              Ask UpSide.
-            </span>
-            <span className="block w-full max-w-full break-words pb-2 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent">
-              Make your next move.
+            <span className="block pb-2 bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite] drop-shadow-[0_0_24px_rgba(139,92,246,0.28)]">
+              Up
+              <span className="relative bg-gradient-to-r from-neon-400 via-neon-300 to-electric-400 bg-[length:220%_auto] bg-clip-text text-transparent animate-[gradient-shift_6s_ease-in-out_infinite]">
+                Side
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-1 w-[84%] rounded-full bg-gradient-to-r from-neon-400 to-electric-400"
+                />
+              </span>
+              .
             </span>
           </h1>
 
-          {/* Supporting line */}
-          <div className="inline-flex items-center gap-2 mb-6 md:mb-8 text-sm text-gray-400">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-neon-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-400" />
-            </span>
-            Personalized support, day or night.
-          </div>
+          {/* Supporting tagline */}
+          <p className="font-display text-xl sm:text-2xl md:text-3xl font-semibold mb-5 md:mb-6 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent text-balance">
+            Ask. Think. Make your next move.
+          </p>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
             A 24/7 conversational tool built for Texas college athletes navigating life on and off campus.
