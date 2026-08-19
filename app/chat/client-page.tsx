@@ -108,6 +108,19 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   }
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  // Tracks whether the user is reading near the bottom. When they've scrolled up
+  // to read earlier messages, we do NOT yank them back to the newest reply.
+  const isNearBottomRef = useRef(true)
+
+  // Drafts survive navigating away and back (per conversation) via sessionStorage.
+  const draftKey = `upside-draft-${conversationId ?? "new"}`
+
+  const handleMessagesScroll = () => {
+    const el = scrollContainerRef.current
+    if (!el) return
+    isNearBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 140
+  }
 
   const { user, userId, signOut } = useAuth()
   const chatHistoryService = getChatHistoryService()
@@ -221,8 +234,30 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     }
   }, [])
 
+  // Restore any unfinished draft for this conversation when the page mounts,
+  // unless the URL supplied an initial message (which takes precedence).
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    if (typeof window === "undefined" || initialMessage) return
+    const saved = sessionStorage.getItem(draftKey)
+    if (saved) setInput(saved)
+    // Only on mount / when the conversation identity changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftKey])
+
+  // Persist the draft as the user types so it isn't lost on navigation.
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    if (input.trim()) sessionStorage.setItem(draftKey, input)
+    else sessionStorage.removeItem(draftKey)
+  }, [input, draftKey])
+
+  // Auto-scroll to the newest message, but only when the user is already near
+  // the bottom or just sent their own message — never interrupt reading history.
+  useEffect(() => {
+    const last = messages[messages.length - 1]
+    if (isNearBottomRef.current || last?.role === "user") {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
   }, [messages])
 
   // `isRetry` re-sends the last failed question WITHOUT appending a duplicate
@@ -521,7 +556,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
           </div>
           
           {/* Title - Centered */}
-          <h1 className="text-sm md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent max-w-[140px] sm:max-w-none">
+          <h1 className="shrink-0 whitespace-nowrap text-base md:text-lg font-bold bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
             Up
             <span className="relative bg-gradient-to-r from-neon-400 to-electric-400 bg-clip-text text-transparent">
               Side
@@ -578,9 +613,13 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         </header>
 
         {/* Messages Area - ChatGPT style centered layout */}
-        <div className="flex-1 overflow-y-auto overscroll-contain scroll-smooth">
+        <div
+          ref={scrollContainerRef}
+          onScroll={handleMessagesScroll}
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth"
+        >
           <div
-            className="mx-auto max-w-[800px] px-4 md:px-6 py-4 md:py-6 pb-4"
+            className="mx-auto max-w-[760px] px-4 md:px-6 py-4 md:py-6 pb-4"
             role="log"
             aria-live="polite"
             aria-label="Conversation with UpSide"
@@ -613,7 +652,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                       // Restrained purple bubble, right-aligned.
                       <div className="flex justify-end">
                         <div className="max-w-[85%] rounded-2xl rounded-br-md bg-neon-500/80 px-4 py-2.5 text-white">
-                          <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                          <div className="text-[15px] leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
+                            {message.content}
+                          </div>
                         </div>
                       </div>
                     ) : (
@@ -667,8 +708,13 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                 {isLoading && (
                   <div className="flex gap-3 animate-fadeIn" role="status" aria-label="UpSide is thinking">
                     <UpsideMark className="h-8 w-8 flex-shrink-0" pulse />
-                    <div className="flex items-center pt-1.5">
-                      <span className="text-sm text-gray-400 animate-pulse">Thinking it through...</span>
+                    <div className="flex items-center gap-2 pt-1.5">
+                      <span className="text-sm text-gray-400">Thinking it through</span>
+                      <span className="flex items-center gap-1" aria-hidden="true">
+                        <span className="thinking-dot h-1.5 w-1.5 rounded-full bg-neon-400/80" style={{ animationDelay: "0ms" }} />
+                        <span className="thinking-dot h-1.5 w-1.5 rounded-full bg-neon-400/80" style={{ animationDelay: "150ms" }} />
+                        <span className="thinking-dot h-1.5 w-1.5 rounded-full bg-neon-400/80" style={{ animationDelay: "300ms" }} />
+                      </span>
                     </div>
                   </div>
                 )}

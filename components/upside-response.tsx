@@ -188,7 +188,7 @@ export function UpsideResponse({ content }: UpsideResponseProps) {
   return (
     <div>
       {/* Clean, open response text — real formatting, no visible markdown. */}
-      <div className="space-y-3 text-[15px] leading-relaxed text-gray-200">
+      <div className="space-y-3 text-[15px] leading-relaxed text-gray-200 break-words [overflow-wrap:anywhere]">
         {blocks.map((block, bi) =>
           block.type === "list" ? (
             <ul key={`block-${bi}`} className="space-y-1.5">

@@ -21,7 +21,7 @@ export function HumanSupport() {
         aria-label="Connect with someone"
       >
         <Heart className="w-4 h-4" aria-hidden="true" />
-        <span className="hidden sm:inline text-sm font-medium">Connect with someone</span>
+        <span className="hidden lg:inline text-sm font-medium">Connect with someone</span>
       </button>
 
       {open && (
