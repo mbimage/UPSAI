@@ -2,7 +2,6 @@ import { type NextRequest, NextResponse } from "next/server"
 import { openaiService, UPSIDE_AI_SYSTEM_PROMPT } from "@/lib/openai-service"
 import { sanitizeInput, getSecurityHeaders } from "@/lib/security-service"
 import { createServerSupabaseClient, getUser } from "@/lib/supabase/server"
-import { isEmailAllowed } from "@/lib/invite-allowlist"
 import { 
   assemblePromptForChat, 
   checkAndRunSummarizer,
@@ -14,21 +13,12 @@ export async function POST(request: NextRequest) {
     console.log("[v0] Chat API: Starting request processing")
     const supabase = await createServerSupabaseClient()
     const user = await getUser()
-
-    // INVITE-ONLY: chat is in private beta. Require an authenticated user whose
-    // email is on the allowlist. This is the hard security boundary for the AI
-    // itself, independent of any UI gating.
-    if (!user || !isEmailAllowed(user.email)) {
-      return NextResponse.json(
-        { error: "UpSide is in private beta. Access is limited to invited members." },
-        { status: 403, headers: getSecurityHeaders() },
-      )
-    }
-
-    // Authenticated + invited from here on.
-    const userId = user.id
-    const isGuest = false
-    console.log("[v0] Chat API: User ID:", userId)
+    
+    // SECURITY: Only use authenticated user ID - no guest ID spoofing allowed
+    // Guest users get ephemeral sessions that are not persisted
+    const userId = user?.id
+    const isGuest = !userId
+    console.log("[v0] Chat API: User ID:", userId, "isGuest:", isGuest)
     
     // Parse request body
     const body = await request.json()

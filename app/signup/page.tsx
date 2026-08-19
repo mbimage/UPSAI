@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
-import { checkInviteEmail } from "@/app/actions/check-invite"
 import { Loader2, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
@@ -55,16 +54,6 @@ export default function SignupPage() {
 
     if (!supabase) {
       setError("Authentication is not configured. Please try again later.")
-      setIsSubmitting(false)
-      return
-    }
-
-    // Invite-only beta: block accounts that aren't on the allowlist.
-    const invite = await checkInviteEmail(formData.email)
-    if (!invite.allowed) {
-      setError(
-        "UpSide is in a private, invite-only beta. This email isn't on the invite list yet. Reach out to whoever invited you to get added.",
-      )
       setIsSubmitting(false)
       return
     }
