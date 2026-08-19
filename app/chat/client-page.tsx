@@ -5,11 +5,11 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, User, Plus, Menu, ArrowLeft } from "lucide-react"
+import { Send, Plus, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
-import { KeyPlaySpotlight } from "@/components/key-play-spotlight"
+import { UpsideResponse } from "@/components/upside-response"
 import { HumanSupport } from "@/components/human-support"
 import { AmbientBackground } from "@/components/ambient-background"
 import { cn } from "@/lib/utils"
@@ -33,7 +33,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   const [error, setError] = useState<string | null>(null)
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null)
   const [isCreatingNewChat, setIsCreatingNewChat] = useState(false)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false) // Start closed on mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false) // Mobile drawer (slide-over)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false) // Desktop collapse
   const [hasTitle, setHasTitle] = useState(false)
   const [sidebarKey, setSidebarKey] = useState(0) // Force sidebar refresh
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -122,19 +123,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       const fullMessage =
         "Hey, I'm UpSide, someone in your corner, 24/7. Whether you're building self-efficacy, strengthening emotional intelligence, preparing for your career, navigating college decisions, relationships, opportunities, or figuring out what comes next, I'm here for it. No forms, no script, so I'll get to know you as we talk. So what's going on with you right now?"
 
-      setMessages([{ role: "assistant", content: "", id: welcomeId }])
-
-      let index = 0
-      const interval = setInterval(() => {
-        if (index < fullMessage.length) {
-          setMessages([{ role: "assistant", content: fullMessage.slice(0, index + 1), id: welcomeId }])
-          index++
-        } else {
-          clearInterval(interval)
-        }
-      }, 20)
-
-      return () => clearInterval(interval)
+      // Show the complete message right away (it fades in) — no typewriter.
+      setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
     }
   }, [])
 
@@ -155,38 +145,10 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setMessages(updatedMessages)
     setIsLoading(true)
 
-    // Create a new conversation if needed (via API)
-    let sessionId = currentSession?.id
-    if (!sessionId && userId) {
-      try {
-        const createResponse = await fetch("/api/conversations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: userMessage.substring(0, 100) }),
-        })
-        if (createResponse.ok) {
-          const newSession = await createResponse.json()
-          sessionId = newSession.id
-          setCurrentSession({
-            id: newSession.id,
-            userId: userId,
-            title: newSession.title,
-            createdAt: newSession.createdAt,
-            updatedAt: newSession.updatedAt,
-            messageCount: 0,
-          })
-          // Navigate to the new conversation URL
-          router.replace(`/chat/${newSession.id}`, { scroll: false })
-          // Refresh the sidebar so the new conversation appears in "Your Conversations"
-          setSidebarKey((prev) => prev + 1)
-        }
-      } catch (error) {
-        console.error("Error creating session:", error)
-      }
-    }
-
     try {
-      // Send message via secure API with conversationId for ownership validation
+      // The secure /api/chat endpoint owns conversation creation + persistence.
+      // It saves the user message, generates the reply, saves it, and returns the
+      // conversationId (existing or newly created) so follow-ups stay in-thread.
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -194,9 +156,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         },
         body: JSON.stringify({
           message: userMessage,
-          conversationId: sessionId, // Pass conversationId for security
-          hasTitle: hasTitle,
-          isFirstMessage: isFirstMessage,
+          conversationId: currentSession?.id, // undefined => server creates one
+          hasTitle,
+          isFirstMessage,
         }),
       })
 
@@ -207,39 +169,37 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
       const data = await response.json()
 
-      if (data.conversationTitle && !hasTitle && currentSession?.id) {
-        setHasTitle(true)
-        try {
-          await chatHistoryService.updateSessionTitle(currentSession.id, data.conversationTitle, userId ?? undefined)
-          // Refresh the sidebar so the auto-generated title shows up
-          setSidebarKey((prev) => prev + 1)
-        } catch (error) {
-          console.error("Error updating session title:", error)
+      // Capture the conversation the server used/created so every follow-up question
+      // threads into the SAME conversation instead of starting a new chat.
+      if (data.conversationId && data.conversationId !== currentSession?.id) {
+        const now = new Date().toISOString()
+        setCurrentSession({
+          id: data.conversationId,
+          userId: userId || "demo-user",
+          title: data.conversationTitle || userMessage.substring(0, 50),
+          createdAt: now,
+          updatedAt: now,
+          messageCount: updatedMessages.length,
+        })
+        // Update the URL in place (no remount) so the exchange stays on screen,
+        // while refreshes and deep-links still resolve to this conversation.
+        if (typeof window !== "undefined") {
+          window.history.replaceState(null, "", `/chat/${data.conversationId}`)
         }
+        setSidebarKey((prev) => prev + 1)
+      }
+
+      // The title is auto-generated + persisted server-side; just reflect it in the UI.
+      if (data.conversationTitle && !hasTitle) {
+        setHasTitle(true)
+        setCurrentSession((prev) => (prev ? { ...prev, title: data.conversationTitle } : prev))
+        setSidebarKey((prev) => prev + 1)
       }
 
       if (data.message) {
         const assistantId = (Date.now() + 1).toString()
-        const fullReply = data.message
-
-        setMessages([...updatedMessages, { role: "assistant", content: "", id: assistantId }])
-
-        let index = 0
-        const typeInterval = setInterval(() => {
-          if (index < fullReply.length) {
-            index++
-            setMessages((prev) =>
-              prev.map((msg) => (msg.id === assistantId ? { ...msg, content: fullReply.slice(0, index) } : msg)),
-            )
-          } else {
-            clearInterval(typeInterval)
-            if (currentSession?.id && userId) {
-              chatHistoryService
-                .saveMessage(userId, currentSession.id, "assistant", fullReply)
-                .catch((error) => console.error("Error saving assistant message:", error))
-            }
-          }
-        }, 15)
+        // Reveal the full response at once (it fades in) — no typewriter.
+        setMessages([...updatedMessages, { role: "assistant", content: data.message, id: assistantId }])
       } else {
         throw new Error("No response content received")
       }
@@ -252,7 +212,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    // Don't submit mid-IME composition (CJK input); Safari's final event reports keyCode 229.
+    if ((e.nativeEvent as any).isComposing || e.keyCode === 229) return
+    if (e.key === "Enter") {
       e.preventDefault()
       sendMessage()
     }
@@ -303,43 +265,38 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       const fullMessage =
         "Fresh start. What's on your mind: college, relationships, opportunities, career, or what comes next? Wherever you want to begin is good with me."
 
-      setMessages([{ role: "assistant", content: "", id: welcomeId }])
-
-      let index = 0
-      const interval = setInterval(() => {
-        if (index < fullMessage.length) {
-          setMessages([{ role: "assistant", content: fullMessage.slice(0, index + 1), id: welcomeId }])
-          index++
-        } else {
-          clearInterval(interval)
-          setIsCreatingNewChat(false)
-          inputRef.current?.focus()
-        }
-      }, 20)
+      // Show the complete message right away (it fades in) — no typewriter.
+      setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
+      setIsCreatingNewChat(false)
+      inputRef.current?.focus()
     }, 300)
   }
 
   const loadSession = async (sessionId: string) => {
     try {
-      const sessionMessages = await chatHistoryService.loadSession(sessionId)
-      if (sessionMessages.length > 0) {
-        setMessages(
-          sessionMessages.map((msg) => ({
-            id: msg.id,
-            role: msg.role,
-            content: msg.content,
-          })),
-        )
-        setCurrentSession({
-          id: sessionId,
-          userId: userId || "demo-user",
-          title: sessionMessages[0].content.substring(0, 50),
-          createdAt: sessionMessages[0].createdAt,
-          updatedAt: sessionMessages[sessionMessages.length - 1].createdAt,
-          messageCount: sessionMessages.length,
-        })
-        setHasTitle(true) // Track if conversation has a title
-      }
+      // Load via the secure API so ownership is enforced and the stored title is used.
+      const response = await fetch(`/api/conversations/${sessionId}`)
+      if (!response.ok) return
+
+      const data = await response.json()
+      const sessionMessages = data.messages || []
+
+      setMessages(
+        sessionMessages.map((msg: any) => ({
+          id: msg.id,
+          role: msg.role,
+          content: msg.content,
+        })),
+      )
+      setCurrentSession({
+        id: sessionId,
+        userId: userId || "demo-user",
+        title: data.conversation?.title || "Conversation",
+        createdAt: data.conversation?.createdAt || new Date().toISOString(),
+        updatedAt: data.conversation?.updatedAt || new Date().toISOString(),
+        messageCount: sessionMessages.length,
+      })
+      setHasTitle(!!data.conversation?.title)
     } catch (error) {
       console.error("Error loading session:", error)
     }
@@ -350,24 +307,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       {/* Ambient "alive" background */}
       <AmbientBackground />
 
-      {/* Mobile overlay */}
+      {/* Mobile overlay - tap anywhere to close the drawer */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
           onClick={() => setIsSidebarOpen(false)}
-          onTouchStart={(e) => {
-            const touch = e.touches[0]
-            const startX = touch.clientX
-            const handleTouchMove = (moveEvent: TouchEvent) => {
-              const currentX = moveEvent.touches[0].clientX
-              if (startX - currentX > 50) {
-                setIsSidebarOpen(false)
-                document.removeEventListener('touchmove', handleTouchMove)
-              }
-            }
-            document.addEventListener('touchmove', handleTouchMove, { passive: true })
-            setTimeout(() => document.removeEventListener('touchmove', handleTouchMove), 300)
-          }}
           aria-hidden="true"
         />
       )}
@@ -375,8 +319,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       {/* Sidebar - ChatGPT style */}
       <aside
         className={cn(
-          "fixed md:relative inset-y-0 left-0 z-50 w-72 md:w-80 bg-midnight-900/95 backdrop-blur-md border-r border-neon-500/20 transition-transform duration-300 ease-out will-change-transform",
+          "fixed md:relative inset-y-0 left-0 z-50 w-72 bg-midnight-900/95 backdrop-blur-md border-r border-neon-500/20 transition-all duration-300 ease-out will-change-transform overflow-hidden",
+          // Mobile: slide in/out as a drawer
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          // Desktop: collapse to zero width instead of sliding away
+          isSidebarCollapsed ? "md:w-0 md:border-r-0" : "md:w-80",
         )}
       >
         <ChatHistorySidebar
@@ -400,13 +347,26 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         {/* Header - Compact on mobile */}
         <header className="sticky top-0 z-30 flex items-center justify-between gap-2 px-3 py-2 md:px-4 md:py-3 border-b border-neon-500/20 bg-midnight-900/80 backdrop-blur-md safe-area-top">
           <div className="flex items-center gap-1 md:gap-2">
-            {/* Menu button - Mobile only */}
+            {/* Menu button - Mobile only (slide-over drawer) */}
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               className="md:hidden p-2.5 -ml-1 hover:bg-neon-500/10 active:bg-neon-500/20 rounded-xl transition-colors touch-manipulation"
-              aria-label="Toggle sidebar"
+              aria-label="Open conversation history"
             >
               <Menu className="w-5 h-5 text-neon-400" />
+            </button>
+            {/* Collapse toggle - Desktop only */}
+            <button
+              onClick={() => setIsSidebarCollapsed((v) => !v)}
+              className="hidden md:flex items-center justify-center p-2.5 -ml-1 hover:bg-neon-500/10 active:bg-neon-500/20 rounded-xl transition-colors"
+              aria-label={isSidebarCollapsed ? "Expand conversation history" : "Collapse conversation history"}
+              aria-expanded={!isSidebarCollapsed}
+            >
+              {isSidebarCollapsed ? (
+                <PanelLeftOpen className="w-5 h-5 text-neon-400" />
+              ) : (
+                <PanelLeftClose className="w-5 h-5 text-neon-400" />
+              )}
             </button>
             {/* Home button */}
             <Button
@@ -455,11 +415,24 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
         {/* Messages Area - ChatGPT style centered layout */}
         <div className="flex-1 overflow-y-auto overscroll-contain scroll-smooth">
-          <div className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-6 space-y-4 pb-4">
+          <div
+            className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-6 space-y-4 pb-4"
+            role="log"
+            aria-live="polite"
+            aria-label="Conversation with UpSide"
+          >
             {messages.map((message) => (
-              <div key={message.id} className="group">
-                <div className={`flex gap-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {message.role === "assistant" && (
+              <div key={message.id} className="group animate-fadeIn">
+                {message.role === "user" ? (
+                  // Compact, right-aligned gradient bubble.
+                  <div className="flex justify-end">
+                    <div className="max-w-[80%] rounded-2xl rounded-br-md bg-gradient-to-r from-neon-500/90 to-electric-500/90 px-4 py-2.5 text-white shadow-[0_0_18px_rgba(153,51,255,0.32)]">
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
+                    </div>
+                  </div>
+                ) : (
+                  // Clean, open response text with a small UpSide icon — no card.
+                  <div className="flex gap-3">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(153,51,255,0.3)]">
                       <svg
                         width="18"
@@ -496,33 +469,16 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                         />
                       </svg>
                     </div>
-                  )}
-
-                  <div
-                    className={`rounded-2xl px-4 py-3 max-w-[80%] ${
-                      message.role === "user"
-                        ? "bg-gradient-to-r from-neon-500/90 to-electric-500/90 text-white shadow-[0_0_20px_rgba(153,51,255,0.4)]"
-                        : "bg-midnight-900/80 text-gray-200 border border-neon-500/10"
-                    }`}
-                  >
-                    {message.role === "assistant" ? (
-                      <KeyPlaySpotlight content={message.content} />
-                    ) : (
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</div>
-                    )}
-                  </div>
-
-                  {message.role === "user" && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-electric-500/10 border border-electric-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(0,183,255,0.3)]">
-                      <User className="h-4 w-4 text-electric-400" />
+                    <div className="flex-1 min-w-0 pt-0.5">
+                      <UpsideResponse content={message.content} />
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
 
             {isLoading && (
-              <div className="flex gap-4">
+              <div className="flex gap-3 animate-fadeIn" role="status" aria-label="UpSide is thinking">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(153,51,255,0.5)] animate-pulse">
                   <svg
                     width="18"
@@ -559,18 +515,19 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                     />
                   </svg>
                 </div>
-                <div className="rounded-2xl px-4 py-3 bg-midnight-900/80 border border-neon-500/10">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-neon-400 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-neon-400 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
-                    <div className="w-2 h-2 bg-neon-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                  </div>
+                <div className="flex items-center pt-1.5">
+                  <span className="text-sm text-gray-400 animate-pulse">Thinking it through...</span>
                 </div>
               </div>
             )}
 
             {error && (
-              <div className="rounded-lg bg-red-900/20 border border-red-500/30 p-4 text-sm text-red-400">{error}</div>
+              <div
+                role="alert"
+                className="rounded-lg bg-red-900/20 border border-red-500/30 p-4 text-sm text-red-400"
+              >
+                {error}
+              </div>
             )}
 
             <div ref={messagesEndRef} />
@@ -624,9 +581,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             </form>
             
             {/* Helper text - hidden on mobile to save space */}
-            <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">
-              Press Enter to send, Shift+Enter for new line
-            </p>
+            <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">Press Enter to send</p>
           </div>
         </div>
       </main>

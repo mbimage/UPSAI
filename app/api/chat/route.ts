@@ -120,6 +120,12 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Generate a short, descriptive title once, on the first message of a new conversation
+    let generatedTitle: string | undefined
+    if (isFirstMessage && !hasTitle) {
+      generatedTitle = await openaiService.generateConversationTitle(sanitizedMessage)
+    }
+
     // MEMORY LAYER: Assemble prompt with system prompt + thread summary + recent messages + current message
     console.log("[v0] Chat API: Assembling prompt with memory layer for conversation:", activeConversationId)
     const assembledPrompt = await assemblePromptForChat(
@@ -143,9 +149,7 @@ export async function POST(request: NextRequest) {
         aiResponse = {
           message: historyResponse.message,
           sessionSummary: `Conversation about: ${sanitizedMessage.substring(0, 50)}...`,
-          conversationTitle: isFirstMessage && !hasTitle 
-            ? sanitizedMessage.substring(0, 50) 
-            : undefined,
+          conversationTitle: generatedTitle,
         }
 
         if (aiResponse?.message?.trim().length > 0) {
