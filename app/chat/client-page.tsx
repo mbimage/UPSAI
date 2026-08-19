@@ -25,6 +25,16 @@ interface ClientChatPageProps {
   conversationId?: string
 }
 
+// Subtle starting points to help athletes brainstorm. Kept light and low-pressure,
+// not a menu of features. Shown only before the first message of a fresh chat.
+const BRAINSTORM_PROMPTS = [
+  "Help me word a text to my coach",
+  "Talk me through a decision I'm stuck on",
+  "Prep me for a hard conversation",
+  "Make this email sound more like me",
+  "Help me think through my week",
+]
+
 export default function ClientChatPage({ initialMessage = "", conversationId }: ClientChatPageProps) {
   const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
@@ -121,9 +131,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     if (messages.length === 0) {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hey, I'm UpSide — think of me as a teammate you can think out loud with. Big decision, a text or email you want to get right, a conversation you're nervous about, or just something on your mind — I'm here for it. What's going on?"
+        "Hey, I'm UpSide. Think of me as a teammate you can think out loud with. A big decision, a text or email you want to get right, a conversation you're nervous about, or just something on your mind. I'm here for it. What's going on?"
 
-      // Show the complete message right away (it fades in) — no typewriter.
+      // Show the complete message right away (it fades in). No typewriter.
       setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
     }
   }, [])
@@ -198,7 +208,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
       if (data.message) {
         const assistantId = (Date.now() + 1).toString()
-        // Reveal the full response at once (it fades in) — no typewriter.
+        // Reveal the full response at once (it fades in). No typewriter.
         setMessages([...updatedMessages, { role: "assistant", content: data.message, id: assistantId }])
       } else {
         throw new Error("No response content received")
@@ -265,7 +275,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       const fullMessage =
         "Fresh start. What's on your mind: college, relationships, opportunities, career, or what comes next? Wherever you want to begin is good with me."
 
-      // Show the complete message right away (it fades in) — no typewriter.
+      // Show the complete message right away (it fades in). No typewriter.
       setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
       setIsCreatingNewChat(false)
       inputRef.current?.focus()
@@ -431,7 +441,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                     </div>
                   </div>
                 ) : (
-                  // Clean, open response text with a small UpSide icon — no card.
+                  // Clean, open response text with a small UpSide icon. No card.
                   <div className="flex gap-3">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-neon-500/10 border border-neon-500/20 flex items-center justify-center shadow-[0_0_10px_rgba(153,51,255,0.3)]">
                       <svg
@@ -537,6 +547,24 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         {/* Input Area - ChatGPT style sticky bottom */}
         <div className="sticky bottom-0 border-t border-neon-500/20 bg-midnight-900/95 backdrop-blur-md safe-area-bottom">
           <div className="max-w-3xl mx-auto px-3 md:px-6 py-3 md:py-4">
+            {/* Subtle brainstorm starters. Only before the athlete's first message. */}
+            {!isLoading && !input.trim() && messages.length <= 1 && messages[0]?.role === "assistant" && (
+              <div className="mb-3 flex flex-wrap gap-2 animate-fadeIn" aria-label="Ways to get started">
+                {BRAINSTORM_PROMPTS.map((prompt) => (
+                  <button
+                    key={prompt}
+                    type="button"
+                    onClick={() => {
+                      setInput(prompt)
+                      inputRef.current?.focus()
+                    }}
+                    className="rounded-full border border-neon-500/20 bg-midnight-800/60 px-3 py-1.5 text-xs md:text-sm text-gray-300 hover:text-white hover:border-neon-500/40 hover:bg-neon-500/10 active:scale-95 transition-all touch-manipulation"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+            )}
             <form
               onSubmit={(e) => {
                 e.preventDefault()
