@@ -17,11 +17,11 @@ export function HumanSupport() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 h-9 px-2 md:px-3 rounded-xl border border-electric-400/30 bg-electric-500/10 text-electric-300 hover:bg-electric-500/20 hover:border-electric-400/50 active:bg-electric-500/30 transition-colors touch-manipulation flex-shrink-0"
-        aria-label="Talk to a real person"
+        className="flex items-center gap-1.5 h-9 px-2 md:px-3 rounded-xl border border-white/10 bg-white/5 text-electric-200/90 hover:bg-electric-500/15 hover:border-electric-400/40 hover:text-electric-200 active:bg-electric-500/25 transition-colors touch-manipulation flex-shrink-0"
+        aria-label="Connect with someone"
       >
         <Heart className="w-4 h-4" aria-hidden="true" />
-        <span className="hidden sm:inline text-sm font-medium">Talk to a human</span>
+        <span className="hidden sm:inline text-sm font-medium">Connect with someone</span>
       </button>
 
       {open && (
