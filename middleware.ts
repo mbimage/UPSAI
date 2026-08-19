@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { createServerClient } from "@supabase/ssr"
+import { isEmailAllowed } from "@/lib/invite-allowlist"
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next()
@@ -27,9 +28,14 @@ export async function middleware(request: NextRequest) {
       // Refresh session if needed
       await supabase.auth.getUser()
 
-      // Protected routes that require authentication
-      const protectedPaths = ["/assessments", "/profile"]
-      const isProtectedPath = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))
+      // Routes that require authentication.
+      const protectedPaths = ["/chat", "/assessments", "/profile"]
+      // Routes that additionally require being on the invite allowlist.
+      const inviteOnlyPaths = ["/chat"]
+
+      const { pathname } = request.nextUrl
+      const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path))
+      const isInviteOnlyPath = inviteOnlyPaths.some((path) => pathname.startsWith(path))
 
       if (isProtectedPath) {
         const {
@@ -38,8 +44,13 @@ export async function middleware(request: NextRequest) {
 
         if (!user) {
           const redirectUrl = new URL("/login", request.url)
-          redirectUrl.searchParams.set("redirectTo", request.nextUrl.pathname)
+          redirectUrl.searchParams.set("redirectTo", pathname)
           return NextResponse.redirect(redirectUrl)
+        }
+
+        // Invite-only: signed in, but not on the allowlist -> friendly block.
+        if (isInviteOnlyPath && !isEmailAllowed(user.email)) {
+          return NextResponse.redirect(new URL("/not-invited", request.url))
         }
       }
     }
