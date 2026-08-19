@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
+import { checkInviteEmail } from "@/app/actions/check-invite"
 import { useRouter } from "next/navigation"
 
 // Dynamically import the login form with client-side only rendering
@@ -64,6 +65,17 @@ export default function LoginClient() {
 
     if (!supabase) {
       setMessage({ type: "error", text: "Authentication is not configured. Please try again later." })
+      setIsLoading(false)
+      return
+    }
+
+    // Invite-only beta: only send magic links to allowlisted emails.
+    const invite = await checkInviteEmail(email)
+    if (!invite.allowed) {
+      setMessage({
+        type: "error",
+        text: "UpSide is in a private, invite-only beta. This email isn't on the invite list yet.",
+      })
       setIsLoading(false)
       return
     }
