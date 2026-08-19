@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import { generateChatResponse } from "@/lib/openai-service"
-import { guardInvite } from "@/lib/require-invite"
 import { getAuthenticatedUser } from "@/lib/auth-utils"
 import { sanitizeInput, logSecurityEvent } from "@/lib/security-service"
 import { z } from "zod"
@@ -14,10 +13,6 @@ const chatRequestSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    // Invite-only private beta.
-    const { response: inviteBlock } = await guardInvite()
-    if (inviteBlock) return inviteBlock
-
     const user = await getAuthenticatedUser()
     const isGuest = !user
 
