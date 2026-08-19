@@ -182,11 +182,17 @@ export function ChatHistorySidebar({
   const pinned = filteredSessions.filter((s) => s.pinned)
   const unpinned = filteredSessions.filter((s) => !s.pinned)
 
+  // Simple, clean grouping: Today, Previous 7 Days, Earlier
   const groupedSessions: Record<string, ChatSession[]> = {
     today: unpinned.filter((s) => isToday(s.updatedAt)),
-    yesterday: unpinned.filter((s) => isYesterday(s.updatedAt)),
-    thisWeek: unpinned.filter((s) => isThisWeek(s.updatedAt) && !isToday(s.updatedAt) && !isYesterday(s.updatedAt)),
-    older: unpinned.filter((s) => !isThisWeek(s.updatedAt)),
+    previous7Days: unpinned.filter((s) => !isToday(s.updatedAt) && isWithinLast7Days(s.updatedAt)),
+    earlier: unpinned.filter((s) => !isWithinLast7Days(s.updatedAt)),
+  }
+
+  const groupLabels: Record<string, string> = {
+    today: "Today",
+    previous7Days: "Previous 7 Days",
+    earlier: "Earlier",
   }
 
   const renderSessionItem = (session: ChatSession) => {
@@ -378,7 +384,7 @@ export function ChatHistorySidebar({
               return (
                 <div key={period}>
                   <div className="text-[11px] font-medium text-white/30 uppercase tracking-wider mb-2 px-2">
-                    {period === "thisWeek" ? "This Week" : period}
+                    {groupLabels[period] ?? period}
                   </div>
                   <div className="space-y-1">{periodSessions.map(renderSessionItem)}</div>
                 </div>
@@ -414,14 +420,7 @@ function isToday(date: string): boolean {
   return checkDate.toDateString() === today.toDateString()
 }
 
-function isYesterday(date: string): boolean {
-  const yesterday = new Date()
-  yesterday.setDate(yesterday.getDate() - 1)
-  const checkDate = new Date(date)
-  return checkDate.toDateString() === yesterday.toDateString()
-}
-
-function isThisWeek(date: string): boolean {
+function isWithinLast7Days(date: string): boolean {
   const now = new Date()
   const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
   const checkDate = new Date(date)

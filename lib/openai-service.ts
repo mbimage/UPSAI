@@ -228,6 +228,34 @@ export async function generateChatResponseWithHistory(
   }
 }
 
+// Generate a short, descriptive conversation title (3-6 words) from the first message.
+// Falls back to a trimmed version of the message if the model is unavailable.
+export async function generateConversationTitle(firstMessage: string): Promise<string> {
+  const fallback = firstMessage.length > 50 ? firstMessage.substring(0, 47).trim() + "..." : firstMessage.trim()
+
+  try {
+    const { text } = await generateText({
+      model: CHAT_MODEL,
+      system:
+        "You generate concise, descriptive titles for a chat conversation. Given the user's first message, respond with ONLY a 3-6 word title in Title Case that captures the topic. No quotes, no trailing punctuation, no emojis.",
+      messages: [{ role: "user", content: firstMessage }],
+      temperature: 0.3,
+      maxOutputTokens: 24,
+    })
+
+    const cleaned = (text || "")
+      .trim()
+      .replace(/^["']|["']$/g, "")
+      .replace(/[.]+$/, "")
+      .trim()
+
+    if (!cleaned) return fallback
+    return cleaned.length > 60 ? cleaned.substring(0, 57).trim() + "..." : cleaned
+  } catch {
+    return fallback
+  }
+}
+
 // Generate a fallback response (used only when the gateway is unreachable)
 function generateFallbackResponse(message: string): string {
   const lowerMessage = message.toLowerCase()
@@ -330,6 +358,7 @@ export const openaiService = {
   generateChatResponse,
   generateChatResponseWithHistory,
   generateChatResponseWithPersistence,
+  generateConversationTitle,
   testConnection: testOpenAIConnection,
   getInstance: getOpenAIInstance,
 }

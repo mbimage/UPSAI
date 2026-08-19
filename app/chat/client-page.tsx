@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, Plus, Menu, ArrowLeft } from "lucide-react"
+import { Send, Plus, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
@@ -33,7 +33,8 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   const [error, setError] = useState<string | null>(null)
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null)
   const [isCreatingNewChat, setIsCreatingNewChat] = useState(false)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false) // Start closed on mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false) // Mobile drawer (slide-over)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false) // Desktop collapse
   const [hasTitle, setHasTitle] = useState(false)
   const [sidebarKey, setSidebarKey] = useState(0) // Force sidebar refresh
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -144,38 +145,10 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setMessages(updatedMessages)
     setIsLoading(true)
 
-    // Create a new conversation if needed (via API)
-    let sessionId = currentSession?.id
-    if (!sessionId && userId) {
-      try {
-        const createResponse = await fetch("/api/conversations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: userMessage.substring(0, 100) }),
-        })
-        if (createResponse.ok) {
-          const newSession = await createResponse.json()
-          sessionId = newSession.id
-          setCurrentSession({
-            id: newSession.id,
-            userId: userId,
-            title: newSession.title,
-            createdAt: newSession.createdAt,
-            updatedAt: newSession.updatedAt,
-            messageCount: 0,
-          })
-          // Navigate to the new conversation URL
-          router.replace(`/chat/${newSession.id}`, { scroll: false })
-          // Refresh the sidebar so the new conversation appears in "Your Conversations"
-          setSidebarKey((prev) => prev + 1)
-        }
-      } catch (error) {
-        console.error("Error creating session:", error)
-      }
-    }
-
     try {
-      // Send message via secure API with conversationId for ownership validation
+      // The secure /api/chat endpoint owns conversation creation + persistence.
+      // It saves the user message, generates the reply, saves it, and returns the
+      // conversationId (existing or newly created) so follow-ups stay in-thread.
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -183,9 +156,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         },
         body: JSON.stringify({
           message: userMessage,
-          conversationId: sessionId, // Pass conversationId for security
-          hasTitle: hasTitle,
-          isFirstMessage: isFirstMessage,
+          conversationId: currentSession?.id, // undefined => server creates one
+          hasTitle,
+          isFirstMessage,
         }),
       })
 
@@ -196,29 +169,37 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
       const data = await response.json()
 
-      if (data.conversationTitle && !hasTitle && currentSession?.id) {
-        setHasTitle(true)
-        try {
-          await chatHistoryService.updateSessionTitle(currentSession.id, data.conversationTitle, userId ?? undefined)
-          // Refresh the sidebar so the auto-generated title shows up
-          setSidebarKey((prev) => prev + 1)
-        } catch (error) {
-          console.error("Error updating session title:", error)
+      // Capture the conversation the server used/created so every follow-up question
+      // threads into the SAME conversation instead of starting a new chat.
+      if (data.conversationId && data.conversationId !== currentSession?.id) {
+        const now = new Date().toISOString()
+        setCurrentSession({
+          id: data.conversationId,
+          userId: userId || "demo-user",
+          title: data.conversationTitle || userMessage.substring(0, 50),
+          createdAt: now,
+          updatedAt: now,
+          messageCount: updatedMessages.length,
+        })
+        // Update the URL in place (no remount) so the exchange stays on screen,
+        // while refreshes and deep-links still resolve to this conversation.
+        if (typeof window !== "undefined") {
+          window.history.replaceState(null, "", `/chat/${data.conversationId}`)
         }
+        setSidebarKey((prev) => prev + 1)
+      }
+
+      // The title is auto-generated + persisted server-side; just reflect it in the UI.
+      if (data.conversationTitle && !hasTitle) {
+        setHasTitle(true)
+        setCurrentSession((prev) => (prev ? { ...prev, title: data.conversationTitle } : prev))
+        setSidebarKey((prev) => prev + 1)
       }
 
       if (data.message) {
         const assistantId = (Date.now() + 1).toString()
-        const fullReply = data.message
-
         // Reveal the full response at once (it fades in) — no typewriter.
-        setMessages([...updatedMessages, { role: "assistant", content: fullReply, id: assistantId }])
-
-        if (currentSession?.id && userId) {
-          chatHistoryService
-            .saveMessage(userId, currentSession.id, "assistant", fullReply)
-            .catch((error) => console.error("Error saving assistant message:", error))
-        }
+        setMessages([...updatedMessages, { role: "assistant", content: data.message, id: assistantId }])
       } else {
         throw new Error("No response content received")
       }
@@ -291,25 +272,29 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
   const loadSession = async (sessionId: string) => {
     try {
-      const sessionMessages = await chatHistoryService.loadSession(sessionId)
-      if (sessionMessages.length > 0) {
-        setMessages(
-          sessionMessages.map((msg) => ({
-            id: msg.id,
-            role: msg.role,
-            content: msg.content,
-          })),
-        )
-        setCurrentSession({
-          id: sessionId,
-          userId: userId || "demo-user",
-          title: sessionMessages[0].content.substring(0, 50),
-          createdAt: sessionMessages[0].createdAt,
-          updatedAt: sessionMessages[sessionMessages.length - 1].createdAt,
-          messageCount: sessionMessages.length,
-        })
-        setHasTitle(true) // Track if conversation has a title
-      }
+      // Load via the secure API so ownership is enforced and the stored title is used.
+      const response = await fetch(`/api/conversations/${sessionId}`)
+      if (!response.ok) return
+
+      const data = await response.json()
+      const sessionMessages = data.messages || []
+
+      setMessages(
+        sessionMessages.map((msg: any) => ({
+          id: msg.id,
+          role: msg.role,
+          content: msg.content,
+        })),
+      )
+      setCurrentSession({
+        id: sessionId,
+        userId: userId || "demo-user",
+        title: data.conversation?.title || "Conversation",
+        createdAt: data.conversation?.createdAt || new Date().toISOString(),
+        updatedAt: data.conversation?.updatedAt || new Date().toISOString(),
+        messageCount: sessionMessages.length,
+      })
+      setHasTitle(!!data.conversation?.title)
     } catch (error) {
       console.error("Error loading session:", error)
     }
@@ -345,8 +330,11 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       {/* Sidebar - ChatGPT style */}
       <aside
         className={cn(
-          "fixed md:relative inset-y-0 left-0 z-50 w-72 md:w-80 bg-midnight-900/95 backdrop-blur-md border-r border-neon-500/20 transition-transform duration-300 ease-out will-change-transform",
+          "fixed md:relative inset-y-0 left-0 z-50 w-72 bg-midnight-900/95 backdrop-blur-md border-r border-neon-500/20 transition-all duration-300 ease-out will-change-transform overflow-hidden",
+          // Mobile: slide in/out as a drawer
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          // Desktop: collapse to zero width instead of sliding away
+          isSidebarCollapsed ? "md:w-0 md:border-r-0" : "md:w-80",
         )}
       >
         <ChatHistorySidebar
@@ -370,13 +358,26 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         {/* Header - Compact on mobile */}
         <header className="sticky top-0 z-30 flex items-center justify-between gap-2 px-3 py-2 md:px-4 md:py-3 border-b border-neon-500/20 bg-midnight-900/80 backdrop-blur-md safe-area-top">
           <div className="flex items-center gap-1 md:gap-2">
-            {/* Menu button - Mobile only */}
+            {/* Menu button - Mobile only (slide-over drawer) */}
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               className="md:hidden p-2.5 -ml-1 hover:bg-neon-500/10 active:bg-neon-500/20 rounded-xl transition-colors touch-manipulation"
-              aria-label="Toggle sidebar"
+              aria-label="Open conversation history"
             >
               <Menu className="w-5 h-5 text-neon-400" />
+            </button>
+            {/* Collapse toggle - Desktop only */}
+            <button
+              onClick={() => setIsSidebarCollapsed((v) => !v)}
+              className="hidden md:flex items-center justify-center p-2.5 -ml-1 hover:bg-neon-500/10 active:bg-neon-500/20 rounded-xl transition-colors"
+              aria-label={isSidebarCollapsed ? "Expand conversation history" : "Collapse conversation history"}
+              aria-expanded={!isSidebarCollapsed}
+            >
+              {isSidebarCollapsed ? (
+                <PanelLeftOpen className="w-5 h-5 text-neon-400" />
+              ) : (
+                <PanelLeftClose className="w-5 h-5 text-neon-400" />
+              )}
             </button>
             {/* Home button */}
             <Button
