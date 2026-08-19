@@ -1,9 +1,88 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, type ReactNode } from "react"
 
 interface UpsideResponseProps {
   content: string
+}
+
+// Render inline emphasis (**bold**) as real formatting and strip any stray asterisks/underscores.
+function renderInline(text: string, keyPrefix: string): ReactNode[] {
+  const cleaned = text.replace(/\s*\*\s*(?=$|\s)/g, " ")
+  const nodes: ReactNode[] = []
+  const regex = /\*\*(.+?)\*\*|__(.+?)__/g
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+  let i = 0
+
+  while ((match = regex.exec(cleaned)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(cleaned.slice(lastIndex, match.index))
+    }
+    nodes.push(
+      <strong key={`${keyPrefix}-b-${i++}`} className="font-semibold text-white">
+        {match[1] ?? match[2]}
+      </strong>,
+    )
+    lastIndex = regex.lastIndex
+  }
+
+  if (lastIndex < cleaned.length) {
+    nodes.push(cleaned.slice(lastIndex))
+  }
+
+  // Remove any remaining lone asterisks left over from malformed markdown.
+  return nodes.map((n) => (typeof n === "string" ? n.replace(/\*+/g, "") : n))
+}
+
+interface Block {
+  type: "paragraph" | "list"
+  // For paragraphs: a single string. For lists: an array of item strings.
+  text?: string
+  items?: string[]
+}
+
+// Group the raw reply into clean paragraphs and bullet lists (no visible markdown markers).
+function parseBlocks(content: string): Block[] {
+  const lines = content.split("\n")
+  const blocks: Block[] = []
+  let paragraph: string[] = []
+  let list: string[] = []
+
+  const flushParagraph = () => {
+    if (paragraph.length) {
+      blocks.push({ type: "paragraph", text: paragraph.join(" ").trim() })
+      paragraph = []
+    }
+  }
+  const flushList = () => {
+    if (list.length) {
+      blocks.push({ type: "list", items: [...list] })
+      list = []
+    }
+  }
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim()
+    if (!line) {
+      flushParagraph()
+      flushList()
+      continue
+    }
+
+    const bulletMatch = line.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/)
+    if (bulletMatch) {
+      flushParagraph()
+      list.push(bulletMatch[1].trim())
+    } else {
+      flushList()
+      paragraph.push(line)
+    }
+  }
+  flushParagraph()
+  flushList()
+
+  return blocks
 }
 
 // Action verbs that signal a genuine, do-this-now next step.
@@ -104,11 +183,27 @@ function extractNextMove(content: string): string | null {
 
 export function UpsideResponse({ content }: UpsideResponseProps) {
   const nextMove = useMemo(() => extractNextMove(content), [content])
+  const blocks = useMemo(() => parseBlocks(content), [content])
 
   return (
     <div>
-      {/* Clean, open response text — no card. */}
-      <div className="text-[15px] leading-relaxed whitespace-pre-wrap text-gray-200">{content}</div>
+      {/* Clean, open response text — real formatting, no visible markdown. */}
+      <div className="space-y-3 text-[15px] leading-relaxed text-gray-200">
+        {blocks.map((block, bi) =>
+          block.type === "list" ? (
+            <ul key={`block-${bi}`} className="space-y-1.5">
+              {block.items?.map((item, ii) => (
+                <li key={`block-${bi}-item-${ii}`} className="flex gap-2.5">
+                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-neon-400/70" />
+                  <span>{renderInline(item, `block-${bi}-item-${ii}`)}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p key={`block-${bi}`}>{renderInline(block.text ?? "", `block-${bi}`)}</p>
+          ),
+        )}
+      </div>
 
       {/* A single, subtle next step — only when it's genuinely useful. */}
       {nextMove && (
@@ -118,7 +213,7 @@ export function UpsideResponse({ content }: UpsideResponseProps) {
               Your next move
               <span aria-hidden="true">&rarr;</span>
             </div>
-            <div className="text-sm leading-relaxed text-gray-100">{nextMove}</div>
+            <div className="text-sm leading-relaxed text-gray-100">{renderInline(nextMove, "next-move")}</div>
           </div>
         </div>
       )}
