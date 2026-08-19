@@ -2,9 +2,19 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Menu, LogOut, LogIn, UserRound } from "lucide-react"
+import { useAuth } from "@/contexts/seamless-auth-context"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -14,6 +24,16 @@ const navigation = [
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const { user, signOut } = useAuth()
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    setIsOpen(false)
+    await signOut()
+    // Clear any personal data still on screen and re-read server session.
+    router.push("/")
+    router.refresh()
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-700 bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-slate-900/60">
@@ -113,6 +133,41 @@ export function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="max-w-[220px] border-slate-600 bg-transparent text-gray-200 hover:bg-slate-800 hover:text-white"
+                  >
+                    <UserRound className="h-4 w-4 shrink-0" />
+                    <span className="truncate">{user.email}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 border-slate-700 bg-slate-900 text-gray-200">
+                  <DropdownMenuLabel className="truncate font-normal text-gray-400">{user.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-slate-700" />
+                  <DropdownMenuItem asChild className="cursor-pointer focus:bg-slate-800 focus:text-white">
+                    <Link href="/chat">Your conversations</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="cursor-pointer text-red-300 focus:bg-slate-800 focus:text-red-200"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                asChild
+                variant="outline"
+                className="border-slate-600 bg-transparent text-gray-200 hover:bg-slate-800 hover:text-white"
+              >
+                <Link href="/auth">Sign In</Link>
+              </Button>
+            )}
             <Button
               asChild
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
@@ -221,6 +276,32 @@ export function Header() {
                 </nav>
 
                 <div className="mt-auto space-y-4 pb-4">
+                  {user ? (
+                    <>
+                      <p className="truncate px-1 text-sm text-gray-400">
+                        Signed in as <span className="text-gray-200">{user.email}</span>
+                      </p>
+                      <Button
+                        onClick={handleSignOut}
+                        variant="outline"
+                        className="w-full border-slate-600 bg-transparent text-red-300 hover:bg-slate-800 hover:text-red-200"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign out
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-slate-600 bg-transparent text-gray-200 hover:bg-slate-800 hover:text-white"
+                    >
+                      <Link href="/auth" onClick={() => setIsOpen(false)}>
+                        <LogIn className="h-4 w-4" />
+                        Sign In
+                      </Link>
+                    </Button>
+                  )}
                   <Button
                     asChild
                     className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"

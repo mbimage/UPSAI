@@ -41,6 +41,56 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Your Conversations</h2>
+                  <p>
+                    When you sign in, we store your email address and your conversation history &mdash; the messages you
+                    send and UpSide&apos;s replies &mdash; so you can revisit past conversations and continue them across
+                    your devices. Each conversation is tied to your account and protected by database row-level security,
+                    and every request is checked against your signed-in identity on the server. This means no other
+                    account can ever read, edit, or delete your chats.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Using UpSide as a Guest</h2>
+                  <p>
+                    You can use the chat without an account. Guest conversations are ephemeral: they are not saved to any
+                    account and disappear when you leave. Sign in whenever you want your history to be saved and synced.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">Your Control &amp; Signing Out</h2>
+                  <p>
+                    You can rename or delete any conversation at any time from the chat history panel, and deleting a
+                    conversation permanently removes its messages. Signing out ends your session and clears your visible
+                    conversations from the screen on that device, so the next person using it does not see your personal
+                    information.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4">If You Are in Crisis</h2>
+                  <p>
+                    UpSide is a supportive thought partner, not a human or a licensed professional, and it is not an
+                    emergency service. If you are struggling with thoughts of self-harm or feel unsafe, please reach out
+                    to a real person now. In the US you can call or text{" "}
+                    <a href="tel:988" className="text-neon-400 hover:text-neon-300">
+                      988
+                    </a>{" "}
+                    (Suicide &amp; Crisis Lifeline) or text HOME to{" "}
+                    <a href="sms:741741" className="text-neon-400 hover:text-neon-300">
+                      741741
+                    </a>{" "}
+                    (Crisis Text Line). If you are in immediate danger, call{" "}
+                    <a href="tel:911" className="text-neon-400 hover:text-neon-300">
+                      911
+                    </a>
+                    .
+                  </p>
+                </section>
+
+                <section>
                   <h2 className="text-2xl font-bold text-white mb-4">Eligibility &amp; Privacy</h2>
                   <p>
                     UpSide AI is intended for college athletes who are 18 years of age or older. We take your privacy
