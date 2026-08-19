@@ -1,7 +1,35 @@
 // AI Service - Uses the Vercel AI Gateway via the AI SDK
 // The gateway provides zero-config access to OpenAI models (no personal billing key required)
 
-import { generateText } from "ai"
+import { generateText, APICallError } from "ai"
+
+// Pull safe, non-sensitive diagnostics out of an AI SDK error for server logging.
+// Never returns the API key or full response body.
+export function extractAIErrorInfo(error: unknown): {
+  errorType: string
+  httpStatus: number | "unknown"
+  requestId: string
+  isRetryable: boolean
+} {
+  if (APICallError.isInstance(error)) {
+    const headers = error.responseHeaders || {}
+    const requestId =
+      headers["x-request-id"] || headers["x-amzn-requestid"] || headers["cf-ray"] || "unknown"
+    return {
+      errorType: error.name || "APICallError",
+      httpStatus: error.statusCode ?? "unknown",
+      requestId,
+      isRetryable: Boolean(error.isRetryable),
+    }
+  }
+  const e = error as { name?: string; status?: number; statusCode?: number } | undefined
+  return {
+    errorType: e?.name || "UnknownError",
+    httpStatus: e?.status ?? e?.statusCode ?? "unknown",
+    requestId: "unknown",
+    isRetryable: false,
+  }
+}
 
 interface ChatMessage {
   role: "system" | "user" | "assistant"

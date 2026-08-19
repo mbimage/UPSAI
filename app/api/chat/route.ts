@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { openaiService, UPSIDE_AI_SYSTEM_PROMPT } from "@/lib/openai-service"
+import { openaiService, UPSIDE_AI_SYSTEM_PROMPT, extractAIErrorInfo } from "@/lib/openai-service"
 import { sanitizeInput, getSecurityHeaders } from "@/lib/security-service"
 import { createServerSupabaseClient, getUser } from "@/lib/supabase/server"
 import { 
@@ -136,46 +136,55 @@ export async function POST(request: NextRequest) {
     )
     console.log("[v0] Chat API: Assembled prompt - messages:", assembledPrompt.messages.length, "tokens:", assembledPrompt.tokenEstimate, "hasSummary:", assembledPrompt.hasSummary)
 
-    let aiResponse
+    let aiResponse: { message: string; sessionSummary: string; conversationTitle?: string } | undefined
     let attempt = 0
+    let lastError: unknown
     const maxAttempts = 2
 
     while (attempt < maxAttempts) {
       try {
-        console.log("[v0] Chat API: Sending to OpenAI, attempt:", attempt + 1)
+        console.log("[v0] Chat API: Sending to model, attempt:", attempt + 1)
         // Use the assembled prompt with full memory context
         const historyResponse = await openaiService.generateChatResponseWithHistory(assembledPrompt.messages)
-        console.log("[v0] Chat API: Received response from OpenAI, length:", historyResponse?.message?.length)
+        console.log("[v0] Chat API: Received response, length:", historyResponse?.message?.length)
+
+        if (!historyResponse?.message?.trim()) {
+          throw new Error("Empty response received from AI")
+        }
+
         aiResponse = {
           message: historyResponse.message,
           sessionSummary: `Conversation about: ${sanitizedMessage.substring(0, 50)}...`,
           conversationTitle: generatedTitle,
         }
-
-        if (aiResponse?.message?.trim().length > 0) {
-          break
-        }
-        throw new Error("Empty response received from AI")
+        break
       } catch (error) {
+        lastError = error
         attempt++
-        if (attempt >= maxAttempts) {
-          aiResponse = {
-            message: "I'm here to support you! I'm having a brief technical moment, but I'm ready to help with your questions about balancing school, sports, building confidence, or planning your future. What's on your mind?",
-            sessionSummary: `User asked: ${sanitizedMessage.substring(0, 50)}...`,
-            fallback: true,
-          }
-          break
+        if (attempt < maxAttempts) {
+          await new Promise((resolve) => setTimeout(resolve, 500))
         }
-        await new Promise((resolve) => setTimeout(resolve, 500))
       }
     }
 
+    // The model failed to produce a real answer. Do NOT fabricate an assistant
+    // reply. Log diagnostics for debugging (never the API key) and return a real
+    // error status so the client can keep the user's question visible and offer
+    // Try again / Edit question instead of a fake "technical moment" answer.
     if (!aiResponse?.message) {
-      aiResponse = {
-        message: "I'm your AI teammate, ready to help you succeed! Let's talk about building confidence, managing stress, setting goals, or planning your future. What would you like to explore?",
-        sessionSummary: `User asked: ${sanitizedMessage.substring(0, 50)}...`,
-        fallback: true,
-      }
+      // Safe, non-sensitive diagnostics only (error type, HTTP status, request id).
+      console.error("[v0] Chat API: AI request failed after retries", extractAIErrorInfo(lastError))
+
+      // Note: the user message was already persisted above, but no assistant
+      // message is saved, so the conversation history stays clean.
+      return NextResponse.json(
+        {
+          error: "ai_unavailable",
+          message: "UpSide couldn't answer that just yet. Your question is still here.",
+          conversationId: activeConversationId,
+        },
+        { status: 502, headers: getSecurityHeaders() },
+      )
     }
 
     // Save assistant message to database (only for authenticated users with valid sessions)
@@ -222,21 +231,20 @@ export async function POST(request: NextRequest) {
         conversationTitle: aiResponse.conversationTitle,
         sessionSummary: aiResponse.sessionSummary,
         timestamp: new Date().toISOString(),
-        fallback: aiResponse.fallback || false,
       },
       { status: 200, headers: getSecurityHeaders() }
     )
   } catch (error) {
-    console.error("[v0] Chat API critical error:", error)
+    // Unexpected server error. Log diagnostics and return a real error status.
+    // Never fabricate an assistant reply, and never leak internals to the user.
+    console.error("[v0] Chat API critical error", extractAIErrorInfo(error))
 
     return NextResponse.json(
       {
-        message: "I'm still here for you! Even when tech has a hiccup, I want to support your journey. Try asking me about building confidence, managing your schedule, college planning, or developing leadership skills.",
-        timestamp: new Date().toISOString(),
-        fallback: true,
-        error: "temporary_issue",
+        error: "server_error",
+        message: "UpSide couldn't answer that just yet. Your question is still here.",
       },
-      { status: 200, headers: getSecurityHeaders() }
+      { status: 500, headers: getSecurityHeaders() }
     )
   }
 }

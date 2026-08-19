@@ -24,24 +24,9 @@ export async function middleware(request: NextRequest) {
         },
       })
 
-      // Refresh session if needed
+      // Refresh any existing session cookie. The site is fully public and
+      // sign-in free, so no route is gated or redirected here.
       await supabase.auth.getUser()
-
-      // Protected routes that require authentication
-      const protectedPaths = ["/assessments", "/profile"]
-      const isProtectedPath = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))
-
-      if (isProtectedPath) {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser()
-
-        if (!user) {
-          const redirectUrl = new URL("/login", request.url)
-          redirectUrl.searchParams.set("redirectTo", request.nextUrl.pathname)
-          return NextResponse.redirect(redirectUrl)
-        }
-      }
     }
 
     return response

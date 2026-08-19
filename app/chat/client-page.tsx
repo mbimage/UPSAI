@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight } from "lucide-react"
+import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight, RefreshCw, Pencil } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
@@ -77,7 +77,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState(initialMessage)
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  // A failed turn: the user's question is preserved so they can retry or edit it.
+  // This is a transient UI-only state; it is never saved to conversation history.
+  const [failedQuestion, setFailedQuestion] = useState<string | null>(null)
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null)
   const [isCreatingNewChat, setIsCreatingNewChat] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false) // Mobile drawer (slide-over)
@@ -187,18 +189,33 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const sendMessage = async (overrideText?: string) => {
+  // `isRetry` re-sends the last failed question WITHOUT appending a duplicate
+  // user bubble (it's already on screen). Normal sends append a new user bubble.
+  const sendMessage = async (overrideText?: string, isRetry = false) => {
     const text = (overrideText ?? input).trim()
     if (!text || isLoading) return
 
     const userMessage = text
     const messageId = Date.now().toString()
-    const isFirstMessage = messages.length === 1 && messages[0].role === "assistant"
-    setInput("")
-    setError(null)
 
-    const updatedMessages = [...messages, { role: "user" as const, content: userMessage, id: messageId }]
-    setMessages(updatedMessages)
+    // Clear any prior failure now that we're actively trying again.
+    setFailedQuestion(null)
+
+    let updatedMessages: Message[]
+    if (isRetry) {
+      // The user's question is already the last message on screen. Reuse it as-is
+      // so Try again never produces a duplicate question.
+      updatedMessages = messages
+    } else {
+      setInput("")
+      updatedMessages = [...messages, { role: "user" as const, content: userMessage, id: messageId }]
+      setMessages(updatedMessages)
+    }
+
+    const isFirstMessage =
+      updatedMessages.length >= 1 &&
+      updatedMessages.filter((m) => m.role === "user").length === 1
+
     setIsLoading(true)
 
     try {
@@ -260,11 +277,40 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         throw new Error("No response content received")
       }
     } catch (err) {
-      console.error("Chat error:", err)
-      setError(err instanceof Error ? err.message : "Failed to get a response")
+      console.error("[v0] Chat error:", err)
+      // Keep the user's question on screen and remember it so they can retry or
+      // edit it. We do NOT insert a fake assistant reply into the transcript.
+      setFailedQuestion(userMessage)
     } finally {
+      // Always reset the loading/streaming state, on success or failure.
       setIsLoading(false)
     }
+  }
+
+  // Re-send the exact failed question without adding a duplicate user bubble.
+  const retryFailed = () => {
+    if (!failedQuestion || isLoading) return
+    sendMessage(failedQuestion, true)
+  }
+
+  // Move the failed question back into the input for editing, and drop it from
+  // the transcript so it isn't duplicated when they resend.
+  const editFailedQuestion = () => {
+    if (!failedQuestion) return
+    setInput(failedQuestion)
+    setMessages((prev) => {
+      const next = [...prev]
+      // Remove the trailing user message (the one that failed).
+      for (let i = next.length - 1; i >= 0; i--) {
+        if (next[i].role === "user") {
+          next.splice(i, 1)
+          break
+        }
+      }
+      return next
+    })
+    setFailedQuestion(null)
+    inputRef.current?.focus()
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -308,7 +354,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     setIsCreatingNewChat(true)
     setMessages([])
     setInput("")
-    setError(null)
+    setFailedQuestion(null)
     setCurrentSession(null)
     setHasTitle(false)
 
@@ -553,9 +599,37 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                   </div>
                 )}
 
-                {error && (
-                  <div role="alert" className="rounded-lg bg-red-900/20 border border-red-500/30 p-4 text-sm text-red-400">
-                    {error}
+                {failedQuestion && !isLoading && (
+                  // System error (NOT an assistant message). The user's question
+                  // stays visible above; this is never saved to history.
+                  <div
+                    role="alert"
+                    className="rounded-2xl border border-amber-500/30 bg-amber-500/5 px-4 py-3.5 animate-fadeIn"
+                  >
+                    <p className="text-sm leading-relaxed text-amber-200/90">
+                      UpSide couldn&apos;t answer that just yet. Your question is still here.
+                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <Button
+                        type="button"
+                        onClick={retryFailed}
+                        size="sm"
+                        className="h-8 gap-1.5 bg-neon-500/90 text-white hover:bg-neon-500"
+                      >
+                        <RefreshCw className="h-3.5 w-3.5" />
+                        Try again
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={editFailedQuestion}
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1.5 border-white/15 bg-transparent text-gray-200 hover:bg-white/5 hover:text-white"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                        Edit question
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
