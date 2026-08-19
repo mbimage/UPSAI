@@ -121,7 +121,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
     if (messages.length === 0) {
       const welcomeId = Date.now().toString()
       const fullMessage =
-        "Hey, I'm UpSide, someone in your corner, 24/7. Whether you're building self-efficacy, strengthening emotional intelligence, preparing for your career, navigating college decisions, relationships, opportunities, or figuring out what comes next, I'm here for it. No forms, no script, so I'll get to know you as we talk. So what's going on with you right now?"
+        "Hey, I'm UpSide — think of me as a teammate you can think out loud with. Big decision, a text or email you want to get right, a conversation you're nervous about, or just something on your mind — I'm here for it. What's going on?"
 
       // Show the complete message right away (it fades in) — no typewriter.
       setMessages([{ role: "assistant", content: fullMessage, id: welcomeId }])
