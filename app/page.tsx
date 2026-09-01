@@ -252,7 +252,7 @@ export default function Home() {
               size="lg"
               className="relative group bg-neon-500/10 hover:bg-neon-500/20 border border-neon-500/50 hover:border-neon-400/70 text-neon-300 hover:text-neon-200 px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 w-full sm:w-auto backdrop-blur-sm"
             >
-              <Link href="/about" className="flex items-center justify-center gap-2">
+              <Link href="/how-it-works" className="flex items-center justify-center gap-2">
                 <span>How it works</span>
               </Link>
             </Button>
