@@ -21,7 +21,21 @@ import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
 import { UpsideResponse } from "@/components/upside-response"
 import { HumanSupport } from "@/components/human-support"
 import { AmbientBackground } from "@/components/ambient-background"
+import { ChatGateOverlay } from "@/components/chat-gate-overlay"
 import { cn } from "@/lib/utils"
+
+// Public chat gate: everyone gets this many answered questions before the chat
+// locks behind a simple email capture. Kept in sync with the server limit in
+// app/api/chat/route.ts.
+const FREE_QUESTION_LIMIT = 2
+const UNLOCK_COOKIE = "upside_unlocked"
+const COUNT_COOKIE = "upside_q"
+
+function readCookie(name: string): string | null {
+  if (typeof document === "undefined") return null
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`))
+  return match ? decodeURIComponent(match[1]) : null
+}
 
 interface Message {
   role: "user" | "assistant"
@@ -96,6 +110,21 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   const [hasTitle, setHasTitle] = useState(false)
   const [sidebarKey, setSidebarKey] = useState(0) // Force sidebar refresh
   const [copiedId, setCopiedId] = useState<string | null>(null)
+
+  // --- Public chat gate ---
+  // `isUnlocked` and `questionsUsed` are seeded from cookies on mount so the
+  // limit survives refreshes. When the limit is hit, `isGateOpen` shows the
+  // blurred email overlay and `pendingQuestion` holds the blocked question so
+  // we can auto-send it the moment they unlock.
+  const [isUnlocked, setIsUnlocked] = useState(false)
+  const [questionsUsed, setQuestionsUsed] = useState(0)
+  const [isGateOpen, setIsGateOpen] = useState(false)
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null)
+
+  useEffect(() => {
+    setIsUnlocked(readCookie(UNLOCK_COOKIE) === "1")
+    setQuestionsUsed(Number.parseInt(readCookie(COUNT_COOKIE) ?? "0", 10) || 0)
+  }, [])
 
   const copyResponse = async (id: string, text: string) => {
     try {
@@ -262,9 +291,18 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
 
   // `isRetry` re-sends the last failed question WITHOUT appending a duplicate
   // user bubble (it's already on screen). Normal sends append a new user bubble.
-  const sendMessage = async (overrideText?: string, isRetry = false) => {
+  const sendMessage = async (overrideText?: string, isRetry = false, bypassGate = false) => {
     const text = (overrideText ?? input).trim()
     if (!text || isLoading) return
+
+    // GATE: once the free-question limit is reached, don't fire a doomed request.
+    // Stash the question and open the email overlay instead. `bypassGate` lets
+    // the unlock handler resend the pending question after the email is accepted.
+    if (!bypassGate && !isRetry && !isUnlocked && questionsUsed >= FREE_QUESTION_LIMIT) {
+      setPendingQuestion(text)
+      setIsGateOpen(true)
+      return
+    }
 
     const userMessage = text
     const messageId = Date.now().toString()
@@ -307,7 +345,19 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
       })
 
       if (!response.ok) {
-        const errorData = await response.json()
+        const errorData = await response.json().catch(() => ({}))
+
+        // Server backstop for the free-question limit (e.g. after a refresh where
+        // the client count and cookie count drift). Roll back the optimistic user
+        // bubble, remember the question, and open the email overlay.
+        if (response.status === 403 && errorData.error === "email_required") {
+          if (!isRetry) setMessages(messages)
+          setPendingQuestion(userMessage)
+          setIsGateOpen(true)
+          setIsLoading(false)
+          return
+        }
+
         throw new Error(errorData.error || "Failed to get a response")
       }
 
@@ -344,6 +394,9 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
         const assistantId = (Date.now() + 1).toString()
         // Reveal the full response at once (it fades in). No typewriter.
         setMessages([...updatedMessages, { role: "assistant", content: data.message, id: assistantId }])
+        // Count this answered question toward the free limit (mirrors the server
+        // cookie). Once unlocked, the limit no longer applies.
+        if (!isUnlocked) setQuestionsUsed((q) => q + 1)
       } else {
         throw new Error("No response content received")
       }
@@ -362,6 +415,34 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
   const retryFailed = () => {
     if (!failedQuestion || isLoading) return
     sendMessage(failedQuestion, true)
+  }
+
+  // Called by the email overlay. Stores the lead server-side, sets the unlock
+  // cookie, and — on success — closes the gate and resends the blocked question.
+  // Returns an error string to display, or null on success.
+  const handleUnlock = async (email: string): Promise<string | null> => {
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, questionCount: questionsUsed }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        return data.message || "Something went wrong. Please try again."
+      }
+
+      setIsUnlocked(true)
+      setIsGateOpen(false)
+
+      // Resend whatever they were blocked on, bypassing the gate this time.
+      const question = pendingQuestion
+      setPendingQuestion(null)
+      if (question) sendMessage(question, false, true)
+      return null
+    } catch {
+      return "Something went wrong. Please try again."
+    }
   }
 
   // Move the failed question back into the input for editing, and drop it from
@@ -777,7 +858,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask anything or think out loud…"
-                  disabled={isLoading}
+                  disabled={isLoading || isGateOpen}
                   className="flex-1 bg-transparent border-0 text-white placeholder:text-gray-400 min-h-[48px] md:min-h-[52px] text-base px-4 py-3 focus-visible:ring-0 focus-visible:ring-offset-0"
                   autoComplete="off"
                   enterKeyHint="send"
@@ -787,7 +868,7 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
               {/* Send button */}
               <Button
                 type="submit"
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || isGateOpen || !input.trim()}
                 size="icon"
                 className={cn(
                   "flex-shrink-0 w-12 h-12 md:w-[52px] md:h-[52px] rounded-xl transition-all duration-200 touch-manipulation",
@@ -809,6 +890,15 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
             <p className="hidden md:block text-xs text-gray-500 mt-2 text-center">Press Enter to send</p>
           </div>
         </div>
+
+        {/* Public chat gate: blurred email wall once the free limit is reached. */}
+        {isGateOpen && (
+          <ChatGateOverlay
+            questionsUsed={questionsUsed}
+            defaultEmail={user?.email ?? ""}
+            onSubmit={handleUnlock}
+          />
+        )}
       </main>
     </div>
   )

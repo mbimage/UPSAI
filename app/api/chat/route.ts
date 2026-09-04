@@ -2,11 +2,19 @@ import { type NextRequest, NextResponse } from "next/server"
 import { openaiService, UPSIDE_AI_SYSTEM_PROMPT, extractAIErrorInfo } from "@/lib/openai-service"
 import { sanitizeInput, getSecurityHeaders } from "@/lib/security-service"
 import { createServerSupabaseClient, getUser } from "@/lib/supabase/server"
-import { 
+import {
   assemblePromptForChat, 
   checkAndRunSummarizer,
   MEMORY_CONFIG 
 } from "@/lib/chat-memory-service"
+
+// Public chat gate: everyone (guest or signed-in) gets this many answered
+// questions before they must enter an email to keep going. The email flow
+// (/api/leads) sets the unlock cookie that lifts this limit.
+const FREE_QUESTION_LIMIT = 2
+const UNLOCK_COOKIE = "upside_unlocked"
+const COUNT_COOKIE = "upside_q"
+const ONE_YEAR = 60 * 60 * 24 * 365
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,6 +46,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Invalid message content" },
         { status: 400, headers: getSecurityHeaders() }
+      )
+    }
+
+    // GATE: enforce the free-question limit for everyone until they unlock via
+    // email. The unlock + running count live in cookies so the limit survives
+    // refreshes and can't be reset by simply reloading the page.
+    const isUnlocked = request.cookies.get(UNLOCK_COOKIE)?.value === "1"
+    const priorCount = Number.parseInt(request.cookies.get(COUNT_COOKIE)?.value ?? "0", 10) || 0
+    if (!isUnlocked && priorCount >= FREE_QUESTION_LIMIT) {
+      return NextResponse.json(
+        {
+          error: "email_required",
+          message: "Enter your email to keep talking with UpSide.",
+        },
+        { status: 403, headers: getSecurityHeaders() },
       )
     }
 
@@ -224,7 +247,7 @@ export async function POST(request: NextRequest) {
       checkAndRunSummarizer(activeConversationId, userId, currentMessageCount)
     }
 
-    return NextResponse.json(
+    const successResponse = NextResponse.json(
       {
         message: aiResponse.message,
         conversationId: activeConversationId,
@@ -234,6 +257,19 @@ export async function POST(request: NextRequest) {
       },
       { status: 200, headers: getSecurityHeaders() }
     )
+
+    // Count this answered question toward the free limit (until unlocked).
+    // Readable by the client (not httpOnly) so the overlay can mirror the count.
+    if (!isUnlocked) {
+      successResponse.cookies.set(COUNT_COOKIE, String(priorCount + 1), {
+        path: "/",
+        maxAge: ONE_YEAR,
+        sameSite: "lax",
+        httpOnly: false,
+      })
+    }
+
+    return successResponse
   } catch (error) {
     // Unexpected server error. Log diagnostics and return a real error status.
     // Never fabricate an assistant reply, and never leak internals to the user.
