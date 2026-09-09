@@ -148,7 +148,7 @@ export default function AboutPage() {
                         variants={fadeInUp}
                       >
                         <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                          A highly rated recruit from Brenham, Texas, Marqez earned a full scholarship to UT Austin. In
+                          A highly regarded recruit from Brenham, Texas, Marqez earned a full scholarship to UT Austin. In
                           2020, during a time of great uncertainty, he made the difficult decision to opt out of the
                           Texas football season, a choice shaped by the stark difference he observed between the athlete
                           experience and that of the broader student body.
