@@ -133,7 +133,11 @@ export default function Home() {
                 </span>
                 {" AI"}
               </span>
-              <span className="relative inline-flex items-center px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-amber-400 text-midnight-950 rounded-full leading-none shadow-[0_0_14px_rgba(251,191,36,0.7)] ring-1 ring-amber-300/70">
+              <span className="relative inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-amber-400 text-midnight-950 rounded-full leading-none ring-1 ring-amber-300/70 animate-beta-glow">
+                <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-midnight-950/60 animate-ping" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-midnight-950" />
+                </span>
                 Beta
               </span>
             </Link>

@@ -230,6 +230,16 @@
   }
 }
 
+@keyframes beta-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(251, 191, 36, 0.85);
+  }
+}
+
 @keyframes gradient-shift {
   0%,
   100% {
@@ -360,6 +370,16 @@ html {
 
 .animate-shimmer {
   animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-beta-glow {
+  animation: beta-glow 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-beta-glow {
+    animation: none;
+  }
 }
 
 /* Page Transitions */
