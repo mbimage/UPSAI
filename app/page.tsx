@@ -133,7 +133,7 @@ export default function Home() {
                 </span>
                 {" AI"}
               </span>
-              <span className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider bg-neon-500/10 border border-neon-500/30 text-neon-300 rounded-full leading-none">
+              <span className="relative inline-flex items-center px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-amber-400 text-midnight-950 rounded-full leading-none shadow-[0_0_14px_rgba(251,191,36,0.7)] ring-1 ring-amber-300/70">
                 Beta
               </span>
             </Link>
@@ -252,7 +252,7 @@ export default function Home() {
               size="lg"
               className="relative group bg-neon-500/10 hover:bg-neon-500/20 border border-neon-500/50 hover:border-neon-400/70 text-neon-300 hover:text-neon-200 px-10 py-5 text-base font-semibold rounded-full transition-all duration-300 w-full sm:w-auto backdrop-blur-sm"
             >
-              <Link href="/about" className="flex items-center justify-center gap-2">
+              <Link href="/how-it-works" className="flex items-center justify-center gap-2">
                 <span>How it works</span>
               </Link>
             </Button>
