@@ -7,6 +7,7 @@ import {
   checkAndRunSummarizer,
   MEMORY_CONFIG 
 } from "@/lib/chat-memory-service"
+import { queueInteractionExtraction } from "@/lib/interaction-history-service"
 
 export async function POST(request: NextRequest) {
   try {
@@ -222,6 +223,15 @@ export async function POST(request: NextRequest) {
       // MEMORY LAYER: Check if we should run the summarizer (every N messages)
       // This runs asynchronously in the background to avoid blocking the response
       checkAndRunSummarizer(activeConversationId, userId, currentMessageCount)
+
+      // HISTORY + MEMORY: Extract a timestamped insight (and any durable memory)
+      // from this exchange. Runs in the background so it never blocks the reply.
+      queueInteractionExtraction({
+        conversationId: activeConversationId,
+        userId,
+        userMessage: sanitizedMessage,
+        upsideResponse: aiResponse.message,
+      })
     }
 
     return NextResponse.json(
