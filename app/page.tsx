@@ -207,7 +207,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for college athletes across Texas
+              Built for Texas JUCO college athletes
             </span>
           </div>
 
@@ -228,11 +228,11 @@ export default function Home() {
 
           {/* Supporting tagline */}
           <p className="font-display text-xl sm:text-2xl md:text-3xl font-semibold mb-5 md:mb-6 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent text-balance">
-            Ask. Think. Make your next move.
+            Support between the support.
           </p>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
-            A 24/7 conversational tool built for Texas college athletes navigating life on and off campus.
+            School. Sport. Transfer. Career. Life. Whatever&apos;s on your mind, UpSide is here 24/7.
           </p>
 
           {/* CTA Buttons */}

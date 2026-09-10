@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight, RefreshCw, Pencil, LogIn, LogOut, UserRound } from "lucide-react"
+import { Send, Menu, ArrowLeft, PanelLeftClose, PanelLeftOpen, Copy, Check, Wand2, ArrowRight, RefreshCw, Pencil, LogIn, LogOut, UserRound, Sparkles } from "lucide-react"
 import { useAuth } from "@/contexts/seamless-auth-context"
 import { getChatHistoryService, type ChatSession } from "@/lib/chat-history-service"
 import { ChatHistorySidebar } from "@/components/chat-history-sidebar"
@@ -34,11 +34,16 @@ interface ClientChatPageProps {
   conversationId?: string
 }
 
-// Three calm starting points, shown in the welcome state before a conversation begins.
+// Quick-start points shown in the welcome state before a conversation begins.
+// The short label is what the athlete taps; the fuller message is what gets sent,
+// so one tap starts a real conversation with no questionnaire in between.
 const STARTER_PROMPTS = [
-  "Help me think through something",
-  "Help me prepare for a conversation",
-  "Help me write a message",
+  { label: "Talk through something with my coach", message: "I need to talk through something with my coach." },
+  { label: "I'm thinking about transferring", message: "I'm thinking about transferring and want to talk it through." },
+  { label: "What comes after my sport?", message: "Help me figure out what comes after my sport." },
+  { label: "I need help with school", message: "I need help handling something with school." },
+  { label: "Something personal is on my mind", message: "Something personal is on my mind and I want to talk it through." },
+  { label: "I'm not sure who to talk to", message: "I'm not sure who I should talk to about this." },
 ]
 
 const WELCOME_MESSAGE =
@@ -587,6 +592,13 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
                 <DropdownMenuContent align="end" className="w-56 border-neon-500/20 bg-midnight-900 text-gray-200">
                   <DropdownMenuLabel className="truncate font-normal text-gray-400">{user.email}</DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-neon-500/20" />
+                  <DropdownMenuItem asChild className="cursor-pointer focus:bg-midnight-800 focus:text-white">
+                    <Link href="/your-upside">
+                      <Sparkles className="h-4 w-4 text-neon-300" />
+                      Your UpSide
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-neon-500/20" />
                   <DropdownMenuItem
                     onClick={handleSignOut}
                     className="cursor-pointer text-red-300 focus:bg-midnight-800 focus:text-red-200"
@@ -628,18 +640,21 @@ export default function ClientChatPage({ initialMessage = "", conversationId }: 
               // Compact, centered welcome instead of a big empty gradient panel.
               <div className="flex min-h-[54vh] flex-col items-center justify-center text-center animate-fadeIn">
                 <UpsideMark className="mb-5 h-14 w-14" />
-                <p className="max-w-lg text-pretty text-lg leading-relaxed text-gray-200 md:text-xl">
+                <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-white text-balance">
+                  What&apos;s on your mind?
+                </h1>
+                <p className="mt-3 max-w-lg text-pretty text-base leading-relaxed text-gray-300 md:text-lg">
                   {WELCOME_MESSAGE}
                 </p>
                 <div className="mt-7 flex flex-wrap justify-center gap-2.5" aria-label="Ways to get started">
                   {STARTER_PROMPTS.map((prompt) => (
                     <button
-                      key={prompt}
+                      key={prompt.label}
                       type="button"
-                      onClick={() => sendMessage(prompt)}
-                      className="rounded-full border border-neon-500/25 bg-midnight-900/60 px-4 py-2 text-sm text-gray-200 transition-all hover:border-neon-500/50 hover:bg-neon-500/10 hover:text-white active:scale-95 touch-manipulation"
+                      onClick={() => sendMessage(prompt.message)}
+                      className="rounded-full border border-neon-500/25 bg-midnight-900/60 px-4 py-2.5 text-sm text-gray-200 transition-all hover:border-neon-500/50 hover:bg-neon-500/10 hover:text-white active:scale-95 touch-manipulation"
                     >
-                      {prompt}
+                      {prompt.label}
                     </button>
                   ))}
                 </div>
