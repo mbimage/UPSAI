@@ -115,7 +115,7 @@ export default function AccessibilityPage() {
                   asChild
                   className="border-neon-500/20 text-white hover:bg-neon-500/10 bg-transparent"
                 >
-                  <Link href="mailto:accessibility@upsideai.com">Email Accessibility Team</Link>
+                  <Link href="mailto:contact.mbimage@gmail.com">Email Accessibility Team</Link>
                 </Button>
               </div>
             </CardContent>

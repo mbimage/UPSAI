@@ -738,7 +738,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-neon-500/10 pt-8 text-center">
-            <p className="text-gray-400 text-sm">© {new Date().getFullYear()} UpSide AI. All rights reserved.</p>
+            <p className="text-gray-400 text-sm">© 2025 UpSide AI. All rights reserved.</p>
             <p className="text-gray-500 text-xs mt-2">
               <span className="text-white font-medium">Our Mission:</span> Helping Texas college athletes confidently
               navigate the moments that shape who they become and what comes next.
