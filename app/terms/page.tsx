@@ -60,9 +60,9 @@ export default function TermsPage() {
                   <h2 className="text-2xl font-bold text-white mb-4">Contact Information</h2>
                   <p>
                     Questions about the Terms of Service should be sent to us at{" "}
-                    <Link href="/contact" className="text-neon-400 hover:text-neon-300">
-                      legal@upsideai.com
-                    </Link>
+                    <a href="mailto:contact.mbimage@gmail.com" className="text-neon-400 hover:text-neon-300">
+                      contact.mbimage@gmail.com
+                    </a>
                   </p>
                 </section>
               </div>

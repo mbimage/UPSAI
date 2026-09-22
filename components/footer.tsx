@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Mail, Phone, MapPin } from "lucide-react"
+import { Mail } from "lucide-react"
 
 export function Footer() {
   return (
@@ -25,17 +25,13 @@ export function Footer() {
               Personalized, on-demand support for college athletes across Texas. Building self-efficacy,
               emotional intelligence, and career readiness for the next generation of leaders.
             </p>
-            <div className="flex gap-2">
-              <a href="mailto:support@upsideai.com" aria-label="Email us" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
-                <Mail className="h-5 w-5" />
-              </a>
-              <a href="tel:+1-555-0123" aria-label="Call us" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
-                <Phone className="h-5 w-5" />
-              </a>
-              <a href="#" aria-label="Our location" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors touch-manipulation">
-                <MapPin className="h-5 w-5" />
-              </a>
-            </div>
+            <a
+              href="mailto:contact.mbimage@gmail.com"
+              className="inline-flex items-center gap-2 min-h-[44px] rounded-lg text-gray-300 hover:text-white transition-colors touch-manipulation"
+            >
+              <Mail className="h-5 w-5" />
+              contact.mbimage@gmail.com
+            </a>
           </div>
 
           {/* Quick Links */}

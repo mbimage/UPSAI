@@ -4,7 +4,18 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export async function submitContactForm(formData: FormData) {
+// Single destination for every contact feature across the site.
+const CONTACT_EMAIL = "contact.mbimage@gmail.com"
+
+export type ContactFormState = {
+  status: "idle" | "success" | "error"
+  message?: string
+}
+
+export async function submitContactForm(
+  _prevState: ContactFormState,
+  formData: FormData,
+): Promise<ContactFormState> {
   try {
     const firstName = formData.get("firstName") as string
     const lastName = formData.get("lastName") as string
@@ -17,15 +28,16 @@ export async function submitContactForm(formData: FormData) {
     // Validate required fields
     if (!firstName || !lastName || !email || !role || !subject || !message) {
       return {
-        success: false,
-        error: "Please fill in all required fields.",
+        status: "error",
+        message: "Please fill in all required fields.",
       }
     }
 
     // Send notification email to you
     const adminEmailResult = await resend.emails.send({
       from: "UpSide AI Contact <noreply@upsideai.com>",
-      to: ["support@upsideai.com"], // Replace with your actual email
+      to: [CONTACT_EMAIL],
+      replyTo: email,
       subject: `New Contact Form: ${subject}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -130,20 +142,21 @@ export async function submitContactForm(formData: FormData) {
     if (adminEmailResult.error || userEmailResult.error) {
       console.error("Email sending error:", adminEmailResult.error || userEmailResult.error)
       return {
-        success: false,
-        error: "Message sent but there was an issue with email notifications. We will still respond to your inquiry.",
+        status: "error",
+        message:
+          "There was an issue sending your message. Please email us directly at " + CONTACT_EMAIL + ".",
       }
     }
 
     return {
-      success: true,
+      status: "success",
       message: "Thank you for your message! We'll get back to you within 2-4 hours.",
     }
   } catch (error) {
     console.error("Contact form submission error:", error)
     return {
-      success: false,
-      error: "There was an error sending your message. Please try again or email us directly at support@upsideai.com",
+      status: "error",
+      message: "There was an error sending your message. Please try again or email us directly at " + CONTACT_EMAIL + ".",
     }
   }
 }
