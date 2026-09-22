@@ -591,7 +591,7 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for college athletes across Texas</p>
+            <p className="text-sm text-gray-400">Built for Texas JUCO college athletes</p>
           </div>
         </div>
       </section>
