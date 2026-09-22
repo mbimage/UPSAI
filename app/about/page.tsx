@@ -477,8 +477,9 @@ export default function AboutPage() {
                         <span>The E+R=O Framework</span>
                       </h3>
                       <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-6">
-                        UpSide AI helps you understand that while you can't always control Events, you can control your
-                        Response, which determines your Outcome:
+                        Event + Response = Outcome, a framework credited to psychotherapist Dr. Robert Resnick and
+                        popularized by Jack Canfield. It helps you see that while you can't always control Events, you
+                        can control your Response, which determines your Outcome:
                       </p>
 
                       <div className="space-y-3 md:space-y-4">
@@ -527,9 +528,34 @@ export default function AboutPage() {
                         </div>
                       </div>
 
-                      <p className="text-muted-foreground text-xs md:text-sm mt-6 italic">
-                        Remember: You can't always choose what happens, but you can always choose how you respond.
+                      <p className="text-muted-foreground text-sm md:text-base mt-6 leading-relaxed">
+                        We cannot control every event or guarantee every outcome, but we can develop how we respond.
+                        That is where this work lives.
                       </p>
+
+                      <div className="mt-6 md:mt-8 p-4 md:p-6 bg-primary/5 rounded-xl border border-primary/20">
+                        <p className="text-sm md:text-base text-primary font-semibold">My focus within the Response</p>
+                        <p className="text-3xl md:text-4xl font-bold text-foreground tracking-wide mt-1 mb-4">SEC</p>
+                        <ul className="space-y-1.5 text-sm md:text-base text-muted-foreground mb-4">
+                          <li>
+                            <span className="text-foreground font-medium">Self-Efficacy</span>
+                          </li>
+                          <li>
+                            <span className="text-foreground font-medium">Emotional Intelligence</span>
+                          </li>
+                          <li>
+                            <span className="text-foreground font-medium">Career Readiness</span>
+                          </li>
+                        </ul>
+                        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-3">
+                          My SEC lens brings together three established areas that I believe can strengthen how people
+                          respond: self-efficacy, emotional intelligence, and career readiness.
+                        </p>
+                        <p className="text-xs md:text-sm text-muted-foreground/80 italic leading-relaxed">
+                          SEC is my educational lens for organizing these three established areas within the Response. It
+                          is not presented as a clinical or scientifically validated model.
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
 
