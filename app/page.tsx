@@ -207,7 +207,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for Texas JUCO college athletes
+              Built for Texas JUCO and regional university athletes
             </span>
           </div>
 
@@ -228,11 +228,13 @@ export default function Home() {
 
           {/* Supporting tagline */}
           <p className="font-display text-xl sm:text-2xl md:text-3xl font-semibold mb-5 md:mb-6 bg-gradient-to-r from-electric-400 via-electric-300 to-neon-300 bg-clip-text text-transparent text-balance">
-            Support between the support.
+            The support between the support.
           </p>
 
           <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
-            School. Sport. Transfer. Career. Life. Whatever&apos;s on your mind, UpSide is here 24/7.
+            UpSide is a 24/7 developmental AI tool that helps athletes think through what they are facing, prepare
+            their next step, and connect with the coaches, advisors, counselors, career services, and other people
+            already in their corner.
           </p>
 
           {/* CTA Buttons */}
@@ -319,6 +321,78 @@ export default function Home() {
               advisor, or other professional, it points you back to the right person.
             </p>
           </Reveal>
+        </div>
+      </section>
+
+      {/* Who UpSide Serves Section */}
+      <section className="py-16 md:py-24 px-4 relative overflow-hidden border-t border-neon-500/10">
+        <div className="max-w-5xl mx-auto relative z-10">
+          <Reveal className="text-center mb-10 md:mb-14">
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-4 tracking-tight text-white text-balance">
+              Who UpSide Serves
+            </h2>
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto text-pretty leading-relaxed">
+              UpSide is built for athletes attending Texas community colleges and regional public universities that
+              serve rural and regional communities.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <Reveal delay={120} className="flex">
+              <div className="flex flex-col flex-1 bg-midnight-900/50 p-6 md:p-8 rounded-xl border border-neon-500/15">
+                <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-4">
+                  <svg
+                    className="h-6 w-6 text-neon-400"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.75}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">JUCO Athletes</h3>
+                <p className="text-sm md:text-base text-gray-400 leading-relaxed text-pretty">
+                  Support for navigating the compressed two-year experience, including academics, transferring, career
+                  preparation, personal decisions, and life beyond athletics.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={200} className="flex">
+              <div className="flex flex-col flex-1 bg-midnight-900/50 p-6 md:p-8 rounded-xl border border-neon-500/15">
+                <div className="w-12 h-12 bg-neon-500/15 rounded-lg flex items-center justify-center mb-4">
+                  <svg
+                    className="h-6 w-6 text-neon-400"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.75}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">
+                  Regional University Athletes
+                </h3>
+                <p className="text-sm md:text-base text-gray-400 leading-relaxed text-pretty">
+                  Support for managing the demands of college athletics while preparing for academic, personal, and
+                  professional opportunities.
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -591,7 +665,7 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for Texas JUCO college athletes</p>
+            <p className="text-sm text-gray-400">Built for Texas JUCO and regional university athletes</p>
           </div>
         </div>
       </section>
