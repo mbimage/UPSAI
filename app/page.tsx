@@ -231,10 +231,15 @@ export default function Home() {
             The support between the support.
           </p>
 
-          <p className="text-lg md:text-xl text-gray-300/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
+          <p className="text-lg md:text-xl text-gray-300/90 mb-6 md:mb-7 max-w-2xl mx-auto leading-relaxed text-pretty">
             UpSide is a 24/7 developmental AI tool that helps athletes think through what they are facing, prepare
             their next step, and connect with the coaches, advisors, counselors, career services, and other people
             already in their corner.
+          </p>
+
+          <p className="text-base md:text-lg text-gray-400 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed text-pretty">
+            Our mission is to democratize access to AI, putting the same kind of guidance that used to be reserved
+            for a select few in the hands of every athlete.
           </p>
 
           {/* CTA Buttons */}
