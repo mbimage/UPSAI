@@ -207,7 +207,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-neon-500/10 border border-neon-500/20 mb-8 md:mb-10">
             <span className="w-2 h-2 rounded-full bg-neon-400 animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-neon-400">
-              Built for Texas JUCO and regional university athletes
+              Built for junior college and four-year university athletes in rural regions
             </span>
           </div>
 
@@ -337,8 +337,8 @@ export default function Home() {
               Who UpSide Serves
             </h2>
             <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto text-pretty leading-relaxed">
-              UpSide is built for athletes attending Texas community colleges and regional public universities that
-              serve rural and regional communities.
+              UpSide is built for athletes at junior colleges and four-year universities that serve rural regions,
+              where access to this kind of guidance has always been hardest to come by.
             </p>
           </Reveal>
 
@@ -362,10 +362,13 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">JUCO Athletes</h3>
+                <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">
+                  Junior College Athletes
+                </h3>
                 <p className="text-sm md:text-base text-gray-400 leading-relaxed text-pretty">
                   Support for navigating the compressed two-year experience, including academics, transferring, career
-                  preparation, personal decisions, and life beyond athletics.
+                  preparation, personal decisions, and life beyond athletics, especially for those coming from rural
+                  communities.
                 </p>
               </div>
             </Reveal>
@@ -389,11 +392,11 @@ export default function Home() {
                   </svg>
                 </div>
                 <h3 className="font-display text-xl font-semibold mb-2 tracking-tight text-white">
-                  Regional University Athletes
+                  Four-Year University Athletes
                 </h3>
                 <p className="text-sm md:text-base text-gray-400 leading-relaxed text-pretty">
-                  Support for managing the demands of college athletics while preparing for academic, personal, and
-                  professional opportunities.
+                  Support for athletes at four-year universities serving rural regions, managing the demands of college
+                  athletics while preparing for academic, personal, and professional opportunities.
                 </p>
               </div>
             </Reveal>
@@ -670,7 +673,9 @@ export default function Home() {
 
           {/* Trust Indicators */}
           <div className="mt-12 pt-8 border-t border-gray-700/30">
-            <p className="text-sm text-gray-400">Built for Texas JUCO and regional university athletes</p>
+            <p className="text-sm text-gray-400">
+              Built for junior college and four-year university athletes in rural regions
+            </p>
           </div>
         </div>
       </section>
