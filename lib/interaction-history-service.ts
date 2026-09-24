@@ -59,6 +59,8 @@ You separate two things:
 
 The JUCO experience moves fast. Common threads: playing time, coaches, academics, transfer decisions, career planning, relationships, confidence, campus life, adjusting to college, life after sport, and opportunities the athlete may not have considered.
 
+NEVER save a sensitive disclosure as MEMORY. Do not create memory rows about self-harm, suicide, abuse, violence, mental health crises, physical or mental health conditions, sexual matters, substance use, legal or immigration trouble, or serious family hardship. These may still be part of the short HISTORY record of what the exchange was about, but they must never become durable memory. When in doubt, leave it out of memories.
+
 Write everything in plain, warm language at about a high school senior reading level. No jargon, no clinical or corporate words, no labels or scores.
 
 Return ONLY a valid JSON object with these exact keys:
@@ -103,8 +105,9 @@ export async function extractAndStoreInteraction(params: {
   userId: string
   userMessage: string
   upsideResponse: string
+  memoryEnabled?: boolean
 }): Promise<void> {
-  const { conversationId, userId, userMessage, upsideResponse } = params
+  const { conversationId, userId, userMessage, upsideResponse, memoryEnabled = false } = params
 
   if (!userId || !userMessage?.trim() || !upsideResponse?.trim()) {
     return
@@ -150,9 +153,11 @@ export async function extractAndStoreInteraction(params: {
       console.error("[v0] History: failed to save insight:", insightError.message)
     }
 
-    // 2. Store only durable memories, and avoid obvious duplicates
+    // 2. Store only durable memories — and ONLY when the athlete has explicitly
+    // opted in to long-term memory. Ordinary history above is always kept; durable
+    // memory is a separate, explicit choice.
     const memories = Array.isArray(extracted.memories) ? extracted.memories : []
-    if (memories.length > 0) {
+    if (memoryEnabled && memories.length > 0) {
       const { data: existing } = await supabase
         .from("athlete_memory")
         .select("content")

@@ -8,6 +8,12 @@ import {
   MEMORY_CONFIG 
 } from "@/lib/chat-memory-service"
 import { queueInteractionExtraction } from "@/lib/interaction-history-service"
+import {
+  getOrCreateAthleteProfile,
+  getApprovedResourcesForCollege,
+  buildCollegeResourceBlock,
+  isChatEnabled,
+} from "@/lib/college-service"
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,6 +46,42 @@ export async function POST(request: NextRequest) {
         { error: "Invalid message content" },
         { status: 400, headers: getSecurityHeaders() }
       )
+    }
+
+    // KILL SWITCH: allow an admin to temporarily disable chat if a serious issue
+    // is discovered. Returns a calm message rather than a broken chat.
+    if (!(await isChatEnabled())) {
+      return NextResponse.json(
+        {
+          error: "chat_disabled",
+          message:
+            "UpSide chat is paused for a short maintenance break right now. Please check back in a little while.",
+        },
+        { status: 503, headers: getSecurityHeaders() },
+      )
+    }
+
+    // COLLEGE SCOPING: derive the athlete's college from their own profile
+    // (never from the request body). Load only that college's approved resources.
+    let collegeSystemPrompt = UPSIDE_AI_SYSTEM_PROMPT
+    let memoryEnabled = false
+    if (userId && !isGuest) {
+      const profile = await getOrCreateAthleteProfile(userId)
+      memoryEnabled = profile?.memoryEnabled ?? false
+      const resources = await getApprovedResourcesForCollege(profile?.collegeId ?? null)
+      collegeSystemPrompt =
+        UPSIDE_AI_SYSTEM_PROMPT + buildCollegeResourceBlock(profile?.collegeName ?? null, resources)
+      console.log(
+        "[v0] Chat API: college scoping - college:",
+        profile?.collegeName ?? "none",
+        "resources:",
+        resources.length,
+        "memoryEnabled:",
+        memoryEnabled,
+      )
+    } else {
+      // Guests are not linked to a college: no campus-specific resources allowed.
+      collegeSystemPrompt = UPSIDE_AI_SYSTEM_PROMPT + buildCollegeResourceBlock(null, [])
     }
 
     let activeConversationId = conversationId
@@ -231,6 +273,9 @@ export async function POST(request: NextRequest) {
         userId,
         userMessage: sanitizedMessage,
         upsideResponse: aiResponse.message,
+        // Long-term memory is an explicit opt-in. When off, we still keep ordinary
+        // conversation history but save NO durable memories.
+        memoryEnabled,
       })
     }
 
