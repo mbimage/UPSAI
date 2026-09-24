@@ -27,10 +27,30 @@ export default function AuthClient() {
   )
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [collegeId, setCollegeId] = useState("")
+  const [colleges, setColleges] = useState<Array<{ id: string; name: string }>>([])
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
   const isSignup = mode === "signup"
+
+  // Load the list of participating colleges so athletes can link their school at sign-up.
+  useEffect(() => {
+    let active = true
+    fetch("/api/colleges")
+      .then((res) => (res.ok ? res.json() : { colleges: [] }))
+      .then((data) => {
+        if (active && Array.isArray(data.colleges)) {
+          setColleges(data.colleges.map((c: { id: string; name: string }) => ({ id: c.id, name: c.name })))
+        }
+      })
+      .catch(() => {
+        /* Non-fatal: athletes can still sign up and set their college later in Settings. */
+      })
+    return () => {
+      active = false
+    }
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -59,6 +79,20 @@ export default function AuthClient() {
         setError(result.error || "We couldn't create your account. Please try again.")
       }
       return
+    }
+
+    // Link the athlete's college once, right after the session is established.
+    // Non-fatal: if it fails, they can set it later in Settings, so we don't block entry.
+    if (isSignup && collegeId) {
+      try {
+        await fetch("/api/profile", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ collegeId }),
+        })
+      } catch {
+        /* ignore — college can be set later in Settings */
+      }
     }
 
     // Refresh so server components re-read the new session, then continue.
@@ -169,6 +203,31 @@ export default function AuthClient() {
                 className="bg-midnight-800 border-neon-500/25 text-white placeholder:text-gray-500 focus-visible:border-neon-500/60 focus-visible:ring-neon-500/20"
               />
             </div>
+
+            {isSignup && colleges.length > 0 && (
+              <div className="space-y-2">
+                <Label htmlFor="college" className="text-gray-300">
+                  Your college <span className="text-gray-500">(optional)</span>
+                </Label>
+                <select
+                  id="college"
+                  value={collegeId}
+                  onChange={(e) => setCollegeId(e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-neon-500/25 bg-midnight-800 px-3 py-2 text-sm text-white focus-visible:border-neon-500/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-500/20"
+                >
+                  <option value="">Select your college</option>
+                  {colleges.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs leading-relaxed text-gray-500">
+                  Linking your college lets UpSide point you to the real resources your school has approved. You can set
+                  this later in Settings.
+                </p>
+              </div>
+            )}
 
             {error && (
               <p role="alert" className="rounded-lg border border-red-500/30 bg-red-900/20 px-3 py-2 text-sm text-red-300">
