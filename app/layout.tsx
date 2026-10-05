@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SeamlessAuthProvider } from "@/contexts/seamless-auth-context"
 import { PublicUserProvider } from "@/contexts/public-user-context"
+import { SmokeCursor } from "@/components/smoke-cursor"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,6 +89,7 @@ export default function RootLayout({
               <div className="relative z-10">
                 {children}
               </div>
+              <SmokeCursor />
             </PublicUserProvider>
           </SeamlessAuthProvider>
         </ThemeProvider>
